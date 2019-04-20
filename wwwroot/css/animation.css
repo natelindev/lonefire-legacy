@@ -1,0 +1,518 @@
+﻿/* draw border */
+
+@keyframes bottomright {
+    0% {
+        width: 0;
+        height: 0;
+        padding-top: 0;
+        visibility: visible;
+    }
+
+    25% {
+        width: 100%;
+        height: 0;
+        padding-top: 0;
+        visibility: visible;
+    }
+
+    50% {
+        height: 100%;
+        width: 100%;
+        visibility: visible;
+    }
+
+    75% {
+        visibility: visible;
+    }
+
+    100% {
+        visibility: visible;
+    }
+}
+
+@keyframes revbottomright {
+    0% {
+        width: 100%;
+        height: 100%;
+        visibility: visible;
+    }
+
+    25% {
+        width: 100%;
+        height: 100%;
+        visibility: visible;
+    }
+
+    50% {
+        width: 100%;
+        height: 100%;
+        visibility: visible;
+    }
+
+    75% {
+        width: 100%;
+        height: 0;
+        padding-top: 0;
+        visibility: visible;
+    }
+
+    100% {
+        width: 0;
+        height: 0;
+        padding-top: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes topleft {
+    0% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    25% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    50% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    75% {
+        width: 100%;
+        height: 0;
+        padding-bottom: 0;
+        visibility: visible;
+    }
+
+    100% {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@keyframes revtopleft {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    25% {
+        width: 100%;
+        height: 0;
+        padding-bottom: 0;
+        visibility: visible;
+    }
+
+    50% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    75% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes bottomright-within {
+    0% {
+        width: 0;
+        height: 0;
+        padding-top: 0;
+        visibility: visible;
+    }
+
+    25% {
+        width: calc(100% - 10px);
+        height: 0;
+        padding-top: 0;
+        visibility: visible;
+    }
+
+    50% {
+        height: calc(100% - 10px);
+        width: calc(100% - 10px);
+        visibility: visible;
+    }
+
+    75% {
+        visibility: visible;
+    }
+
+    100% {
+        visibility: visible;
+    }
+}
+
+@keyframes revbottomright-within {
+    0% {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        visibility: visible;
+    }
+
+    25% {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        visibility: visible;
+    }
+
+    50% {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        visibility: visible;
+    }
+
+    75% {
+        width: calc(100% - 10px);
+        height: 0;
+        padding-top: 0;
+        visibility: visible;
+    }
+
+    100% {
+        width: 0;
+        height: 0;
+        padding-top: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes topleft-within {
+    0% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    25% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    50% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    75% {
+        width: calc(100% - 10px);
+        height: 0;
+        padding-bottom: 0;
+        visibility: visible;
+    }
+
+    100% {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@keyframes revtopleft-within {
+    0% {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    25% {
+        width: calc(100% - 10px);
+        height: 0;
+        padding-bottom: 0;
+        visibility: visible;
+    }
+
+    50% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    75% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+
+    100% {
+        width: 0;
+        height: 0;
+        padding-bottom: 0;
+        visibility: hidden;
+    }
+}
+
+.border-draw {
+    transition: color 0.75s ease-in-out;
+    text-decoration: none;
+    position: relative;
+}
+
+    .border-draw:hover {
+        color: #333;
+        transition: color 0.75s ease-in-out;
+    }
+
+    .border-draw:focus {
+        box-shadow:none;
+    }
+
+    .border-draw:after {
+        content: "";
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        border-bottom: 1px solid #333;
+        border-right: 1px solid #333;
+        visibility: hidden;
+    }
+
+    .border-draw:before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        width: 100%;
+        height: 100%;
+        border-top: 1px solid #333;
+        border-left: 1px solid #333;
+        visibility: hidden;
+    }
+
+    .border-draw:hover:before {
+        animation: topleft 0.5s ease-in-out forwards;
+    }
+
+    .border-draw:hover:after {
+        animation: bottomright 0.5s ease-in-out forwards;
+    }
+
+    .border-draw.active:before {
+        animation: revtopleft 0.5s ease-in-out forwards;
+    }
+
+    .border-draw.active:after {
+        animation: revbottomright 0.5s ease-in-out forwards;
+    }
+
+    .border-draw.active:before,
+    .border-draw.active:after {
+        width: 100%;
+        height: 100%;
+        visibility: visible;
+    }
+
+    .border-draw.temp:before, border-draw.temp:after {
+        width: 100%;
+        height: 100%;
+        visibility: visible;
+    }
+
+.border-draw-within {
+    transition: color 0.75s ease-in-out;
+    text-decoration: none;
+    position: relative;
+}
+
+    .border-draw-within:hover {
+        color: #333;
+        transition: color 0.75s ease-in-out;
+    }
+
+    .border-draw-within:focus {
+        box-shadow: none;
+    }
+
+    .border-draw-within:after {
+        content: "";
+        position: absolute;
+        bottom: 5px;
+        left: 5px;
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        border-bottom: 1px solid #333;
+        border-right: 1px solid #333;
+        visibility: hidden;
+    }
+
+    .border-draw-within:before {
+        content: "";
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        border-top: 1px solid #333;
+        border-left: 1px solid #333;
+        visibility: hidden;
+    }
+
+    .border-draw-within:hover:before {
+        animation: topleft-within 0.5s ease-in-out forwards;
+    }
+
+    .border-draw-within:hover:after {
+        animation: bottomright-within 0.5s ease-in-out forwards;
+    }
+
+    .border-draw-within.active:before {
+        animation: revtopleft-within 0.5s ease-in-out forwards;
+    }
+
+    .border-draw-within.active:after {
+        animation: revbottomright-within 0.5s ease-in-out forwards;
+    }
+
+    .border-draw-within.active:before,
+    .border-draw-within.active:after {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        visibility: visible;
+    }
+
+    .border-draw-within.temp:before, border-draw-within.temp:after {
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+        visibility: visible;
+    }
+
+
+/* Pesudo element box shadow */
+
+.animated--shadow {
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+    .animated--shadow::after {
+        content: ""; 
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1) !important;
+        opacity: 0;
+        -webkit-transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .animated--shadow:hover {
+        -webkit-transform: scale(1.00, 1.00);
+        transform: scale(1.00, 1.00);
+    }
+
+        .animated--shadow:hover::after {
+            opacity: 1;
+        }
+        
+/* fade in */
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.animated--fade-in {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+    -webkit-animation-duration: 200ms;
+    animation-duration: 200ms;
+    -webkit-animation-timing-function: opacity cubic-bezier(0, 1, 0.4, 1);
+    animation-timing-function: opacity cubic-bezier(0, 1, 0.4, 1);
+}
+
+
+@-webkit-keyframes growIn {
+    0% {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* grow in */
+
+@keyframes growIn {
+    0% {
+        -webkit-transform: scale(0.9);
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.animated--grow-in, .sidebar .nav-item .collapse {
+    -webkit-animation-name: growIn;
+    animation-name: growIn;
+    -webkit-animation-duration: 200ms;
+    animation-duration: 200ms;
+    -webkit-animation-timing-function: transform cubic-bezier(0.18, 1.25, 0.4, 1), opacity cubic-bezier(0, 1, 0.4, 1);
+    animation-timing-function: transform cubic-bezier(0.18, 1.25, 0.4, 1), opacity cubic-bezier(0, 1, 0.4, 1);
+}
+

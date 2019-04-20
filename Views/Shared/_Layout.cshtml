@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LONEFIRE</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Economica|Noto+Sans+SC|Noto+Serif+SC|Titillium+Web|Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/override.css" />
+    <link rel="stylesheet" href="~/css/hovermenu.css" />
+    <link rel="stylesheet" href="~/css/animation.css" />
+    <link rel="stylesheet" href="~/css/utility.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body id="page-top">
+    <partial name="_Toast" />
+
+    <header>
+        <div class="top-area bg-main">
+            <nav class="navbar navbar-expand-md navbar-dark h4 text-economica">
+                <img src="/img/logo.svg" class="img-brand img-h-32" />
+                <a class="navbar-brand navbrand" asp-controller="Home" asp-action="Index">LONEFIRE</a>
+                <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Portfolio</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Archives</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                    </ul>
+                </div>
+                <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar top-bar"></span>
+                    <span class="icon-bar middle-bar"></span>
+                    <span class="icon-bar bottom-bar"></span>
+                </button>
+            </nav>
+
+            <div class="d-flex card col-6 rounded-0 border-draw-within border-1 col-md-3 mx-auto my-5 h-px-100">
+                <img src="/img/brand-bold.svg" class="img-h-100 mx-auto my-auto h1 text-economica" alt="LONEFIRE"></img>
+            </div>
+        </div>
+
+    </header>
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+
+        <a class="scroll-to-top rounded z-1" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+    </main>
+
+    <partial name="_CookieConsentPartial" />
+
+    <footer class="footer">
+        <div class="d-flex bg-smoke justify-content-around align-items-center py-4">
+
+            <img src="/img/MIT-License.png" class="d-none d-md-block img-h-50" alt="MIT-Licence" />
+
+            <div class="text-muted text-titillium">
+                <div class="d-flex mx-auto justify-content-center">
+                    Copyright &copy; Name of your website @DateTime.Now.ToString("yyyy")
+                </div>
+                <div class="d-flex mx-auto justify-content-center">
+                    Powered by lonefire - <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                </div>
+            </div>
+
+            <partial name="_Social" />
+
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-easing/jquery.easing.js"></script>
+        <script src="~/lib/jquery-hoverIntent/jquery.hoverIntent.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.hoverintent/1.10.0/jquery.hoverIntent.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"></script>
+    </environment>
+
+    <script src="~/js/site.js" asp-append-version="false"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    </body>
+
+
+</html>

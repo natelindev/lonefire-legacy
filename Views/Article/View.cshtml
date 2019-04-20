@@ -1,0 +1,60 @@
+﻿@{
+    Dictionary<string, string> dict1 = ViewData["Dict1"] as Dictionary<string, string>;
+    Dictionary<string, string> dict2 = ViewData["Dict2"] as Dictionary<string, string>;
+    ViewData["Title"] = Model.Title;
+    ViewData["CommentSectionTitle"] = "评论区";
+    Article prev = @ViewData["Prev"] as Article;
+    Article next = @ViewData["Next"] as Article;
+}
+
+@model Article
+
+<div class="container-full">
+
+    <div class="main-area col-md-9 mx-auto">
+        <div class="card card-main mx-auto border-0 my-5 shadow-lg">
+            <div class="card-body">
+                <div class="row">
+                    <h3 class="mx-auto my-3 text-gray-800">@Model.Title</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-11 mx-auto bg-silver my-2 rounded">
+                        <div class="row">
+                            <p class="ml-4 mr-auto my-2">日期:@Html.DisplayFor(m => m.AddTime)</p>
+                            <p class="mr-4 ml-auto my-2">作者: @Model.Author</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <article class="col-md-10 mx-auto mt-4 mb-4 text-opensans text-gray-800">
+                        @Html.Raw(Model.Content)
+                    </article>
+                </div>
+                <div class="row mb-4">
+                    @if (prev != null)
+                    {
+                        <a class="btn col-md-4 mx-auto btn-outline-info" asp-action="View" asp-route-id='@prev.ArticleID'>上一篇:@prev.Title</a>
+                    }
+                    @if (next != null)
+                    {
+                        <a class="btn col-md-4 mx-auto btn-outline-info" asp-action="View" asp-route-id='@next.ArticleID'>下一篇:@next.Title</a>
+                    }
+                </div>
+                <div class="row">
+                    <div class="share-component"
+                        data-disabled="google,twitter,facebook,linkedin,diandian,tencent"
+                        data-description="一键分享到微博，QQ空间，豆瓣">
+                    </div>
+                    <div class="ml-auto mr-2 my-auto">
+                        <h7>阅读次数: 123 次</h7>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9 mx-auto">
+        <partial name="_CommentSection" model='ViewData["Comments"]' />
+    </div>
+
+</div>

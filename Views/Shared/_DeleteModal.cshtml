@@ -1,0 +1,38 @@
+﻿<!-- Delete Modal-->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel"></h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-11 mx-auto">
+                        <div class="form-row my-3">
+                            <label id="IDLabel" class="control-label"></label>
+                            <input type="text" class="form-control" id="textid" disabled>
+                        </div>
+                        <div class="form-row my-3">
+                            <label id="NameLabel" class="control-label"></label>
+                            <input type="text" class="form-control" id="textName" disabled>
+                        </div>
+
+                        <label class="control-label">点击下方的按钮以确认删除.</label>
+                    </div>
+                </div>
+            </div>
+            <form asp-action="Delete" method="post" id="deleteForm">
+                <div class="modal-footer">
+                    <input type="hidden" name="id" id="delete_input" />
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">取消</button>
+                    <button id="deleteBtn" class="btn btn-lf" type="submit">删除</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/_DeleteModal.js"></script>

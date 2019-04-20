@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@model IEnumerable<Article>
+
+<div class="container-full">
+
+    <div class="main-area mx-4 mb-4">
+        <div class="card main-card mx-auto h-100 border-0 shadow">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <div class="row justify-content-between">
+                        @foreach(var item in Model){
+                            @if(item != null){
+                            <div class="card card-article mx-auto my-3 border-0 shadow">
+                                <img class="card-img-top darken-10 text-economica" src="/img/NotreDame.jpg" alt="@item.Title Header Image">
+                                <div class="card-body d-flex flex-column">
+                                    <div class="d-flex">
+                                        <h4 class="mx-auto text-economica">@item.Title</h4>
+                                    </div>
+                                    <p class="text-titillium flex-grow-1">@item.Content.Substring(0, 200) ...</p>
+                                    <div class="d-flex article-footer text-economica justify-content-between">
+                                        <p class="text-muted my-auto">@Html.DisplayFor(modelItem => item.AddTime)</p>
+                                        <a class="btn border-draw-within mx-2" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID">阅读更多</a>
+                                        <p class="text-muted my-auto">12条评论</p>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        }
+                        </div>
+                    </div>
+
+                    <div class="d-none d-md-block col-lg-3 col-md-4 mx-auto mt-3">
+                        <div class="card mx-auto my-3 border-0 shadow">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <h2 class="mx-auto mt-3 text-economica">About Me</h2>
+                                </div>
+                                <div class="d-flex">
+                                    <img src="/img/logo.svg" class="mx-auto img-h-200 my-2" />
+                                </div>
+                                <p class="text-opensans">
+                                    Hi Everybody, I’m lonefire and this is my space, Hope ya’all like it.
+                                    Please enjoy the aricles I wrote.
+                                </p>
+                                <partial name="_Social" />
+                            </div>
+                        </div>
+                        <div class="card mx-auto my-3 h-px-400 border-0 shadow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

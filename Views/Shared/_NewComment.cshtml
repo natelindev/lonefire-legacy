@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using lonefire.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<div class="card mx-auto my-2">
+    <div class="card-header border-0"><partial name="_CardHeader" model='"发表新评论"' /></div>
+    <div class="card-body">
+        @if (SignInManager.IsSignedIn(User))
+        {
+        <form asp-controller="Comment" asp-action="Create">
+            <input type="hidden" name="ArticleID" value="@ViewContext.RouteData.Values["id"]" />
+            <input type="hidden" name="returnUrl" value="@PageManager.GetReturnUrl(ViewContext)" />
+            <div class="row">
+                <textarea name="Content" class="form-control h-px-150"></textarea>
+            </div>
+            <div class="row">
+                <h6 class="text-info ml-3 mr-auto mt-4">当前用户:@UserManager.GetUserName(User)</h6>
+                <button class="btn btn-lf text-white ml-auto mr-3 mt-3" type="submit"><h7>评论</h7></button>
+            </div>
+        </form>
+        }
+        else{
+    <div class="row">
+        <p class="mx-auto my-4">请<a asp-controller="Account" asp-action="Login" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">登录</a>或<a asp-controller="Account" asp-action="Register" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">注册</a>后发表评论...</p>
+    </div>
+        }
+    </div>
+</div>
+

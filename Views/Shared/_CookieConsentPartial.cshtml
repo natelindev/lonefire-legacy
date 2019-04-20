@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+
+@{
+    var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+    var showBanner = !consentFeature?.CanTrack ?? false;
+    var cookieString = consentFeature?.CreateConsentCookie();
+    }
+
+    @if (showBanner)
+    {
+    <div id="cookieConsent" class="alert alert-light shadow-lg fade mx-auto show text-titillium" role="alert">
+        <div class="row px-2">
+            <div class="col-md-11">
+                Use this space to summarize your privacy and cookie use policy.<a asp-controller="Home" asp-action="Privacy">Learn More</a>
+            </div>
+            <button id="cookieConsentOK" class="col-md-1 d-flex mx-auto accept-policy" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
+                <span class="mx-auto" aria-hidden="true">Accept</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+            button.addEventListener("click", function (event) {
+                document.cookie = button.dataset.cookieString;
+            }, false);
+        })();
+    </script>
+    <style>
+        #cookieConsent {
+            opacity: .95;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index: 9999;
+        }
+
+        .accept-policy {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid transparent;
+            background-color: transparent;
+            align-self: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #858796;
+            line-height: inherit;
+        }
+
+            .accept-policy:hover {
+                color: #000;
+                text-decoration: none;
+            }
+    </style>
+    }

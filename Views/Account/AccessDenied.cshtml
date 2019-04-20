@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "拒绝访问";
+}
+
+<div class="container">
+    <div class="card card-w-30 border-left-danger border-0 mx-auto my-5">
+        <div class="card-header border-0"><partial name="_ErrorCardHeader" /></div>
+        <div class="card-body">
+            <p class="text-danger">你无权访问此页面</p>
+            <div class="row">
+                <a class="btn btn-secondary col-md-3 mx-auto my-3" asp-controller="Home" asp-action="Index">返回主页</a>
+            </div>
+        </div>
+    </div>
+</div>
