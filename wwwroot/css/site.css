@@ -247,11 +247,12 @@ main {
 }
 
 .top-area {
-    padding-bottom: 175px;
+    padding-bottom: 13rem;
 }
 
 .main-area {
-    margin-top: -150px;
+    margin-top: -10rem;
+    margin-bottom: 1.5rem;
     height: 100%;
 }
 
@@ -259,9 +260,13 @@ main {
     background-color: rgba(255,255,255,0.9);
 }
 
-@media (max-width:768px) {
+.card-article {
+    width: 100%;
+}
+
+@media (min-width: 576px) {
     .card-article {
-        width: calc(100% - 4rem);
+        width: calc(100% - 1.5rem);
     }
 }
 
@@ -271,7 +276,7 @@ main {
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width:992px) {
     .card-article {
         width: 17rem;
     }
