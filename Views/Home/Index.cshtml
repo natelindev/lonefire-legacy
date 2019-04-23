@@ -9,12 +9,12 @@
     <div class="main-area mx-4 mb-4">
         <div class="card main-card mx-auto h-100 border-0 shadow">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-8 mx-auto">
-                        <div class="row justify-content-between">
+                <div class="row mx-auto">
+                    <div class="offset-lg-1 col-md-8 mt-3">
+                        <div class="row justify-content-lg-start justify-content-center">
                         @foreach(var item in Model){
                             @if(item != null){
-                            <div class="card card-article mx-auto my-3 border-0 shadow">
+                            <div class="card card-article my-3 mx-md-4 border-0 shadow">
                                 <img class="card-img-top darken-10 text-economica" src="/img/NotreDame.jpg" alt="@item.Title Header Image">
                                 <div class="card-body d-flex flex-column">
                                     <div class="d-flex">

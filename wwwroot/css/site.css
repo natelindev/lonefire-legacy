@@ -267,7 +267,13 @@ main {
 
 @media (min-width:768px) {
     .card-article {
-        width: 18rem;
+        width: 22rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .card-article {
+        width: 17rem;
     }
 }
     .card-article .card-img-top {
