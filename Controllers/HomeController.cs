@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using lonefire.Authorization;
+using lonefire.Services;
 
 namespace lonefire.Controllers
 {
@@ -24,18 +25,21 @@ namespace lonefire.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly UserController _userController;
+        private readonly IToaster _toaster;
 
         public HomeController(
             ILogger<AccountController> logger,
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            UserController userController
+            UserController userController,
+            IToaster toaster
         )
         {
             _userManager = userManager;
             _userController = userController;
             _context = context;
             _logger = logger;
+            _toaster = toaster;
         }
 
         public async Task<IActionResult> Index()
@@ -49,18 +53,41 @@ namespace lonefire.Controllers
             }
             catch (Exception)
             {
-                TempData.PutString(Constants.ToastMessage, "读取文章列表失败");
+                _toaster.ToastError("读取文章列表失败");
             }
             foreach(var a in articles)
             {
                 a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
             }
             articles.Add(article);
-
+            _toaster.ToastDebug("啦啦啦");
+            _toaster.ToastInfo("啦啦啦");
+            _toaster.ToastWarning("啦啦啦");
+            _toaster.ToastSuccess("啦啦啦");
+            _toaster.ToastError("啦啦啦");
             return View(articles);
         }
 
+        [HttpGet]
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Portfolio()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Archives()
         {
             return View();
         }

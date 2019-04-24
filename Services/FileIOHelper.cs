@@ -3,11 +3,14 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace lonefire.Services
 {
     public class FileIOHelper : IFileIOHelper
     {
+        IToaster Toaster { get; set; }
+
         //Save file with random name
         //returns: Suceed-> (string) fileName.ext 
         //         Failed-> null
@@ -108,14 +111,12 @@ namespace lonefire.Services
         }
 
         //Delete file with filename.ext & path
-        //returns: (string) a message describing result;
-        public string DeleteFile(string file_to_delete_path, string file_to_delete, string validate_regex,int file_name_length_limit)
+        public void DeleteFile(string file_to_delete_path, string file_to_delete, string validate_regex,int file_name_length_limit)
         {
             var match = Regex.Match(file_to_delete, validate_regex, RegexOptions.IgnoreCase);
-            string message = null;
             if (file_to_delete == null || file_to_delete.Length > file_name_length_limit || !match.Success)
             {
-                message = "文件 " + file_to_delete + "删除失败: 文件名格式错误";
+                Toaster.ToastInfo("文件 " + file_to_delete + "删除失败: 文件名格式错误");
             }
 
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), file_to_delete_path, file_to_delete);
@@ -127,18 +128,18 @@ namespace lonefire.Services
                 {
                     // If file found, delete it    
                     System.IO.File.Delete(filePath);
-                    message = "文件删除成功";
+                    Toaster.ToastInfo("文件删除成功");
                 }
                 else
                 {
-                    message = "文件 " + file_to_delete + "删除失败: 文件不存在";
+                    Toaster.ToastInfo("文件 " + file_to_delete + "删除失败: 文件不存在");
+                    
                 }
             }
             catch (Exception)
             {
-                message = "文件 " + file_to_delete + " 删除失败: IO错误";
+                Toaster.ToastInfo("文件 " + file_to_delete + " 删除失败: IO错误");
             }
-            return message;
         }
     }
 }

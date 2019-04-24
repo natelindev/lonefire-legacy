@@ -7,6 +7,7 @@ using lonefire.Data;
 using lonefire.Extensions;
 using lonefire.Models;
 using lonefire.Models.ArticleViewModels;
+using lonefire.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,15 @@ namespace lonefire.Controllers
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IToaster _toaster;
 
         public UserController(
         ApplicationDbContext context,
-        UserManager<ApplicationUser> userManager
+        UserManager<ApplicationUser> userManager,
+            IToaster toaster
             )
         {
+            _toaster = toaster;
             _userManager = userManager;
             _context = context;
         }
@@ -48,7 +52,7 @@ namespace lonefire.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return NotFound();
             }
 
@@ -67,7 +71,7 @@ namespace lonefire.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return NotFound();
             }
 
@@ -78,11 +82,12 @@ namespace lonefire.Controllers
                              u => u.Name,u => u.Name,u=> u.Email
                         );
                     await _context.SaveChangesAsync();
-                    TempData.PutString(Constants.ToastMessage, "编辑用户成功");
+
+                    _toaster.ToastSuccess("编辑用户成功");
                 }
                 catch (DbUpdateException)
                 {
-                    TempData.PutString(Constants.ToastMessage, "编辑用户失败");
+                    _toaster.ToastError("编辑用户失败");
                 }
             }
 
@@ -100,7 +105,7 @@ namespace lonefire.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return NotFound();
             }
 
@@ -120,7 +125,7 @@ namespace lonefire.Controllers
 
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return NotFound();
             }
 
@@ -128,11 +133,11 @@ namespace lonefire.Controllers
             {
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync();
-                TempData.PutString(Constants.ToastMessage, "删除用户成功");
+                _toaster.ToastSuccess("删除用户成功");
             }
             catch (DbUpdateException)
             {
-                TempData.PutString(Constants.ToastMessage, "删除用户失败");
+                _toaster.ToastError("删除用户失败");
             }
             return RedirectToAction(nameof(Index));
         }
@@ -149,7 +154,7 @@ namespace lonefire.Controllers
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return NotFound();
             }
 
@@ -159,11 +164,11 @@ namespace lonefire.Controllers
                          u => u.LockoutEnd
                     );
                 await _context.SaveChangesAsync();
-                TempData.PutString(Constants.ToastMessage, "锁定用户成功: 至"+ LockoutEnd.ToLocalTime()+"结束");
+                _toaster.ToastSuccess("锁定用户成功: 至" + LockoutEnd.ToLocalTime()+"结束");
             }
             catch (DbUpdateException)
             {
-                TempData.PutString(Constants.ToastMessage, "锁定用户失败");
+                _toaster.ToastError("锁定用户失败");
             }
 
             return RedirectToAction(nameof(Index));

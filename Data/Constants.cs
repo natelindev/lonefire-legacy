@@ -1,5 +1,4 @@
-﻿using System;
-namespace lonefire.Data
+﻿namespace lonefire.Data
 {
     public static class Constants
     {
@@ -14,6 +13,7 @@ namespace lonefire.Data
         public static readonly string EmptyUserTag = "「异次元用户」";
 
         public static readonly string ToastMessage = "ToastMessage";
+        public static readonly string ToastOption = "ToastOption";
         public static readonly string Success = "success";
         public static readonly string Danger = "danger";
         public static readonly string Light = "light";

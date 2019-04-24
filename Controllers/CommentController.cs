@@ -16,10 +16,15 @@ namespace lonefire.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserController _userController;
+
         public CommentController(
         ApplicationDbContext context,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        UserController userController
+            )
         {
+            _userController = userController;
             _userManager = userManager;
             _context = context;
         }
@@ -176,6 +181,67 @@ namespace lonefire.Controllers
         }
 
         #region Helpers
+
+        public async Task<ActionResult<List<CommentViewModel>>> GetAllCommentsAsync(int id)
+        {
+            //Get Comments
+            List<Comment> comments = await _context.Comment.Where(c => c.ArticleID == id).ToListAsync();
+            List<CommentViewModel> cvms = new List<CommentViewModel>();
+
+            //Build up structure of comments
+            foreach (var c in comments)
+            {
+                c.AddTime = c.AddTime.ToLocalTime();
+
+                if (c.ParentID == null)
+                {
+                    var cvm = new CommentViewModel
+                    {
+                        ID = c.ArticleID,
+                        Content = c.Content,
+                        Author = _userController.GetNickNameAsync(c.Author).Result.Value,
+                        AddTime = c.AddTime.ToLocalTime(),
+                        Childs = GetChildComments(comments, c.ArticleID)
+                    };
+                    cvms.Add(cvm);
+                }
+            }
+
+            return cvms;
+        }
+
+        public async void DeleteAllCommentsAsync(int id)
+        {
+            //Delete the related comments 
+            var comments = await _context.Comment.Where(c => c.ArticleID == id).ToListAsync();
+            foreach (var c in comments)
+            {
+                DeleteChildComments(comments, c.CommentID);
+                _context.Comment.Remove(c);
+            }
+        }
+
+        //Recursive child comment fetcher
+        public List<CommentViewModel> GetChildComments(List<Comment> comments, int cid)
+        {
+            List<Comment> child_comments = comments.Where(c => c.ParentID == cid).ToList();
+            List<CommentViewModel> cvms = new List<CommentViewModel>();
+
+            foreach (var c in child_comments)
+            {
+                var cvm = new CommentViewModel
+                {
+                    ID = c.CommentID,
+                    Content = c.Content,
+                    Author = _userController.GetNickNameAsync(c.Author).Result.Value,
+                    AddTime = c.AddTime.ToLocalTime(),
+                    Childs = GetChildComments(comments, c.CommentID)
+                };
+                cvms.Add(cvm);
+            }
+
+            return cvms;
+        }
 
         private IActionResult RedirectToLocal(string returnUrl)
         {

@@ -29,12 +29,14 @@ namespace lonefire.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _context;
+        private readonly IToaster _toaster;
 
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
+          IToaster toaster,
           UrlEncoder urlEncoder,
           ApplicationDbContext context)
         {
@@ -42,6 +44,7 @@ namespace lonefire.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _toaster = toaster;
             _urlEncoder = urlEncoder;
             _context = context;
         }
@@ -53,7 +56,7 @@ namespace lonefire.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return View();
             }
 
@@ -78,18 +81,18 @@ namespace lonefire.Controllers
 
                 if (user == null)
                 {
-                    TempData.PutString(Constants.ToastMessage,"获取用户失败");
+                    _toaster.ToastError("获取用户失败");
                     return RedirectToAction(nameof(Index));
                 }
 
                 if (await TryUpdateModelAsync<ApplicationUser>(
-                user, "", u => u.Email,u => u.Name
+                user, "", u => u.Email, u => u.Name
                     ))
                 {
                     try
                     {
                         await _context.SaveChangesAsync();
-                        TempData.PutString(Constants.ToastMessage, "您的用户信息已经更新");
+                        _toaster.ToastSuccess("您的用户信息已经更新");
                         return RedirectToAction(nameof(Index));
                     }
                     catch (DbUpdateException)
@@ -98,7 +101,7 @@ namespace lonefire.Controllers
                     }
                 }
 
-                TempData.PutString(Constants.ToastMessage, "用户信息更新失败");
+                _toaster.ToastError("用户信息更新失败");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -117,7 +120,7 @@ namespace lonefire.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -126,7 +129,7 @@ namespace lonefire.Controllers
             var email = user.Email;
             await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
 
-            TempData.PutString(Constants.ToastMessage, "确认邮件已经发送，请查看您的邮箱");
+            _toaster.ToastSuccess("确认邮件已经发送，请查看您的邮箱");
             return RedirectToAction(nameof(Index));
         }
 
@@ -148,7 +151,7 @@ namespace lonefire.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return RedirectToAction(nameof(Index));
             }
 
@@ -156,13 +159,13 @@ namespace lonefire.Controllers
             if (!changePasswordResult.Succeeded)
             {
                 AddErrors(changePasswordResult);
-                TempData.PutString(Constants.ToastMessage, "密码修改失败");
+                _toaster.ToastError("密码修改失败");
                 return View(model);
             }
 
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed password successfully.");
-            TempData.PutString(Constants.ToastMessage, "你的密码已经成功修改");
+            _toaster.ToastSuccess("你的密码已经成功修改");
 
             return RedirectToAction(nameof(ChangePassword));
         }

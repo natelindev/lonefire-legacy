@@ -69,26 +69,5 @@ namespace lonefire.Views
             return v.RouteData.Values["Controller"] as string == "Account" ? null : url;
         }
 
-        public static string GetToastClass(string ToastMessage)
-        {
-            string[] successKeyWords = { "成功", "完成", "完毕" };
-            string[] dangerKeyWords = { "失败", "取消", "错误","故障"};
-            foreach(var key in successKeyWords)
-            {
-                if (ToastMessage.Contains(key))
-                {
-                    return Constants.Success;
-                }
-            }
-            foreach (var key in dangerKeyWords)
-            {
-                if (ToastMessage.Contains(key))
-                {
-                    return Constants.Danger;
-                }
-            }
-            return Constants.Info;
-        }
-
     }
 }

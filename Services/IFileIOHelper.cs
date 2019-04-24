@@ -19,8 +19,7 @@ namespace lonefire.Services
         Task<string> SaveFileAsync(IFormFile file, string savePath, string saveFileName, string validate_regex, int file_name_length_limit);
 
         //Delete file with filename.ext & path
-        //returns: (string) a message describing result;
-        string DeleteFile(string file_to_delete_path, string file_to_delete, string validate_regex, int file_name_length_limit);
+        void DeleteFile(string file_to_delete_path, string file_to_delete, string validate_regex, int file_name_length_limit);
 
     }
 }

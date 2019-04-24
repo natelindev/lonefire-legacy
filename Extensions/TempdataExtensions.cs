@@ -24,31 +24,31 @@ namespace lonefire.Extensions
             return o == null ? null : JsonConvert.DeserializeObject<T>((string)o);
         }
 
-        //Toast Message List
-        public static void PutString(this ITempDataDictionary tempData, string key, string value)
-        {
+        //Create a List of Value with same key
+        public static void AddToList<T>(this ITempDataDictionary tempData, string key, T value) where T : class
+         {
             tempData.TryGetValue(key, out object o);
             if(o == null)
             {
                 //Create
-                List<string> s_list = new List<string>();
-                s_list.Add(value);
-                tempData[key] = JsonConvert.SerializeObject(s_list);
+                List<T> list = new List<T>();
+                list.Add(value);
+                tempData[key] = JsonConvert.SerializeObject(list);
             }
             else
             {
                 //Append
-                List<string> s_list = JsonConvert.DeserializeObject<List<string>>((string)o);
-                s_list.Add(value);
-                tempData[key] = JsonConvert.SerializeObject(s_list);
+                List<T> list = JsonConvert.DeserializeObject<List<T>>((string)o);
+                list.Add(value);
+                tempData[key] = JsonConvert.SerializeObject(list);
             }
         }
 
-        public static List<string> GetStringList(this ITempDataDictionary tempData, string key)
+        //Get the List of Value with key
+        public static List<T> GetList<T>(this ITempDataDictionary tempData, string key) where T : class
         {
-            //Get Toast Message List
             tempData.TryGetValue(key, out object o);
-            return o == null ? null : JsonConvert.DeserializeObject<List<string>>((string)o);
+            return o == null ? null : JsonConvert.DeserializeObject<List<T>>((string)o);
         }
     }
 }

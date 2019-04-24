@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using lonefire.Authorization;
 using lonefire.Data;
-using lonefire.Extensions;
 using lonefire.Models;
 using lonefire.Models.ArticleViewModels;
-using lonefire.Models.CommentViewModels;
+using lonefire.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +24,7 @@ namespace lonefire.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CommentController _commentController;
         private readonly UserController _userController;
+        private readonly IToaster _toaster;
 
         public ArticleController(
         ApplicationDbContext context,
@@ -32,7 +32,8 @@ namespace lonefire.Controllers
             IAuthorizationService aus,
             UserManager<ApplicationUser> userManager,
             CommentController commentController,
-            UserController userController
+            UserController userController,
+            IToaster toaster
             )
         {
             _aus = aus;
@@ -41,6 +42,7 @@ namespace lonefire.Controllers
             _commentController = commentController;
             _userController = userController;
             _ajax = ajax;
+            _toaster = toaster;
         }
 
         [HttpGet]
@@ -52,7 +54,7 @@ namespace lonefire.Controllers
             return View(article);
         }
 
-        [HttpGet,ActionName("View")]
+        [HttpGet, ActionName("View")]
         [AllowAnonymous]
         public async Task<IActionResult> ArticleView(int? id)
         {
@@ -63,7 +65,7 @@ namespace lonefire.Controllers
 
             var article = await _context.Article
                 .SingleOrDefaultAsync(m => m.ArticleID == id);
-            
+
             if (article == null)
             {
                 return NotFound();
@@ -72,52 +74,9 @@ namespace lonefire.Controllers
             article.Author = _userController.GetNickNameAsync(article.Author).Result.Value;
 
             //Get Comments
-            List<Comment> comments = await _context.Comment.Where(c => c.ArticleID == id).ToListAsync();
-            List<CommentViewModel> cvms = new List<CommentViewModel>();
+            ViewData["Comments"] = _commentController.GetAllCommentsAsync(article.ArticleID).Result.Value;
 
-            //Build up structure of comments
-            foreach (var c in comments)
-            {
-                c.AddTime = c.AddTime.ToLocalTime();
-                
-                if (c.ParentID == null)
-                {
-                    var cvm = new CommentViewModel
-                    {
-                        ID = c.ArticleID,
-                        Content = c.Content,
-                        Author = _userController.GetNickNameAsync(c.Author).Result.Value,
-                        AddTime = c.AddTime.ToLocalTime(),
-                        Childs = GetChildComments(comments, c.ArticleID)
-                    };
-                    cvms.Add(cvm);
-                }
-            }
-
-            ViewData["Comments"] = cvms; 
             return View(article);
-        }
-
-        //Recursive child comment fetcher
-        public List<CommentViewModel> GetChildComments(List<Comment> comments, int cid)
-        {
-            List<Comment> child_comments = comments.Where(c => c.ParentID == cid).ToList();
-            List<CommentViewModel> cvms = new List<CommentViewModel>();
-
-            foreach (var c in child_comments)
-            {
-                var cvm = new CommentViewModel
-                {
-                    ID = c.CommentID,
-                    Content = c.Content,
-                    Author = _userController.GetNickNameAsync(c.Author).Result.Value,
-                    AddTime = c.AddTime.ToLocalTime(),
-                    Childs = GetChildComments(comments, c.CommentID)
-                };
-                cvms.Add(cvm);
-            }
-
-            return cvms;
         }
 
         [HttpGet]
@@ -134,12 +93,12 @@ namespace lonefire.Controllers
 
             try
             {
-                articles = await _context.Article.Where(a =>a.Tag == Tag.ToString() && a.Status == ArticleStatus.Approved).ToListAsync();
+                articles = await _context.Article.Where(a => a.Tag.Contains(Tag.ToString()) && a.Status == ArticleStatus.Approved).ToListAsync();
 
             }
             catch (Exception)
             {
-                TempData.PutString(Constants.ToastMessage, "读取文章列表失败");
+                _toaster.ToastError("读取文章列表失败");
             }
 
             return View(articles);
@@ -151,7 +110,7 @@ namespace lonefire.Controllers
         {
             var articles = from a in _context.Article
                            select a;
-                           
+
             var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
 
             var currentUserId = _userManager.GetUserId(User);
@@ -162,7 +121,7 @@ namespace lonefire.Controllers
                 articles = articles.Where(a => a.Author == currentUserId);
             }
 
-            foreach(var a in articles)
+            foreach (var a in articles)
             {
                 var user = await _userManager.FindByIdAsync(a.Author);
                 a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
@@ -232,13 +191,13 @@ namespace lonefire.Controllers
                     await TryUpdateModelAsync<Article>(articleToUpdate, "",
                          a => a.Status
                     );
-                         
+
                     await _context.SaveChangesAsync();
-                    TempData.PutString(Constants.ToastMessage, "文章审核成功");
+                    _toaster.ToastSuccess("文章审核成功");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    TempData.PutString(Constants.ToastMessage, "文章审核失败");
+                    _toaster.ToastError("文章审核失败");
 
                     if (!ArticleExists(id))
                     {
@@ -297,7 +256,7 @@ namespace lonefire.Controllers
 
                 _context.Add(article);
                 await _context.SaveChangesAsync();
-                TempData.PutString(Constants.ToastMessage, "文章创建成功");
+                _toaster.ToastSuccess("文章创建成功");
                 return RedirectToAction(nameof(Index));
             }
             return View(article);
@@ -311,7 +270,7 @@ namespace lonefire.Controllers
                 return NotFound();
             }
 
-            var article = await _context.Article.SingleOrDefaultAsync(m => m.ArticleID== id);
+            var article = await _context.Article.SingleOrDefaultAsync(m => m.ArticleID == id);
 
             if (article == null)
             {
@@ -331,7 +290,7 @@ namespace lonefire.Controllers
         }
 
         // POST: Article/Edit/5
-        [HttpPost,ActionName("Edit")]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPost(int? id)
         {
@@ -342,7 +301,7 @@ namespace lonefire.Controllers
 
             var articleToUpdate = await _context.Article.SingleOrDefaultAsync(a => a.ArticleID == id);
 
-            if(articleToUpdate == null)
+            if (articleToUpdate == null)
             {
                 return NotFound();
             }
@@ -371,7 +330,7 @@ namespace lonefire.Controllers
                     else
                     {
                         await TryUpdateModelAsync(articleToUpdate, "",
-                         a => a.Title, a => a.Content,a => a.MediaSerialized
+                         a => a.Title, a => a.Content, a => a.MediaSerialized
                         );
                     }
 
@@ -389,11 +348,11 @@ namespace lonefire.Controllers
                     }
 
                     await _context.SaveChangesAsync();
-                    TempData.PutString(Constants.ToastMessage, "文章更新成功");
+                    _toaster.ToastSuccess("文章更新成功");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    TempData.PutString(Constants.ToastMessage, "文章更新失败");
+                    _toaster.ToastError("文章更新失败");
 
                     if (!ArticleExists(id ?? 0))
                     {
@@ -424,17 +383,13 @@ namespace lonefire.Controllers
                 return new ChallengeResult();
             }
 
-            //Delete the related comments 
-            var comments = await _context.Comment.Where(c => c.ArticleID == id).ToListAsync();
-            foreach (var c in comments)
-            {
-                _commentController.DeleteChildComments(comments, c.CommentID);
-                _context.Comment.Remove(c);
-            }
+            //Delete the related comments
+            _commentController.DeleteAllCommentsAsync((int)id);
+
             _context.Article.Remove(article);
 
             await _context.SaveChangesAsync();
-            TempData.PutString(Constants.ToastMessage, "文章删除成功");
+            _toaster.ToastSuccess("文章删除成功");
 
             return RedirectToAction(nameof(Index));
         }

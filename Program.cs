@@ -10,7 +10,6 @@ namespace lonefire
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
-
             host.Run();
         }
 
@@ -22,7 +21,6 @@ namespace lonefire
                 config.SetBasePath(Directory.GetCurrentDirectory());
                 config.AddJsonFile("db_string.json", optional: false, reloadOnChange: true);
                 config.AddJsonFile("upload_env.json", optional: false, reloadOnChange: true);
-                config.AddJsonFile("toast_option.json", optional: false, reloadOnChange: true);
             })
             .UseStartup<Startup>();
     }

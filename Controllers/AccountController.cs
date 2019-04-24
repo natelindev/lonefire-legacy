@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
+using lonefire.Models;
+using lonefire.Models.AccountViewModels;
+using lonefire.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using lonefire.Models;
-using lonefire.Extensions;
-using lonefire.Models.AccountViewModels;
-using lonefire.Services;
-using lonefire.Data;
 
 namespace lonefire.Controllers
 {
@@ -23,17 +19,20 @@ namespace lonefire.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly IToaster _toaster;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            IToaster toaster)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _toaster = toaster;
         }
 
         [TempData]
@@ -147,7 +146,7 @@ namespace lonefire.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                TempData.PutString(Constants.ToastMessage, "获取用户失败");
+                _toaster.ToastError("获取用户失败");
                 return View("Error");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
@@ -254,7 +253,6 @@ namespace lonefire.Controllers
         {
             foreach (var error in result.Errors)
             {
-                //ModelState.AddModelError(string.Empty, "Message Intercepted.");
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }

@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Westwind.AspNetCore.Markdown;
 
 namespace lonefire
 {
@@ -93,6 +94,7 @@ namespace lonefire
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IFileIOHelper, FileIOHelper>();
+            services.AddTransient<IToaster, Toaster>();
 
             services.AddMvc(config =>
             {
@@ -138,6 +140,9 @@ namespace lonefire
 
             services.AddSingleton<IAuthorizationHandler,
                                   ArticleAdministratorsAuthorizationHandler>();
+
+            //Add Markdown support
+            services.AddMarkdown();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -156,6 +161,7 @@ namespace lonefire
                 app.UseHsts();
             }
 
+            app.UseMarkdown();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
