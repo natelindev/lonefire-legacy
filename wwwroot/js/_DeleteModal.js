@@ -1,5 +1,6 @@
 ﻿
-$(document).ready(function() {
+window.addEventListener('DOMContentLoaded',
+        function() {
 
     //用于实现删除的数据提示与实际的删除功能
     $('#deleteModal').on('show.bs.modal', function(e) {

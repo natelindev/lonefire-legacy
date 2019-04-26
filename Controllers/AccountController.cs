@@ -80,7 +80,7 @@ namespace lonefire.Controllers
         public async Task<IActionResult> Lockout(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            ViewData["LockoutEnd"] = user.LockoutEnd;
+            ViewData["LockoutEnd"] = ((DateTimeOffset)user.LockoutEnd).ToLocalTime();
             return View();
         }
 

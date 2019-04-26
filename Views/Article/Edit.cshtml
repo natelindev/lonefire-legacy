@@ -1,0 +1,57 @@
+﻿@model Article
+
+@{
+    ViewData["Title"] = "编辑文章";
+}
+
+<div class="container-lf">
+    <div class="card card-w-50 mx-3 mx-md-auto border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row">
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" required />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="Author" class="control-label"></label>
+                        <input asp-for="Author" class="form-control" />
+                        <span asp-validation-for="Author" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="Tag" class="control-label"></label>
+                        <input type="text" asp-for="Tag" class="form-control" />
+                        <span asp-validation-for="Tag" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="MediaSerialized" class="control-label"></label>
+                        <input asp-for="MediaSerialized" class="form-control" />
+                        <span asp-validation-for="MediaSerialized" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label"></label>
+                    <textarea asp-for="Content" class="form-control h-px-350"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>
+                    <button class="btn btn-lf col-md-2 mx-auto my-3 animated--shadow-deep" type="submit">提交</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/Article/Editor.js"></script>
+    <script src="~/js/Article/CRUD.js"></script>
+}

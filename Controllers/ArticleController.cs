@@ -108,8 +108,7 @@ namespace lonefire.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var articles = from a in _context.Article
-                           select a;
+            var articles = _context.ArticleIndexVM.FromSql("SELECT ArticleID,Title,Author,Tag,AddTime,Status FROM Articles");
 
             var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
 

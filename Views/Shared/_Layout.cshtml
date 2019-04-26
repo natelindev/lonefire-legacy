@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="~/css/animation.css" />
     <link rel="stylesheet" href="~/css/utility.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    @RenderSection("StyleSheets", required: false)
 </head>
 <body id="page-top">
 
@@ -61,6 +63,7 @@
 
             <div class="d-flex card col-6 rounded-0 border-draw-within border-1 col-md-3 mx-auto my-5 h-px-100">
                 <img src="/img/brand-bold.svg" class="img-h-100 mx-auto my-auto h1 text-economica" alt="LONEFIRE" />
+                <a class="full-div-link z-1" asp-controller="Home" asp-action="Index"></a>
             </div>
         </div>
 
@@ -86,7 +89,7 @@
                     Copyright &copy; Name of your website @DateTime.Now.ToString("yyyy")
                 </div>
                 <div class="d-flex mx-auto justify-content-center">
-                    Powered by lonefire - <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                    Powered by lonefire - <a class="animated--link" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
                 </div>
             </div>
 

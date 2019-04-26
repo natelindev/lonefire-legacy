@@ -14,6 +14,7 @@ namespace lonefire.Data
         {
         }
 
+        public virtual DbSet<ArticleIndexVM> ArticleIndexVM { get; set; }
         public virtual DbSet<Article> Article { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
 

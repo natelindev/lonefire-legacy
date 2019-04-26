@@ -2,15 +2,128 @@
     ViewData["Title"] = "文章管理";
 }
 
+@model IEnumerable<ArticleIndexVM>
+
 <div class="container-lf">
-    <div class="main-area mx-4">
-        <div class="col-md-9 mx-auto">
-            <div class="card mx-auto my-5 border-0 shadow">
-                <div class="card-header"><partial name="_DefaultCardHeader" /></div>
-                <div class="card-body">
-                    Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Nisi scelerisque eu ultrices vitae auctor. Eu lobortis elementum nibh tellus. Adipiscing tristique risus nec feugiat in fermentum posuere. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. In egestas erat imperdiet sed euismod. Gravida cum sociis natoque penatibus et magnis dis. Libero nunc consequat interdum varius sit amet mattis. Aliquet nec ullamcorper sit amet risus nullam eget felis eget. Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt. Rhoncus dolor purus non enim praesent elementum facilisis leo vel.
-                </div>
+
+    <div class="card mx-3 mx-sm-auto card-w-50 border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+
+            <div class="row">
+                <a class="btn btn-lf mx-auto ml-md-auto mr-md-3 col-6 col-md-1 mb-4 text-center animated--shadow-deep" asp-action="Create">新增</a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ArticleID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Author)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Tag)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AddTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
+                            </th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th><input class="form-control" id="titleSearch" type="text" /></th>
+                            <th><input class="form-control" id="authorSearch" type="text" /></th>
+                            <th>
+                                <select class="custom-select" id="TagSearch"></select>
+                            </th>
+                            <th><input class="form-control" id="timeSearch" type="text" data-toggle="datepicker" /></th>
+                            <th>
+                                <select class="custom-select" id="statusSearch">
+                                    <option value="">-请选择-</option>
+                                    <option value="已通过">已通过</option>
+                                    <option value="已提交">已提交</option>
+                                    <option value="未通过">未通过</option>
+                                </select>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ArticleID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tag)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AddTime)
+                                </td>
+                                <td>
+                                    @switch (item.Status)
+                                    {
+                                        case ArticleStatus.Approved:
+                                            <p class="text-success">已通过</p>
+                                            break;
+                                        case ArticleStatus.Submitted:
+                                            <p class="text-primary">已提交</p>
+                                            break;
+                                        case ArticleStatus.Rejected:
+                                            <p class="text-danger">未通过</p>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.ArticleID">编辑</a>
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ArticleID">详情</a>
+                                    <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.ArticleID" data-name="@item.Title" data-type="文章">
+                                        删除
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
+    <partial name="_DeleteModal" />
 </div>
+@section StyleSheets{
+    <environment include="Development">
+        <link href="~/lib/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" />
+    </environment>
+}
+
+@section Scripts {
+    <script src="~/js/Article/Index.js"></script>
+    <environment include="Development">
+        <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    </environment>
+}
