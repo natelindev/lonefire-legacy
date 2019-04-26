@@ -2,8 +2,8 @@
     ViewData["Title"] = "账户被锁定";
 }
 
-<div class="container">
-    <div class="card card-w-30 border-0 border-left-danger mx-auto my-5">
+<div class="container-lf">
+    <div class="card card-w-30 border-0 border-left-danger mx-3 mx-sm-auto my-5 shadow-lg">
         <div class="card-header border-0"><partial name="_ErrorCardHeader" /></div>
         <div class="card-body">
             <p class="text-danger">该账户已被锁定，锁定结束时间: @ViewData["LockoutEnd"]，请耐心等待至锁定结束或联系管理员解锁。</p>

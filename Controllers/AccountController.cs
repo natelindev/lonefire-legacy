@@ -35,9 +35,6 @@ namespace lonefire.Controllers
             _toaster = toaster;
         }
 
-        [TempData]
-        public string ErrorMessage { get; set; }
-
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -238,7 +235,6 @@ namespace lonefire.Controllers
         {
             return View();
         }
-
 
         [HttpGet]
         [AllowAnonymous]

@@ -23,19 +23,19 @@ namespace lonefire.Controllers
     {
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly CommentController _commentController;
         private readonly UserController _userController;
         private readonly IToaster _toaster;
 
         public HomeController(
             ILogger<AccountController> logger,
             ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager,
+            CommentController commentController,
             UserController userController,
             IToaster toaster
         )
         {
-            _userManager = userManager;
+            _commentController = commentController;
             _userController = userController;
             _context = context;
             _logger = logger;
@@ -49,7 +49,10 @@ namespace lonefire.Controllers
                 .FirstOrDefaultAsync(m => m.Title.Contains("公告"));
             try
             {
-                articles = await _context.Article.FromSql("SELECT TOP 6 * FROM Articles WHERE Title NOT LIKE N'%公告%' AND STATUS = '1' ORDER BY ArticleID DESC").AsNoTracking().ToListAsync();
+                articles = await _context.Article
+                .Where(a => !a.Title.Contains("公告") && a.Title != "关于" && a.Status == ArticleStatus.Approved)
+                .OrderByDescending(a => a.ArticleID)
+                .Take(6).ToListAsync();
             }
             catch (Exception)
             {
@@ -60,11 +63,6 @@ namespace lonefire.Controllers
                 a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
             }
             articles.Add(article);
-            _toaster.ToastDebug("啦啦啦");
-            _toaster.ToastInfo("啦啦啦");
-            _toaster.ToastWarning("啦啦啦");
-            _toaster.ToastSuccess("啦啦啦");
-            _toaster.ToastError("啦啦啦");
             return View(articles);
         }
 
@@ -81,9 +79,17 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public IActionResult About()
+        public async Task<IActionResult> About()
         {
-            return View();
+            var article = await _context.Article.OrderByDescending(a => a.AddTime)
+                .FirstOrDefaultAsync(m => m.Title == "关于");
+            if(article == null)
+            {
+                article = new Article();
+                _toaster.ToastWarning("暂时没有 关于我 的内容");
+            }
+            ViewData["Comments"] = _commentController.GetAllCommentsAsync(article.ArticleID).Result.Value;
+            return View(article);
         }
 
         [HttpGet]

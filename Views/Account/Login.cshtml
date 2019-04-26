@@ -9,8 +9,8 @@
     ViewData["Title"] = "登录";
 }
 
-<div class="container">        
-    <div class="card card-w-40 border-left-info mx-auto border my-5">
+<div class="container-lf">
+    <div class="card card-w-40 border-left-info border-0 mx-3 mx-sm-auto my-5 shadow-lg">
         <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
         <div class="card-body">
             <div class="row">
@@ -38,7 +38,7 @@
                                 </label>
                             </div>
                         </div>
-                        <button class="btn btn-gh btn-block mb-4" type="submit">登录</button>
+                        <button class="btn btn-lf btn-block animated--shadow-deep mb-4" type="submit">登录</button>
                     </form>
                     <div class="text-center">
                         <a class="d-block small mt-3" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">注册</a>

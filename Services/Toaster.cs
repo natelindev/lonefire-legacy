@@ -39,11 +39,11 @@ namespace lonefire.Services
 
         readonly Dictionary<ToastLevel,string > ToastDictReverse = new Dictionary<ToastLevel, string>
             {
-                {ToastLevel.Debug,"dark"},
+                {ToastLevel.Debug,"debug"},
                 {ToastLevel.Info,"info"},
                 {ToastLevel.Warning,"warning"},
                 {ToastLevel.Success,"success"},
-                {ToastLevel.Error,"danger"}
+                {ToastLevel.Error,"error"}
             };
 
         public IConfiguration Configuration { get; }
