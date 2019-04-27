@@ -226,7 +226,6 @@ namespace lonefire.Controllers
         {
             if (ModelState.IsValid)
             {
-                article.Author = _userManager.GetUserId(User);
                 var isAuthorized = await _aus.AuthorizeAsync(User, article,
                                                 ArticleOperations.Create);
                 if (!isAuthorized.Succeeded)
@@ -238,19 +237,18 @@ namespace lonefire.Controllers
                                                 article,
                                                 ArticleOperations.Approve);
 
+                var uid = _userManager.GetUserId(User);
+
                 if (canApprove.Succeeded)
                 {
                     //Only Mod can change Article Author & Does not need Approving
-                    var uid = _userManager.GetUserId(User);
-                    var user = await _userManager.FindByIdAsync(uid);
-
-                    article.Author = article.Author ?? (user.Name ?? user.UserName);
+                    article.Author = article.Author ?? uid;
                     article.Status = ArticleStatus.Approved;
                 }
                 else
                 {
                     //Use current user as author
-                    article.Author = _userManager.GetUserId(User);
+                    article.Author = uid;
                 }
 
                 _context.Add(article);
@@ -345,6 +343,9 @@ namespace lonefire.Controllers
                             articleToUpdate.Status = ArticleStatus.Submitted;
                         }
                     }
+
+                    //prevent empty author
+                    articleToUpdate.Author = articleToUpdate.Author ?? _userManager.GetUserId(User);
 
                     await _context.SaveChangesAsync();
                     _toaster.ToastSuccess("文章更新成功");

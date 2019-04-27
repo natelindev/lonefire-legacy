@@ -7,6 +7,8 @@ using lonefire.Data;
 using lonefire.Extensions;
 using lonefire.Models;
 using lonefire.Services;
+using Markdig;
+using Markdig.Extensions.AutoIdentifiers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -142,7 +144,28 @@ namespace lonefire
                                   ArticleAdministratorsAuthorizationHandler>();
 
             //Add Markdown support
-            services.AddMarkdown();
+            services.AddMarkdown(config =>
+            {
+                // Create custom MarkdigPipeline 
+                // using MarkDig; for extension methods
+                config.ConfigureMarkdigPipeline = builder =>
+                {
+                    builder.UseEmphasisExtras(Markdig.Extensions.EmphasisExtras.EmphasisExtraOptions.Default)
+                        .UsePipeTables()
+                        .UseGridTables()
+                        .UseAutoIdentifiers(AutoIdentifierOptions.GitHub) // Headers get id="name" 
+                        .UseAutoLinks() // URLs are parsed into anchors
+                        .UseAbbreviations()
+                        .UseYamlFrontMatter()
+                        .UseEmojiAndSmiley(true)
+                        .UseListExtras()
+                        .UseFigures()
+                        .UseTaskLists()
+                        .UseCustomContainers()
+                        .UseGenericAttributes()
+                        .DisableHtml();
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

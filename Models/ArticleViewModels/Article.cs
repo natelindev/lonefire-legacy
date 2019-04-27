@@ -19,7 +19,7 @@ namespace lonefire.Models.ArticleViewModels
         public string Title { get; set; }
 
         [Display(Name = "作者")]
-        [StringLength(16, ErrorMessage = " {0} 长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
+        [StringLength(64, ErrorMessage = " {0} 长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
         public string Author { get; set; }
 
         [Display(Name = "内容")]
@@ -37,6 +37,15 @@ namespace lonefire.Models.ArticleViewModels
 
         [Display(Name = "审核状态")]
         public ArticleStatus Status { get; set; }
+
+        [Display(Name = "顶部图片")]
+        public string HeaderImg { get; set; }
+
+        [Display(Name = "浏览数")]
+        public int ViewCount { get; set; }
+
+        [Display(Name = "点赞数")]
+        public int LikeCount { get; set; }
 
         public List<Comment> Comments;
     }

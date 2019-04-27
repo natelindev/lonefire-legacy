@@ -18,7 +18,7 @@
                                 <div class="d-flex">
                                     <h4 class="mx-auto text-economica">@item.Title</h4>
                                 </div>
-                                <p class="text-titillium flex-grow-1">@item.Content.Substring(0, Math.Min(item.Content.Length, 200)) ...</p>
+                                <div class="text-titillium d-flex flex-wrap flex-grow-1"><markdown>@item.Content.Substring(0, Math.Min(item.Content.Length, 100)) ...</markdown></div>
                                 <div class="d-flex article-footer text-economica justify-content-between">
                                     <p class="text-muted my-auto">@Html.DisplayFor(modelItem => item.AddTime)</p>
                                     <a class="btn border-draw-within mx-2 z-2" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID">阅读更多</a>

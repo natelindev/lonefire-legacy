@@ -16,7 +16,7 @@
                     <h3 class="mx-auto my-3 text-gray-800">@Model.Title</h3>
                 </div>
                 <div class="row">
-                    <div class="col-md-11 mx-auto bg-silver my-2 rounded">
+                    <div class="col-11 col-md-10 mx-auto bg-silver my-2 rounded">
                         <div class="row">
                             <p class="ml-4 mr-auto my-2">日期:@Html.DisplayFor(m => m.AddTime)</p>
                             <p class="mr-4 ml-auto my-2">作者: @Model.Author</p>
@@ -24,8 +24,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <article class="col-md-10 mx-auto mt-4 mb-4 text-opensans text-gray-800">
-                        @Html.Raw(Model.Content)
+                    <article class="col-md-10 mx-auto my-4 text-opensans text-gray-800">
+                        <markdown>
+@Model.Content
+                        </markdown>
                     </article>
                 </div>
                 <div class="row mb-4">
@@ -44,7 +46,7 @@
                          data-description="一键分享到微博，QQ空间，豆瓣">
                     </div>
                     <div class="ml-auto mr-2 my-auto">
-                        <h7>阅读次数: 123 次</h7>
+                        <h7>阅读次数: @Model.ViewCount 次</h7>
                     </div>
                 </div>
             </div>
