@@ -248,11 +248,12 @@ main {
 
 .container-lf {
     width: 100%;
-    margin-left: 0;
-    margin-right: 0;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: -10rem;
-    margin-bottom: 0;
-    padding: 0;
+    margin-bottom: auto;
 }
 
     .container-lf:after {

@@ -10,12 +10,12 @@
 }
 
 <div class="container-lf">
-    <div class="card card-w-40 border-left-info border-0 mx-3 mx-sm-auto my-5 shadow-lg">
+    <div class="card card-w-40 border-left-info border-0 mx-auto my-5 shadow-lg">
         <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6 d-none d-md-block">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width:30rem;" src="/images/login.svg" alt="">
+                    <img class="img-fluid px-3 mt-4" src="/img/login-screen.svg" alt="">
                 </div>
                 <div class="col-md-5 mx-auto">
                     <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
@@ -38,11 +38,13 @@
                                 </label>
                             </div>
                         </div>
-                        <button class="btn btn-lf btn-block animated--shadow-deep mb-4" type="submit">登录</button>
+                        <button class="btn btn-lf btn-block animated--shadow-deep" type="submit">登录</button>
                     </form>
-                    <div class="text-center">
-                        <a class="d-block small mt-3" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">注册</a>
-                        <a class="d-block small" asp-action="ForgotPassword">忘记密码?</a>
+                    <div class="row">
+                        <a class="small mx-auto mt-3 mb-1 animated--link" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">注册</a>
+                    </div>
+                    <div class="row">
+                        <a class="small mx-auto animated--link" asp-action="ForgotPassword">忘记密码?</a>
                     </div>
                 </div>
             </div>
