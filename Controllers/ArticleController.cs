@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using lonefire.Authorization;
 using lonefire.Data;
+using lonefire.Extensions;
 using lonefire.Models;
 using lonefire.Models.ArticleViewModels;
 using lonefire.Services;
@@ -13,9 +14,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace lonefire.Controllers
 {
@@ -86,7 +86,12 @@ namespace lonefire.Controllers
 
             article.ViewCount++;
             await _context.SaveChangesAsync();
-            ViewData["HeaderImg"] = ImageUploadPath+'/'+ article.Title +'/' + article.HeaderImg;
+
+            article.Content = LF_MarkdownParser.Parse(article.Content, ImageUploadPath + article.Title + '/');
+
+            article.Author = _userController.GetNickNameAsync(article.Author).Result.Value;
+
+            ViewData["HeaderImg"] = ImageUploadPath+ article.Title +'/' + article.HeaderImg;
             return View(article);
         }
 

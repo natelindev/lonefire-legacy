@@ -6,11 +6,11 @@
 }
 
 @model Article
-@inject UserController userController
+@inject IConfiguration Configuration
 
 <div class="container-lf">
 
-    <div class="col-md-9 mx-auto">
+    <div class="col-md-9 mx-auto px-0">
         <div class="card card-main mx-auto border-0 my-5 shadow-lg">
             <div class="card-body">
                 <div class="row">
@@ -20,13 +20,13 @@
                     <div class="col-11 col-md-10 mx-auto bg-silver my-2 rounded">
                         <div class="row">
                             <p class="ml-4 mr-auto my-2">日期:@Html.DisplayFor(m => m.AddTime)</p>
-                            <p class="mr-4 ml-auto my-2">作者:@userController.GetNickNameAsync(Model.Author).Result.Value</p>
+                            <p class="mr-4 ml-auto my-2">作者:@Model.Author</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <article class="col-md-10 mx-auto my-4 text-opensans text-gray-800">
-                        <markdown markdown="@Model.Content"></markdown>
+                        @Html.Raw(Model.Content);
                     </article>
                 </div>
                 <div class="row mb-4">
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <div class="col-md-9 mx-auto">
+    <div class="col-md-9 mx-auto px-0">
         <partial name="_CommentSection" model='ViewData["Comments"]' />
     </div>
 
