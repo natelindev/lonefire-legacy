@@ -55,8 +55,17 @@ namespace lonefire.Extensions
                 }
                 newhtml += oldParts[oldParts.Count - 1];
             }
+            else
+            {
+                newhtml = html;
+            }
 
             return newhtml;
+        }
+
+        public static string ParseAsPlainText(string markdown)
+        {
+            return Regex.Replace(Markdown.Parse(markdown), "<.*?>", string.Empty);
         }
     }
 }

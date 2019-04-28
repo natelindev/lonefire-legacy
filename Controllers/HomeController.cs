@@ -61,6 +61,11 @@ namespace lonefire.Controllers
             foreach(var a in articles)
             {
                 a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
+                if(a.Content != null)
+                {
+                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 100));
+                }
             }
             articles.Add(article);
             return View(articles);
