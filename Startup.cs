@@ -162,8 +162,8 @@ namespace lonefire
                         .UseFigures()
                         .UseTaskLists()
                         .UseCustomContainers()
-                        .UseGenericAttributes()
-                        .DisableHtml();
+                        .UseGenericAttributes();
+                        //.DisableHtml();
                 };
             });
         }

@@ -8,10 +8,14 @@ using lonefire.Models;
 using lonefire.Models.ArticleViewModels;
 using lonefire.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace lonefire.Controllers
 {
@@ -19,21 +23,24 @@ namespace lonefire.Controllers
     public class ArticleController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly AjaxController _ajax;
         private readonly IAuthorizationService _aus;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CommentController _commentController;
         private readonly UserController _userController;
         private readonly IToaster _toaster;
+        private readonly IFileIOHelper _io_Helper;
+        private readonly IConfiguration _config;
 
         public ArticleController(
         ApplicationDbContext context,
-            AjaxController ajax,
             IAuthorizationService aus,
             UserManager<ApplicationUser> userManager,
             CommentController commentController,
             UserController userController,
-            IToaster toaster
+            IFileIOHelper io_Helper,
+            IToaster toaster,
+            IConfiguration config
+
             )
         {
             _aus = aus;
@@ -41,9 +48,12 @@ namespace lonefire.Controllers
             _context = context;
             _commentController = commentController;
             _userController = userController;
-            _ajax = ajax;
+            _io_Helper = io_Helper;
             _toaster = toaster;
+            _config = config;
         }
+
+        public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
 
         [HttpGet]
         [Authorize(Roles = "Administrator")]
@@ -71,11 +81,12 @@ namespace lonefire.Controllers
                 return NotFound();
             }
 
-            article.Author = _userController.GetNickNameAsync(article.Author).Result.Value;
-
             //Get Comments
             ViewData["Comments"] = _commentController.GetAllCommentsAsync(article.ArticleID).Result.Value;
 
+            article.ViewCount++;
+            await _context.SaveChangesAsync();
+            ViewData["HeaderImg"] = ImageUploadPath+'/'+ article.Title +'/' + article.HeaderImg;
             return View(article);
         }
 
@@ -222,7 +233,7 @@ namespace lonefire.Controllers
         // POST: Article/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Article article)
+        public async Task<IActionResult> Create([Bind("Title,Author,Tag,Content")]Article article,IFormFile headerImg,IList<IFormFile> contentImgs)
         {
             if (ModelState.IsValid)
             {
@@ -250,6 +261,20 @@ namespace lonefire.Controllers
                     //Use current user as author
                     article.Author = uid;
                 }
+
+                //save the Images
+                List<string> ArticleImgs = new List<string>();
+                var headerImgName = await _io_Helper.SaveImgAsync(headerImg,article.Title,256,headerImg.FileName);
+                article.HeaderImg = headerImgName;
+                ArticleImgs.Add(headerImgName);
+
+                foreach (var img in contentImgs)
+                {
+                    var res = await _io_Helper.SaveImgAsync(img, article.Title, 256, img.FileName);
+                    ArticleImgs.Add(res);
+                }
+
+                article.MediaSerialized = JsonConvert.SerializeObject(ArticleImgs);
 
                 _context.Add(article);
                 await _context.SaveChangesAsync();
@@ -316,6 +341,12 @@ namespace lonefire.Controllers
             {
                 try
                 {
+                    //Rename the dir when Title Changes
+                    //TODO: use regex to validate this Title
+                    if(articleToUpdate.Title != HttpContext.Request.Form["Title"])
+                    {
+                        _io_Helper.MoveImgDir( articleToUpdate.Title, HttpContext.Request.Form["Title"]);
+                    }
 
                     //Only admin can change author
                     if (User.IsInRole(Constants.AdministratorsRole))
@@ -383,9 +414,12 @@ namespace lonefire.Controllers
                 return new ChallengeResult();
             }
 
-            //Delete the related comments
-            _commentController.DeleteAllCommentsAsync((int)id);
+            //delete the Images
+            _io_Helper.DeleteImgDir(article.Title);
 
+            //Comments were casecade deleted.
+
+            //delete the article
             _context.Article.Remove(article);
 
             await _context.SaveChangesAsync();

@@ -6,6 +6,7 @@
 }
 
 @model Article
+@inject UserController userController
 
 <div class="container-lf">
 
@@ -19,15 +20,13 @@
                     <div class="col-11 col-md-10 mx-auto bg-silver my-2 rounded">
                         <div class="row">
                             <p class="ml-4 mr-auto my-2">日期:@Html.DisplayFor(m => m.AddTime)</p>
-                            <p class="mr-4 ml-auto my-2">作者: @Model.Author</p>
+                            <p class="mr-4 ml-auto my-2">作者:@userController.GetNickNameAsync(Model.Author).Result.Value</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <article class="col-md-10 mx-auto my-4 text-opensans text-gray-800">
-                        <markdown>
-@Model.Content
-                        </markdown>
+                        <markdown markdown="@Model.Content"></markdown>
                     </article>
                 </div>
                 <div class="row mb-4">

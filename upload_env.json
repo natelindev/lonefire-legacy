@@ -1,5 +1,4 @@
 ﻿{
-  "upload_img_path": "/img/uploads/",
-  "upload_file_path": "/file/uploads/",
-  "upload_news_path": "/img/news/"
+  "img_upload_path": "/img/uploads/",
+  "file_upload_path": "/file/uploads/"
 }

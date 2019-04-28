@@ -25,6 +25,9 @@
 
     @RenderSection("StyleSheets", required: false)
 </head>
+@{
+    ViewData["HeaderImg"] = ViewData["HeaderImg"] ?? "https://images.unsplash.com/photo-1483611703176-31a1e4306d2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1491&q=80";
+}
 <body id="page-top">
 
     <partial name="_Spinner" />
@@ -32,7 +35,7 @@
     <partial name="_Toast" />
 
     <header>
-        <div class="bg-main pb-10">
+        <div class="pb-10" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('@ViewData["HeaderImg"]'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
             <nav class="navbar navbar-expand-md navbar-dark h4 text-economica">
                 <img src="/img/logo.svg" class="img-brand img-h-32" />
                 <a class="navbar-brand navbrand" asp-controller="Home" asp-action="Index">LONEFIRE</a>
@@ -125,7 +128,7 @@
 
     @RenderSection("Scripts", required: false)
 
-    </body>
+</body>
 
 
 </html>

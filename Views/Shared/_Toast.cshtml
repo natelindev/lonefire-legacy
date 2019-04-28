@@ -12,7 +12,7 @@
     <div class="toast-wrapper mt-2" aria-live="polite" aria-atomic="true">
         @foreach (var msg in msgs)
         {
-            <div class="toast mx-auto text-white shadow-lg bg-@Toaster.LevelToString(msg.Level)" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2500">
+            <div class="toast mx-auto text-white shadow-lg bg-@Toaster.LevelToString(msg.Level)" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
                 @*<div class="toast-header">
                         <strong class="mx-auto">通知消息</strong>
                         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
