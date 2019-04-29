@@ -2,11 +2,11 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model IEnumerable<Article>
+@model PaginatedList<Article>
 @inject IConfiguration Configuration
 
 <div class="container-lf">
-    <div class="card mx-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
+    <div class="card mx-md-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
         <div class="card-body">
             <div class="row mx-auto">
                 <div class="offset-lg-1 col-md-8 mt-md-3">
@@ -16,23 +16,38 @@
                             @if (item != null)
                             {
                                 <div class="card card-article my-3 mx-md-3 border-0 animated--shadow-translate">
-                                    <img class="card-img-top darken-10 text-economica" src="@Configuration["img_upload_path"]@item.Title/@item.HeaderImg" alt="@item.Title Header Image">
+                                    <img class="card-img-top darken-20 text-economica" src="@Configuration["img_upload_path"]@item.Title/@item.HeaderImg" alt="@item.Title Header Image">
+                                    <div class="card-img-overlay">
+                                        @if(!string.IsNullOrEmpty(item.Tag)){
+                                            @foreach (var t in item.Tag.Split(',').ToList<string>()){
+                                                <a class="btn btn-outline-light px-1 py-1 position-relative z-2" href="#">@t</a>
+                                            }
+                                        }
+                                    </div>
                                     <div class="card-body d-flex flex-column">
                                         <div class="d-flex">
                                             <h4 class="mx-auto text-economica">@item.Title</h4>
                                         </div>
-                                        <div class="text-titillium d-flex flex-wrap flex-grow-1">
-                                            @Html.Raw(item.Content)
+                                        <div class="text-titillium d-flex my-3 flex-wrap flex-grow-1">
+                                            @Html.Raw(item.Content)...
                                         </div>
                                         <div class="d-flex article-footer text-economica justify-content-between">
                                             <p class="text-muted my-auto">@Html.DisplayFor(modelItem => item.AddTime)</p>
                                             <a class="btn border-draw-within mx-2 z-2" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID">阅读更多</a>
-                                            <p class="text-muted my-auto">12条评论</p>
+                                            <p class="text-muted my-auto">@item.ViewCount 次阅读</p>
                                         </div>
                                         <a class="full-div-link z-1" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID"></a>
                                     </div>
                                 </div>
                             }
+                        }
+                    </div>
+                    <div class="d-flex">
+                        @if(Model.HasPreviousPage){
+                            <a class="btn btn-outline-info mx-auto" asp-action="Index" asp-route-page="@(Model.PageIndex-1)">上一页</a> 
+                        }
+                        @if(Model.HasNextPage){
+                            <a class="btn btn-outline-info mx-auto" asp-action="Index" asp-route-page="@(Model.PageIndex+1)">下一页</a> 
                         }
                     </div>
                 </div>

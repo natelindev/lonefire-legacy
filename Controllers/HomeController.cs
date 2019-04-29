@@ -42,17 +42,18 @@ namespace lonefire.Controllers
             _toaster = toaster;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            List<Article> articles = new List<Article>();
+            PaginatedList<Article> articles = new PaginatedList<Article>();
             var article = await _context.Article.OrderByDescending(a => a.AddTime)
                 .FirstOrDefaultAsync(m => m.Title.Contains("公告"));
             try
             {
-                articles = await _context.Article
+                IQueryable<Article> articleIQ = _context.Article
                 .Where(a => !a.Title.Contains("公告") && a.Title != "关于" && a.Status == ArticleStatus.Approved)
-                .OrderByDescending(a => a.ArticleID)
-                .Take(6).ToListAsync();
+                .OrderByDescending(a => a.ArticleID);
+
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, 6);
             }
             catch (Exception)
             {

@@ -235,6 +235,10 @@
     max-width: 10rem;
 }
 
+.card-w-15 {
+    max-width: 15rem;
+}
+
 .card-w-20 {
     max-width: 20rem;
 }
@@ -249,6 +253,12 @@
 
 .card-w-50 {
     max-width: 50rem;
+}
+
+@media (min-width: 768px) {
+    .card-w-md-20 {
+        max-width: 20rem;
+    }
 }
 
 .z-1 {
@@ -675,12 +685,20 @@ button.bg-dark:focus {
     overflow: hidden !important;
 }
 
-.border-1 {
+.border-b-1 {
     border: 1px solid #333;
 }
 
-.border-2 {
+.border-b-2 {
     border: 2px solid #333;
+}
+
+.border-w-1 {
+    border: 1px solid #fff;
+}
+
+.border-w-2 {
+    border: 2px solid #fff;
 }
 
 @media (max-width: 576px) {

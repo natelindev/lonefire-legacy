@@ -14,7 +14,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-    </environment>
+    </environment> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Economica|Noto+Sans+SC|Noto+Serif+SC|Titillium+Web|Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="~/css/override.css" />
@@ -35,7 +35,7 @@
     <partial name="_Toast" />
 
     <header>
-        <div class="pb-10" style="background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('@ViewData["HeaderImg"]'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+        <div class="pb-10" style="background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('@ViewData["HeaderImg"]'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
             <nav class="navbar navbar-expand-md navbar-dark h4 text-economica">
                 <img src="/img/logo.svg" class="img-brand img-h-32" />
                 <a class="navbar-brand navbrand" asp-controller="Home" asp-action="Index">LONEFIRE</a>
@@ -64,7 +64,7 @@
                 </button>
             </nav>
 
-            <div class="card card-w-20 px-2 rounded-0 border-draw-within border-1 mx-auto my-5 h-px-100">
+            <div class="card card-w-md-20 card-w-15 px-2 rounded-0 border-draw-within border-b-1 mx-auto my-5 h-px-100">
                 <img src="/img/brand-bold.svg" class="img-h-100 mx-auto my-auto h1 text-economica" alt="LONEFIRE" />
                 <a class="full-div-link z-1" asp-controller="Home" asp-action="Index"></a>
             </div>

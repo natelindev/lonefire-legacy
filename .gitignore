@@ -2,6 +2,7 @@
 # User Defined
 db_string.json
 Migrations/
+wwwroot/img/uploads/
 
 # globs
 Makefile.in
