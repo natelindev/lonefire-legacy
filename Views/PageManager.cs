@@ -15,7 +15,7 @@ namespace lonefire.Views
             return controllerName == "Article" && actionName == "Index" ||
                     controllerName == "Article" && actionName == "Billboard" ||
                    controllerName == "User" 
-            ; 
+            ;
         }
 
         public static string IsActive(ViewContext viewContext,string controller)

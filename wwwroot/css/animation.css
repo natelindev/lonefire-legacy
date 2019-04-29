@@ -1,4 +1,84 @@
-﻿/* draw border */
+﻿/* Animated toggler*/
+.animated--toggler .icon-bar {
+    display: block;
+    width: 1.5em;
+    height: 2px;
+    border-radius: 1px;
+}
+
+    .animated--toggler .icon-bar + .icon-bar {
+        margin-top: 4px;
+    }
+
+.navbar-light .animated--toggler .icon-bar {
+    background-color: #888;
+}
+.sidebar .animated--toggler .icon-bar {
+    background-color: #888;
+}
+
+.navbar-dark .animated--toggler .icon-bar {
+    background-color: #fff;
+}
+
+.animated--toggler {
+    border: none;
+    background: transparent !important;
+}
+
+    .animated--toggler:hover {
+        background: transparent !important;
+    }
+
+    .animated--toggler:focus {
+        outline: 0;
+    }
+
+    .animated--toggler .icon-bar {
+        width: 22px;
+        transition: all 0.2s;
+    }
+
+    .animated--toggler .top-bar {
+        transform: rotate(45deg);
+        transform-origin: 10% 10%;
+    }
+
+    .animated--toggler .middle-bar {
+        opacity: 0;
+    }
+
+    .animated--toggler .bottom-bar {
+        transform: rotate(-45deg);
+        transform-origin: 10% 90%;
+    }
+
+    .animated--toggler.collapsed .top-bar {
+        transform: rotate(0);
+    }
+
+    .animated--toggler.collapsed .middle-bar {
+        opacity: 1;
+    }
+
+    .animated--toggler.collapsed .bottom-bar {
+        transform: rotate(0);
+    }
+
+    .animated--toggler.toggled .top-bar {
+        transform: rotate(0);
+    }
+
+    .animated--toggler.toggled .middle-bar {
+        opacity: 1;
+    }
+
+    .animated--toggler.toggled .bottom-bar {
+        transform: rotate(0);
+    }
+
+
+/* border draw animation */
 
 @keyframes bottomright {
     0% {

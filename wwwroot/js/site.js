@@ -14,6 +14,15 @@
     }
   });
 
+    // Toggle the side navigation
+    $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+        $(".sidebar").toggleClass("toggled");
+        $("#sidebarToggle").toggleClass("toggled");
+        if ($(".sidebar").hasClass("toggled")) {
+          $('.sidebar .collapse').collapse('hide');
+        };
+  });
+
   // Smooth scrolling using jQuery easing
   $(document).on('click', 'a.scroll-to-top', function(e) {
     var $anchor = $(this);

@@ -1,0 +1,68 @@
+﻿@if (@PageManager.UseSideBar(ViewContext))
+{
+
+
+    <!-- Sidebar -->
+    <ul class="d-flex navbar-nav sidebar bg-silver sidebar-lf rounded accordion shadow z-1" id="accordionSidebar">
+
+        <button class="animated--toggler toggled border-0 z-1" id="sidebarToggle">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar top-bar"></span>
+            <span class="icon-bar middle-bar"></span>
+            <span class="icon-bar bottom-bar"></span>
+        </button>
+
+        <!-- Nav Item - Article -->
+        <li class="nav-item @PageManager.IsActive(ViewContext,"Article","Index")">
+            <a class="nav-link" asp-controller="Article" asp-action="Index">
+                <i class="fas fa-fw fa-book"></i>
+                <span>文章管理</span>
+            </a>
+        </li>
+
+        @if (User.IsInRole(Constants.AdministratorsRole))
+        {
+
+            <!-- Nav Item - Category -->
+            <li class="nav-item @PageManager.IsActive(ViewContext,"Tag")">
+                <a class="nav-link" asp-controller="Tag" asp-action="Index">
+                    <i class="fas fa-fw fa-tag"></i>
+                    <span>标签管理</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Billboard -->
+            <li class="nav-item @PageManager.IsActive(ViewContext,"Article","Billboard")">
+                <a class="nav-link" asp-controller="Article" asp-action="Billboard">
+                    <i class="fab fa-fw fa-flipboard"></i>
+                    <span>公告管理</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - People -->
+            <li class="nav-item @PageManager.IsActive(ViewContext,"People")">
+                <a class="nav-link" asp-controller="User" asp-action="Index">
+                    <i class="fas fa-fw fa-user-friends"></i>
+                    <span>用户管理</span>
+                </a>
+            </li>
+
+            @*<li class="nav-item @PageManager.IsActive(ViewContext,"People")">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRenYuan" aria-expanded="true" aria-controls="collapseGongHui">
+                        <i class="fas fa-fw fa-user-friends"></i>
+                        <span>人员管理</span>
+                    </a>
+                    <div id="collapseRenYuan" class="collapse" aria-labelledby="headingRenYuan" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <a class="collapse-item" asp-controller="People" asp-action="Index">用户管理</a>
+
+                        </div>
+                    </div>
+                </li>*@
+        }
+        
+    </ul>
+
+    <!-- End of Sidebar -->
+
+}
