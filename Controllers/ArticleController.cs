@@ -55,15 +55,6 @@ namespace lonefire.Controllers
 
         public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
 
-        [HttpGet]
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Billboard()
-        {
-            var article = await _context.Article.OrderByDescending(a => a.AddTime)
-                .FirstOrDefaultAsync(m => m.Title.Contains("公告"));
-            return View(article);
-        }
-
         [HttpGet, ActionName("View")]
         [AllowAnonymous]
         public async Task<IActionResult> ArticleView(int? id)
@@ -268,18 +259,26 @@ namespace lonefire.Controllers
                 }
 
                 //save the Images
-                List<string> ArticleImgs = new List<string>();
-                var headerImgName = await _io_Helper.SaveImgAsync(headerImg,article.Title,256,headerImg.FileName);
-                article.HeaderImg = headerImgName;
-                ArticleImgs.Add(headerImgName);
-
-                foreach (var img in contentImgs)
+                if (headerImg != null || contentImgs.Count > 0)
                 {
-                    var res = await _io_Helper.SaveImgAsync(img, article.Title, 256, img.FileName);
-                    ArticleImgs.Add(res);
-                }
 
-                article.MediaSerialized = JsonConvert.SerializeObject(ArticleImgs);
+                    List<string> ArticleImgs = new List<string>();
+                    if (headerImg != null)
+                    {
+                        var headerImgName = await _io_Helper.SaveImgAsync(headerImg, article.Title, 256, headerImg.FileName);
+                        article.HeaderImg = headerImgName;
+                        ArticleImgs.Add(headerImgName);
+                    }
+
+                    foreach (var img in contentImgs)
+                    {
+                        var res = await _io_Helper.SaveImgAsync(img, article.Title, 256, img.FileName);
+                        ArticleImgs.Add(res);
+                    }
+
+                    if (ArticleImgs.Count > 0)
+                        article.MediaSerialized = JsonConvert.SerializeObject(ArticleImgs);
+                }
 
                 _context.Add(article);
                 await _context.SaveChangesAsync();

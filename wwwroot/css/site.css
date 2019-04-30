@@ -3,7 +3,17 @@
    outline: 1px solid red;
 }*/
 
+.navbar-light .animated--toggler .icon-bar {
+    background-color: #888;
+}
 
+.navbar-dark .animated--toggler .icon-bar {
+    background-color: #fff;
+}
+
+.sidebar .animated--toggler .icon-bar {
+    background-color: #333;
+}
 
 /* Custom button */
 .btn-lf {
@@ -30,28 +40,7 @@
         background-color: #e74a3b;
         border-color: #e74a3b;
     }
-
-/* Custom Sidebar */
-.sidebar-lf .sidebar-brand .sidebar-brand-text {
-    color: #8BC34A;
-}
-
-.sidebar-lf .nav-item .nav-link {
-    color: grey;
-}
-
-.nav-tabs .nav-item .nav-link {
-    color: #388E3C;
-}
-
-.sidebar-lf .nav-item.active .nav-link {
-    color: #388E3C;
-}
-
-.sidebar-lf .nav-item .nav-link:hover {
-    color: #388E3C;
-}
-
+    
 /* Aritcle content */
 .text-article {
     font-weight: 100;
@@ -235,16 +224,66 @@ main {
     bottom:0;
 }
 
+/* Custom Sidebar */
+.sidebar-lf .sidebar-brand .sidebar-brand-text {
+    color: #8BC34A;
+}
+
+.sidebar-lf .nav-item .nav-link {
+    color: grey;
+}
+
+.nav-tabs .nav-item .nav-link {
+    color: #388E3C;
+}
+
+.sidebar-lf .nav-item.active .nav-link {
+    color: #388E3C;
+}
+
+.sidebar-lf .nav-item .nav-link:hover {
+    color: #388E3C;
+}
+
+.sidebar-toggler {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+    position: relative;
+}
+
+    .sidebar-toggler:hover {
+        text-decoration: none;
+    }
+
+    .sidebar-toggler:focus {
+        outline: none;
+    }
 
 .sidebar {
     position: fixed;
     max-width: 2.5rem;
     max-height: 2.5rem;
     overflow: hidden;
-    left: 1rem;
-    top: 50%;
-    transition: all .3s ease-out;
+    transition: all .5s ease-out;
 }
+
+    .sidebar.sidebar-left {
+        left: 1rem;
+        top: 40%;
+    }
+
+        .sidebar.sidebar-left .sidebar-toggler {
+            margin-right: auto;
+        }
+
+    .sidebar.sidebar-right {
+        right: 1rem;
+        top: 40%;
+    }
+
+        .sidebar.sidebar-right .sidebar-toggler {
+            margin-left: auto;
+        }
 
     .sidebar .nav-item {
         position: relative;
@@ -337,23 +376,6 @@ main {
                         color: #4e73df;
                         font-weight: 700;
                     }
-
-    .sidebar #sidebarToggle {
-        width: 2.5rem;
-        height: 2.5rem;
-        position:absolute;
-        top:0;
-        text-align: center;
-        cursor: pointer;
-    }
-
-        .sidebar #sidebarToggle:hover {
-            text-decoration: none;
-        }
-
-        .sidebar #sidebarToggle:focus {
-            outline: none;
-        }
 
     .sidebar.toggled{
         max-width: 500px;

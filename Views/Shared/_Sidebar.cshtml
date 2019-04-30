@@ -3,13 +3,12 @@
 
 
     <!-- Sidebar -->
-    <ul class="d-flex navbar-nav sidebar bg-silver sidebar-lf rounded accordion shadow z-1" id="accordionSidebar">
+    <ul class="d-flex navbar-nav sidebar sidebar-left bg-silver sidebar-lf rounded accordion toggled shadow z-1" id="accordionSidebar">
 
-        <button class="animated--toggler toggled border-0 z-1" id="sidebarToggle">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar top-bar"></span>
-            <span class="icon-bar middle-bar"></span>
-            <span class="icon-bar bottom-bar"></span>
+        <button class="animated--toggler sidebar-toggler border-0 z-1">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
         </button>
 
         <!-- Nav Item - Article -->
@@ -31,16 +30,8 @@
                 </a>
             </li>
 
-            <!-- Nav Item - Billboard -->
-            <li class="nav-item @PageManager.IsActive(ViewContext,"Article","Billboard")">
-                <a class="nav-link" asp-controller="Article" asp-action="Billboard">
-                    <i class="fab fa-fw fa-flipboard"></i>
-                    <span>公告管理</span>
-                </a>
-            </li>
-
             <!-- Nav Item - People -->
-            <li class="nav-item @PageManager.IsActive(ViewContext,"People")">
+            <li class="nav-item @PageManager.IsActive(ViewContext,"User")">
                 <a class="nav-link" asp-controller="User" asp-action="Index">
                     <i class="fas fa-fw fa-user-friends"></i>
                     <span>用户管理</span>

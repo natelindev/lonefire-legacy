@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var AboutMe = ViewData["AboutMe"] as Article;
+    var Friends = ViewData["Friends"] as Article;
 }
 
 @model PaginatedList<Article>
@@ -18,8 +20,10 @@
                                 <div class="card card-article my-3 mx-md-3 border-0 animated--shadow-translate">
                                     <img class="card-img-top darken-20 text-economica" src="@Configuration["img_upload_path"]@item.Title/@item.HeaderImg" alt="@item.Title Header Image">
                                     <div class="card-img-overlay">
-                                        @if(!string.IsNullOrEmpty(item.Tag)){
-                                            @foreach (var t in item.Tag.Split(',').ToList<string>()){
+                                        @if (!string.IsNullOrEmpty(item.Tag))
+                                        {
+                                            @foreach (var t in item.Tag.Split(',').ToList<string>())
+                                            {
                                                 <a class="btn btn-outline-light px-1 py-1 position-relative z-2" href="#">@t</a>
                                             }
                                         }
@@ -43,11 +47,13 @@
                         }
                     </div>
                     <div class="d-flex">
-                        @if(Model.HasPreviousPage){
-                            <a class="btn btn-outline-success mx-auto" asp-action="Index" asp-route-page="@(Model.PageIndex-1)">上一页</a> 
+                        @if (Model.HasPreviousPage)
+                        {
+                            <a class="btn btn-outline-success mx-auto" asp-action="Index" asp-route-page="@(Model.PageIndex-1)">上一页</a>
                         }
-                        @if(Model.HasNextPage){
-                            <a class="btn btn-outline-success mx-auto" asp-action="Index" asp-route-page="@(Model.PageIndex+1)">下一页</a> 
+                        @if (Model.HasNextPage)
+                        {
+                            <a class="btn btn-outline-success mx-auto" asp-action="Index" asp-route-page="@(Model.PageIndex+1)">下一页</a>
                         }
                     </div>
                 </div>
@@ -62,10 +68,7 @@
                                 <img src="/img/logo.svg" class="mx-auto img-h-200 my-2" />
                                 <a class="full-div-link z-1" asp-controller="Article" asp-action="Index"></a>
                             </div>
-                            <p class="text-opensans">
-                                Hi Everybody, I’m lonefire and this is my space, Hope ya’all like it.
-                                Please enjoy the aricles I wrote.
-                            </p>
+                            <markdown markdown="@AboutMe.Content"></markdown>
                             <div class="social-wrapper-links">
                                 <a class="social-link social-link--github z-2" id="github">
                                     <svg class="social-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -132,6 +135,9 @@
                         <div class="card-body">
                             <div class="d-flex">
                                 <h2 class="mx-auto mt-3 text-economica">Friends</h2>
+                            </div>
+                            <div class="d-flex flex-wrap my-3 animated--link-container">
+                                <markdown markdown="@Friends.Content"></markdown>
                             </div>
                         </div>
                     </div>

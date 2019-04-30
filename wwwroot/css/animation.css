@@ -9,17 +9,7 @@
     .animated--toggler .icon-bar + .icon-bar {
         margin-top: 4px;
     }
-
-.navbar-light .animated--toggler .icon-bar {
-    background-color: #888;
-}
-.sidebar .animated--toggler .icon-bar {
-    background-color: #888;
-}
-
-.navbar-dark .animated--toggler .icon-bar {
-    background-color: #fff;
-}
+    
 
 .animated--toggler {
     border: none;
@@ -36,45 +26,36 @@
 
     .animated--toggler .icon-bar {
         width: 22px;
-        transition: all 0.2s;
+        transition: all 0.3s;
     }
 
-    .animated--toggler .top-bar {
+    .animated--toggler.collapsed .icon-bar:nth-child(1),
+    .animated--toggler.toggled .icon-bar:nth-child(1) {
+        transform: rotate(0);
+    }
+
+    .animated--toggler.collapsed .icon-bar:nth-child(2),
+    .animated--toggler.toggled .icon-bar:nth-child(2) {
+        opacity: 1;
+    }
+
+    .animated--toggler.collapsed .icon-bar:nth-child(3),
+    .animated--toggler.toggled .icon-bar:nth-child(3) {
+        transform: rotate(0);
+    }
+
+    .animated--toggler .icon-bar:nth-child(1) {
         transform: rotate(45deg);
         transform-origin: 10% 10%;
     }
 
-    .animated--toggler .middle-bar {
+    .animated--toggler .icon-bar:nth-child(2) {
         opacity: 0;
     }
 
-    .animated--toggler .bottom-bar {
+    .animated--toggler .icon-bar:nth-child(3) {
         transform: rotate(-45deg);
         transform-origin: 10% 90%;
-    }
-
-    .animated--toggler.collapsed .top-bar {
-        transform: rotate(0);
-    }
-
-    .animated--toggler.collapsed .middle-bar {
-        opacity: 1;
-    }
-
-    .animated--toggler.collapsed .bottom-bar {
-        transform: rotate(0);
-    }
-
-    .animated--toggler.toggled .top-bar {
-        transform: rotate(0);
-    }
-
-    .animated--toggler.toggled .middle-bar {
-        opacity: 1;
-    }
-
-    .animated--toggler.toggled .bottom-bar {
-        transform: rotate(0);
     }
 
 
@@ -690,16 +671,19 @@
 }
 
 /* link hover underline animation */
+.animated--link-container a,
 .animated--link {
     position: relative;
     color: #007bff;
-    text-decoration: none !important; 
+    text-decoration: none !important;
 }
 
+    .animated--link-container a:hover,
     .animated--link:hover {
         color: #007bff;
     }
 
+    .animated--link-container a:before,
     .animated--link:before {
         content: "";
         position: absolute;
@@ -715,6 +699,7 @@
         transition: all 0.3s ease-in-out 0s;
     }
 
+    .animated--link-container a:hover::before,
     .animated--link:hover:before {
         visibility: visible;
         text-decoration: none;

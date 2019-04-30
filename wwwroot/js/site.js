@@ -15,9 +15,9 @@
   });
 
     // Toggle the side navigation
-    $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+    $(".sidebar-toggler").on('click', function(e) {
         $(".sidebar").toggleClass("toggled");
-        $("#sidebarToggle").toggleClass("toggled");
+        $(".sidebar-toggler").toggleClass("toggled");
         if ($(".sidebar").hasClass("toggled")) {
           $('.sidebar .collapse').collapse('hide');
         };

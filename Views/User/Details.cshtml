@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "用户详情";
+}
+
+@model ApplicationUser
+
+<div class="container-lf">
+    <div class="card mx-auto card-w-30 border-0 shadow-lg my-5">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label">用户名</label>
+                <input asp-for="UserName" class="form-control" disabled/>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">昵称</label>
+                <input asp-for="Name" class="form-control" disabled/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">邮箱</label>
+                <input asp-for="Email" class="form-control" disabled/>
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label">手机号码</label>
+                <input asp-for="PhoneNumber" class="form-control" disabled/>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>
+                <a class="btn btn-lf col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Edit" asp-route-id="@Model.Id">编辑</a>
+            </div>
+        </div>
+    </div>
+</div>

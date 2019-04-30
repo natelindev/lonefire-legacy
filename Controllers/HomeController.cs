@@ -45,12 +45,10 @@ namespace lonefire.Controllers
         public async Task<IActionResult> Index(int page = 1)
         {
             PaginatedList<Article> articles = new PaginatedList<Article>();
-            var article = await _context.Article.OrderByDescending(a => a.AddTime)
-                .FirstOrDefaultAsync(m => m.Title.Contains("公告"));
             try
             {
                 IQueryable<Article> articleIQ = _context.Article
-                .Where(a => !a.Title.Contains("公告") && a.Title != "关于" && a.Status == ArticleStatus.Approved)
+                .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.ArticleID);
 
                 articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, 6);
@@ -68,7 +66,8 @@ namespace lonefire.Controllers
                     a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 100));
                 }
             }
-            articles.Add(article);
+            ViewData["AboutMe"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」首页关于");
+            ViewData["Friends"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」首页友链");
             return View(articles);
         }
 
@@ -88,7 +87,7 @@ namespace lonefire.Controllers
         public async Task<IActionResult> About()
         {
             var article = await _context.Article.OrderByDescending(a => a.AddTime)
-                .FirstOrDefaultAsync(m => m.Title == "关于");
+                .FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」关于");
             if(article == null)
             {
                 article = new Article();

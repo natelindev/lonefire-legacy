@@ -1,0 +1,127 @@
+﻿@{
+    ViewData["Title"] = "用户管理";
+}
+
+@model IEnumerable<ApplicationUser>
+
+<div class="container-lf">
+    <div class="card mx-auto card-w-50 border-0 shadow-lg my-5">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>用户名</th>
+                            <th>邮箱</th>
+                            <th>昵称</th>
+                            <th>锁定状态</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UserName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @if (item.LockoutEnd == null)
+                                    {
+                                        <p>正常</p>
+                                    }
+                                    else
+                                    {
+                                        <p>锁定至: @Html.DisplayFor(modelItem => item.LockoutEnd)</p>
+                                    }
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">编辑</a>
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">详情</a>
+                                    <a href="#" data-toggle="modal" class="btn btn-outline-warning" data-target="#lockModal" data-lock-id="@item.Id" data-name="@item.UserName" data-type="用户">锁定</a>
+                                    <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.Id" data-name="@item.UserName" data-type="用户">
+                                        删除
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lock Modal-->
+    <div class="modal fade" id="lockModal" tabindex="-1" role="dialog" aria-labelledby="lockModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lockModalLabel"></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-11 mx-auto">
+                            <div class="form-row my-3">
+                                <label id="lockIDLabel" class="control-label"></label>
+                                <input type="text" class="form-control" id="locktextid" disabled>
+                            </div>
+                            <div class="form-row my-3">
+                                <label id="lockNameLabel" class="control-label"></label>
+                                <input type="text" class="form-control" id="locktextName" disabled>
+                            </div>
+                            <div class="form-row my-3">
+                                <lalel class="control-label">锁定时长</lalel>
+                                <select id="lock_select" class="form-control"></select>
+                            </div>
+                            <label class="control-label">点击下方的按钮以确认锁定.</label>
+                        </div>
+                    </div>
+
+                </div>
+                <form asp-action="Lock" method="post" id="lockForm">
+                    <div class="modal-footer">
+                        <input type="hidden" name="id" id="lock_input" />
+                        <input type="hidden" name="LockoutEnd" id="lock_end" />
+                        <button class="btn btn-secondary animated--shadow-deep" type="button" data-dismiss="modal">取消</button>
+                        <button id="lockBtn" class="btn btn-lf animated--shadow-deep" type="submit">锁定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <partial name="_DeleteModal" />
+</div>
+
+@section StyleSheets{
+    <environment include="Development">
+        <link href="~/lib/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" />
+    </environment>
+}
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="~/lib/moment.js/moment.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    </environment>
+    <script src="~/js/User/Index.js"></script>
+}

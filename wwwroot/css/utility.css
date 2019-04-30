@@ -230,6 +230,12 @@
     height: 350px;
 }
 
+.img-center {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 /* custom max width cards */
 .card-w-10 {
     max-width: 10rem;
