@@ -1,14 +1,62 @@
 ﻿@{
     ViewData["Title"] = "Archives";
+    int counter = 1;
+    int CurrentYear = DateTime.Now.Year;
+    string count()
+    {
+        if (counter++ % 2 == 0)
+        {
+            return "l";
+        }
+        else
+        {
+            return "r";
+        }
+    }
+
+    string generateYearStamp(DateTime date)
+    {
+        if (date.Year < CurrentYear)
+        {
+            CurrentYear = date.Year;
+            return "<li><div class=\"direction-"+count()+"\"><h1>" + date.Year.ToString() + "</h1></div></li>";
+        }
+        else
+        {
+            return "";
+        }
+    }
 }
 
+@model IEnumerable<Article>
+@inject IConfiguration Configuration
+
 <div class="container-lf">
-    <div class="col-md-9 mx-auto px-0">
-        <div class="card mx-auto my-5 border-0 animated--shadow-translate">
-            <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
-            <div class="card-body">
-                Nunc mi ipsum faucibus vitae aliquet nec ullamcorper sit. Nisi scelerisque eu ultrices vitae auctor. Eu lobortis elementum nibh tellus. Adipiscing tristique risus nec feugiat in fermentum posuere. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. In egestas erat imperdiet sed euismod. Gravida cum sociis natoque penatibus et magnis dis. Libero nunc consequat interdum varius sit amet mattis. Aliquet nec ullamcorper sit amet risus nullam eget felis eget. Pellentesque massa placerat duis ultricies lacus sed turpis tincidunt. Rhoncus dolor purus non enim praesent elementum facilisis leo vel.
-            </div>
+    <div class="card mx-md-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            <ul class="timeline">
+                <li><div class="direction-l"><h1>@DateTime.Now.ToString("yyyy")</h1></div></li>
+                @foreach (var item in Model)
+                {
+                    @Html.Raw(@generateYearStamp(item.AddTime))
+                    <li>
+                        <div class="direction-@count()">
+                            <div class="card card-archive my-3 mx-md-3 border-0 animated--shadow-translate z-3">
+                                <div class="d-flex">
+                                    <img class="card-img-left rounded darken-20 text-economica" src="@Configuration["img_upload_path"]@item.Title/@item.HeaderImg" alt="Header Image">
+                                    <div class="card-img-overlay">
+                                        <h4 class="mx-auto text-economica">@item.Title</h4>
+                                    </div>
+                                    <div class="card-body d-flex h-100">
+                                        <a class="full-div-link z-1" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
         </div>
     </div>
 </div>

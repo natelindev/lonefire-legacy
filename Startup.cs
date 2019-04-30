@@ -76,7 +76,7 @@ namespace lonefire
             {
                 // Cookie save for 7 days
                 options.Cookie.HttpOnly = true; //Prevent JS from accessing cookies
-                options.Cookie.Expiration = TimeSpan.FromDays(7);
+                options.Cookie.Expiration = TimeSpan.FromDays(30);
 
                 // Login Path
                 options.LoginPath = "/Account/Login";

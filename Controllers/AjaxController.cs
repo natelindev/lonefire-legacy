@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using lonefire.Data;
 using lonefire.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -31,6 +33,36 @@ namespace lonefire.Controllers
         }
 
         public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> AjaxLikeArticle(int? articleID)
+        {
+            if (articleID == null)
+            {
+                return NotFound();
+            }
+
+            var articleToUpdate = await _context.Article.SingleOrDefaultAsync(a => a.ArticleID == articleID);
+
+            if (articleToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            ++articleToUpdate.LikeCount;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }catch(Exception e)
+            {
+                _logger.LogInformation("User Like Article Failed For " + articleID);
+                _logger.LogInformation(e.Message);
+            }
+
+            return new OkResult();
+        }
 
         [HttpPost]
         [Authorize]

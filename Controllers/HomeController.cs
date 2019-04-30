@@ -98,9 +98,29 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public IActionResult Archives()
+        public async Task<IActionResult> Archives()
         {
-            return View();
+            List<Article> articles = new List<Article>();
+            try
+            {
+                articles = await _context.Article
+                .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
+                .OrderByDescending(a => a.AddTime).ToListAsync();
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取文章列表失败");
+            }
+            foreach (var a in articles)
+            {
+                a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
+                if (a.Content != null)
+                {
+                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 100));
+                }
+            }
+            return View(articles);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
