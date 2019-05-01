@@ -7,12 +7,13 @@
     IList<Toast> msgs = TempData.GetList<Toast>(Constants.ToastMessage);
 }
 
-@if (msgs != null && msgs.Count > 0)
-{
-    <div class="toast-wrapper mt-2" aria-live="polite" aria-atomic="true">
+<div class="toast-wrapper mt-2" aria-live="polite" aria-atomic="true">
+    @if (msgs != null && msgs.Count > 0)
+    {
+
         @foreach (var msg in msgs)
         {
-            <div class="toast mx-auto text-white shadow-lg bg-@Toaster.LevelToString(msg.Level)" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
+            <div class="toast mx-auto text-white border-0 shadow bg-@Toaster.LevelToString(msg.Level)" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">
                 @*<div class="toast-header">
                         <strong class="mx-auto">通知消息</strong>
                         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
@@ -24,17 +25,5 @@
                 </div>
             </div>
         }
-    </div>
-
-    <style>
-        /* Toast opacity style */
-        .toast-wrapper {
-            position: fixed;
-            opacity: 0.9;
-            top: 1rem;
-            right: 1rem;
-            z-index: 100;
-        }
-    </style>
-}
-
+    }
+</div>

@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-lf">
+    <div class="card border-left-info card-w-30 mx-auto border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_ManageNav" /></div>
+        <div class="card-body">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+

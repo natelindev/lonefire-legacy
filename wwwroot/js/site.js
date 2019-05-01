@@ -68,4 +68,72 @@ $(document).ready(function() {
 
     $('.toast').toast('show');
 
+    //get rgb array from img
+    var colorThief = new ColorThief();
+    var sourceImg = document.getElementById('hidden-header-img');
+    var rgbs = colorThief.getPalette(sourceImg, 8);
+    var hsls = [];
+    //rgb to hsl
+    rgbs.forEach(function(rgb){
+        console.log('rbg: ' + rgb);
+        hsls.push(rgbToHsl(rgb[0],rgb[1],rgb[2]));
+    });
+
+    var generator = new ColorfulBackgroundGenerator();
+
+    // This adds 5 layers to the generator
+    // The parameters are: degree[0-360],
+    //                     h[0-360], 
+    //                     s[0-1], 
+    //                     l[0-1],
+    //                     posColor[0-100], 
+    //                     posTransparency[0-100]
+    // The lowest layer (at the bottom) in the css is the first added layer.
+    hsls.forEach(function(hsl){
+        console.log('hsl: '+ hsl);
+        generator.addLayer(new ColorfulBackgroundLayer({degree: getRandomInt(20,300), h: hsl[0], s: hsl[1], l: hsl[2],posColor: getRandomInt(0,50),posTransparency:getRandomInt(50,80)})); 
+    });
+    
+    // Assign generated style to the element identified by it's id
+    generator.assignStyleToElementId("page-top");
 });
+
+function toast(message,option) {
+    var new_toast = 
+            '<div class="toast mx-auto text-white border-0 shadow-lg bg-'+option+'" role="alert" aria-live="assertive" aria-atomic="true" data-delay="5000">' +
+            '<div class="toast-body">'+
+            message+
+            '</div>'+
+            '</div>';
+        $(new_toast).appendTo(".toast-wrapper");
+        $('.toast').toast('show');
+        setTimeout(function() {
+            $('.toast-wrapper').empty();
+        },6000);
+}
+
+function rgbToHsl(r, g, b){
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if(max == min){
+        h = s = 0; // achromatic
+    }else{
+        var d = (max - min);
+        s = l >= 0.5 ? d / (2 - (max + min)) : d / (max + min);
+        switch(max){
+            case r: h = ((g - b) / d + 0)*60; break;
+            case g: h = ((b - r) / d + 2)*60; break;
+            case b: h = ((r - g) / d + 4)*60; break;
+        }
+    }
+
+    return [h, s, l];
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

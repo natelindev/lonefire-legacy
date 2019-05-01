@@ -613,7 +613,7 @@ button.bg-warning:focus {
     background-color: #f4b30d !important;
 }
 
-.bg-danger,bg-error {
+.bg-danger, .bg-error {
     background-color: #e74a3b !important;
 }
 
@@ -633,7 +633,7 @@ button.bg-light:focus {
     background-color: #d4daed !important;
 }
 
-.bg-dark,bg-debug {
+.bg-dark, .bg-debug {
     background-color: #5a5c69 !important;
 }
 

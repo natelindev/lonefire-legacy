@@ -83,6 +83,38 @@ namespace lonefire.Controllers
             article.Author = _userController.GetNickNameAsync(article.Author).Result.Value;
 
             ViewData["HeaderImg"] = ImageUploadPath+ article.Title +'/' + article.HeaderImg;
+
+            try
+            {
+                List<ArticleIndexVM> articles = await _context.ArticleIndexVM.FromSql("SELECT ArticleID,Title,Author,Tag,AddTime,Status FROM Articles")
+                .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
+                .OrderByDescending(a => a.AddTime).ToListAsync();
+                int idx = articles.FindIndex(a => a.ArticleID == id);
+
+                if (articles.Count > 1)
+                {
+                    if (idx == 0)
+                    {
+                        ViewData["Next"] = articles[idx + 1];
+                    }
+                    else if (idx == articles.Count - 1)
+                    {
+                        ViewData["Prev"] = articles[idx - 1];
+                    }
+                    else
+                    {
+                        ViewData["Prev"] = articles[idx - 1];
+                        ViewData["Next"] = articles[idx + 1];
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取文章列表失败");
+            }
+
+            ViewData["Related"] = await GetRelatedArticles(article);
             return View(article);
         }
 
@@ -456,6 +488,14 @@ namespace lonefire.Controllers
                 var query = context.RouteContext.HttpContext.Request.Query;
                 return query.Count == keys.Length && keys.All(query.ContainsKey);
             }
+        }
+
+        public async Task<List<Article>> GetRelatedArticles(Article article)
+        {
+            //Randomly pick 3 articles
+            //TODO: Actually implement this.
+            var random = new Random();
+            return await _context.Article.Where(a => !a.Title.Contains("「LONEFIRE」") && a.Title != article.Title && a.Status == ArticleStatus.Approved).OrderBy(s => random.NextDouble()).Take(3).ToListAsync();
         }
 
         #endregion

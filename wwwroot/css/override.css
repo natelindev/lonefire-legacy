@@ -4,6 +4,9 @@
     border-radius: 0.35rem 0.35rem 0 0;
 }
 
+body {
+    height: 100% !important;
+}
 
 @media(max-width: 768px) {
     .navbar-brand {

@@ -14,7 +14,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
               integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
-    </environment> 
+    </environment>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Economica|Noto+Sans+SC|Noto+Serif+SC|Titillium+Web|Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="~/css/override.css" />
@@ -26,14 +26,17 @@
     @RenderSection("StyleSheets", required: false)
 </head>
 @{
-    ViewData["HeaderImg"] = ViewData["HeaderImg"] ?? "https://images.unsplash.com/photo-1483611703176-31a1e4306d2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1491&q=80";
+    ViewData["HeaderImg"] = ViewData["HeaderImg"] ?? "/img/bg-default.jpeg";
 }
 <body id="page-top" data-spy="scroll" data-target="#toc">
 
     <partial name="_Spinner" />
 
     <partial name="_Toast" />
-
+    <style type="text/css">
+        #page-top {
+        }
+    </style>
     <header>
         <div class="pb-10" style="background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('@ViewData["HeaderImg"]'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
             <nav class="navbar navbar-expand-md navbar-dark h4 text-economica">
@@ -42,17 +45,17 @@
                 <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Portfolio">Portfolio</a>
+                            <a class="nav-link @PageManager.IsActive(ViewContext,"Home","Portfolio")" asp-controller="Home" asp-action="Portfolio">Portfolio</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Archives">Archives</a>
+                            <a class="nav-link @PageManager.IsActive(ViewContext,"Home","Archives")" asp-controller="Home" asp-action="Archives">Archives</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="About">About</a>
+                            <a class="nav-link @PageManager.IsActive(ViewContext,"Home","About")" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
                 </div>
@@ -80,7 +83,8 @@
         <a class="scroll-to-top rounded z-1" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-</main>
+        <img id="hidden-header-img" class="d-none" src="@ViewData["HeaderImg"]" />
+    </main>
 
     <partial name="_CookieConsentPartial" />
 
@@ -110,6 +114,7 @@
         <script src="~/lib/jquery-easing/jquery.easing.js"></script>
         <script src="~/lib/jquery-hoverIntent/jquery.hoverIntent.min.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+        <script src="~/lib/color-thief/dist/color-thief.min.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
@@ -124,13 +129,13 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
                 integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js"></script>
     </environment>
-
+    <script src="~/lib/colorful-background-css-generator/dist/colorful-background-css-generator.min.js"></script>
     <script src="~/js/site.js" asp-append-version="false"></script>
 
     @RenderSection("Scripts", required: false)
 
 </body>
-
 
 </html>

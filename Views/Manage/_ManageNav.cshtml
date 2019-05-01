@@ -1,0 +1,12 @@
+﻿@using lonefire.Views
+@inject SignInManager<ApplicationUser> SignInManager
+
+<ul class="nav nav-tabs card-header-tabs">
+    <li class="nav-item">
+        <a class="nav-link @PageManager.IsActive(ViewContext,"Manage","Index")" asp-action="Index">用户信息</a>
+    </li>
+    <partial name="_Toast" />
+    <li class="nav-item">
+        <a class="nav-link @PageManager.IsActive(ViewContext,"Manage","ChangePassword")" asp-action="ChangePassword">修改密码</a>
+    </li>
+</ul>

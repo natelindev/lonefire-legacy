@@ -17,9 +17,6 @@ button.onclick=function() {
     var articleID=this.getAttribute('articleID');
     var count = parseInt(this.getAttribute('count'),10);
     if (!hasLiked(articleID)) {
-        //register the like in your system
-        //...
-        //
 
         $.ajax({
             url: '/Ajax/AjaxLikeArticle',
@@ -31,11 +28,10 @@ button.onclick=function() {
             success: function(data) {
                 button.innerText="点赞 "+(count+1);
             }
-            });
+        });
 
         setLike(articleID);
     } else {
-        alert('只能点一次赞哦!');
+        toast('只能点一次赞哦','danger');
     }
 }
-

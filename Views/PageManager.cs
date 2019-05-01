@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using lonefire.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace lonefire.Views
@@ -13,8 +14,10 @@ namespace lonefire.Views
             var controllerName = viewContext.RouteData.Values["controller"] as string;
             var actionName = viewContext.RouteData.Values["action"] as string;
             return controllerName == "Article" && actionName == "Index" ||
-                    controllerName == "Article" && actionName == "Billboard" ||
-                   controllerName == "User" 
+                   controllerName == "Article" && actionName == "Billboard" ||
+                   controllerName == "User" ||
+                   controllerName == "Tag" ||
+                   controllerName == "Manage"
             ;
         }
 

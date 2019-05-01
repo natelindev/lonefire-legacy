@@ -49,7 +49,7 @@ namespace lonefire.Controllers
             {
                 IQueryable<Article> articleIQ = _context.Article
                 .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
-                .OrderByDescending(a => a.ArticleID);
+                .OrderByDescending(a => a.AddTime);
 
                 articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, 6);
             }

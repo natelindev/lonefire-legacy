@@ -19,5 +19,8 @@ namespace lonefire.Models.ManageViewModels
 
         [Display(Name = "昵称")]
         public string Name { get; set; }
+
+        [Display(Name = "个人描述")]
+        public string Description { get; set; }
     }
 }
