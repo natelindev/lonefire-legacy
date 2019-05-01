@@ -38,7 +38,7 @@
         }
     </style>
     <header>
-        <div class="pb-10" style="background: linear-gradient( rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) ), url('@ViewData["HeaderImg"]'); background-size: cover; background-repeat: no-repeat; background-position: center center;">
+        <div class="pb-10">
             <nav class="navbar navbar-expand-md navbar-dark h4 text-economica">
                 <img src="/img/logo.svg" class="img-brand img-h-32" />
                 <a class="navbar-brand navbrand" asp-controller="Home" asp-action="Index">LONEFIRE</a>
@@ -70,6 +70,8 @@
                 <img src="/img/brand-bold.svg" class="img-h-100 mx-auto my-auto h1 text-economica" alt="LONEFIRE" />
                 <a class="full-div-link z-1" asp-controller="Home" asp-action="Index"></a>
             </div>
+
+            <img id="header-img" class="header-img darken-20" src='@ViewData["HeaderImg"]' />
         </div>
 
     </header>
@@ -83,7 +85,6 @@
         <a class="scroll-to-top rounded z-1" href="#page-top">
             <i class="fas fa-angle-up"></i>
         </a>
-        <img id="hidden-header-img" class="d-none" src="@ViewData["HeaderImg"]" />
     </main>
 
     <partial name="_CookieConsentPartial" />

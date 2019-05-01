@@ -70,7 +70,7 @@ $(document).ready(function() {
 
     //get rgb array from img
     var colorThief = new ColorThief();
-    var sourceImg = document.getElementById('hidden-header-img');
+    var sourceImg = document.getElementById('header-img');
     var rgbs = colorThief.getPalette(sourceImg, 8);
     var hsls = [];
     //rgb to hsl
