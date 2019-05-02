@@ -293,7 +293,6 @@ namespace lonefire.Controllers
                 //save the Images
                 if (headerImg != null || contentImgs.Count > 0)
                 {
-
                     List<string> ArticleImgs = new List<string>();
                     if (headerImg != null)
                     {
@@ -310,6 +309,25 @@ namespace lonefire.Controllers
 
                     if (ArticleImgs.Count > 0)
                         article.MediaSerialized = JsonConvert.SerializeObject(ArticleImgs);
+                }
+
+                //Add the tags
+                if (!string.IsNullOrWhiteSpace(article.Tag))
+                {
+                    var tags = article.Tag.Split(',').ToList();
+                    foreach(var tag in tags)
+                    {
+                        var old_tag = await _context.Tag.Where(t => t.TagName == tag).FirstOrDefaultAsync();
+                        if (old_tag != null)
+                        {
+                            //existing tag
+                            old_tag.TagCount++;
+                        }
+                        else{
+                            //new tag
+                            _context.Add(new Tag(){ TagName = tag, TagCount = 1 });
+                        }
+                    }
                 }
 
                 _context.Add(article);
@@ -414,6 +432,40 @@ namespace lonefire.Controllers
                     //prevent empty author
                     articleToUpdate.Author = articleToUpdate.Author ?? _userManager.GetUserId(User);
 
+                    //Tag Update
+                    if(articleToUpdate.Tag != HttpContext.Request.Form["Tag"])
+                    {
+                        var old_tags = articleToUpdate.Tag.Split(',').ToList();
+                        var new_tags = ((string)HttpContext.Request.Form["Tag"]).Split(',').ToList();
+                        foreach(var o_tag in old_tags)
+                        {
+                            //Check if in the new
+                            var res = new_tags.FirstOrDefault(t => t == o_tag);
+                            if(res == null)
+                            {
+                                //Not in new
+                                //Reduce tagCount
+                                var tag = await _context.Tag.Where(t => t.TagName == o_tag).FirstOrDefaultAsync();
+                                --tag.TagCount;
+                                if (tag.TagCount == 0)
+                                {
+                                    // Delete on count to zero
+                                    _context.Tag.Remove(tag);
+                                }
+                            }
+                            else
+                            {
+                                //Remove from new
+                                new_tags.Remove(res);
+                            }
+                        }
+                        foreach(var n_tag in new_tags)
+                        {
+                            //Add all new tags
+                            _context.Add(new Tag() { TagName=n_tag,TagCount = 1});
+                        }
+                    }
+
                     await _context.SaveChangesAsync();
                     _toaster.ToastSuccess("文章更新成功");
                 }
@@ -454,6 +506,18 @@ namespace lonefire.Controllers
             _io_Helper.DeleteImgDir(article.Title);
 
             //Comments were casecade deleted.
+
+            //Reduce Tag Count
+            var tags = article.Tag.Split(',').ToList();
+            foreach(var tag in tags)
+            {
+                var ta = await _context.Tag.Where(t => t.TagName == tag).FirstOrDefaultAsync();
+                ta.TagCount--;
+                if(ta.TagCount == 0)
+                {
+                    _context.Tag.Remove(ta);
+                }
+            }
 
             //delete the article
             _context.Article.Remove(article);

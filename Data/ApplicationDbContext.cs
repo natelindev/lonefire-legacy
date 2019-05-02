@@ -17,6 +17,7 @@ namespace lonefire.Data
         public virtual DbSet<ArticleIndexVM> ArticleIndexVM { get; set; }
         public virtual DbSet<Article> Article { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<Tag> Tag { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,11 +30,13 @@ namespace lonefire.Data
             builder.Entity<ApplicationUser>().ToTable("Users");
             builder.Entity<Article>().ToTable("Articles");
             builder.Entity<Comment>().ToTable("Comments");
+            builder.Entity<Tag>().ToTable("Tags");
 
             builder.Entity<Comment>().Property(p => p.CommentID).ValueGeneratedOnAdd();
             builder.Entity<Comment>().Property(p => p.AddTime).HasDefaultValueSql("GETDATE()").ValueGeneratedOnAdd();
             builder.Entity<Article>().Property(p => p.ArticleID).ValueGeneratedOnAdd();
             builder.Entity<Article>().Property(p => p.AddTime).HasDefaultValueSql("GETDATE()").ValueGeneratedOnAdd();
+            builder.Entity<Tag>().Property(p => p.TagID).ValueGeneratedOnAdd();
 
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
