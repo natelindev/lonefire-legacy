@@ -68,6 +68,7 @@ namespace lonefire.Controllers
             }
             ViewData["AboutMe"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」首页关于");
             ViewData["Friends"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」首页友链");
+            ViewData["Tags"] = await _context.Tag.OrderByDescending(t => t.TagCount).Take(6).ToListAsync();
             return View(articles);
         }
 

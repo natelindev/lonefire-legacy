@@ -23,11 +23,11 @@ namespace lonefire.Controllers
     public class ArticleController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IToaster _toaster;
         private readonly IAuthorizationService _aus;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CommentController _commentController;
         private readonly UserController _userController;
-        private readonly IToaster _toaster;
         private readonly IFileIOHelper _io_Helper;
         private readonly IConfiguration _config;
 
@@ -116,31 +116,6 @@ namespace lonefire.Controllers
 
             ViewData["Related"] = await GetRelatedArticles(article);
             return View(article);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [ExactQueryParam("Tag")]
-        public async Task<IActionResult> List(int? Tag)
-        {
-            if (Tag == null)
-            {
-                return NotFound();
-            }
-
-            List<Article> articles = new List<Article>();
-
-            try
-            {
-                articles = await _context.Article.Where(a => a.Tag.Contains(Tag.ToString()) && a.Status == ArticleStatus.Approved).ToListAsync();
-
-            }
-            catch (Exception)
-            {
-                _toaster.ToastError("读取文章列表失败");
-            }
-
-            return View(articles);
         }
 
         // GET: Article
