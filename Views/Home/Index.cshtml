@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "主页";
     var AboutMe = ViewData["AboutMe"] as Article;
     var Friends = ViewData["Friends"] as Article;
     var Tags = ViewData["Tags"] as List<Tag>;
@@ -25,7 +25,7 @@
                                         {
                                             @foreach (var t in item.Tag.Split(',').ToList<string>())
                                             {
-                                                <a class="btn btn-outline-light px-1 py-1 position-relative z-2" href="#">@t</a>
+                                                <a class="btn btn-outline-light px-1 py-1 position-relative z-2" asp-controller="Tag" asp-action="List" asp-route-name="@t">@t</a>
                                             }
                                         }
                                     </div>
@@ -130,27 +130,27 @@
                             <div class="d-flex flex-wrap">
                                 <h2 class="mx-auto mt-3 text-economica">Tags</h2>
                                 <div class="d-flex flex-wrap my-3">
-                                @foreach (var tag in Tags){
-                                    <a class="btn btn-outline-primary mx-2 my-2 px-2 py-2 z-2" asp-controller="Tag" asp-action="List" asp-route-id="@tag.TagID">@tag.TagName @tag.TagCount</a>
-                                    <a class="full-div-link z-1" asp-controller="Tag" asp-action="Index"></a>
-                                }
-                               </div>
-                            </div>
+                                    @foreach(var tag in Tags)
+                                    {
+                                        <a class="btn btn-outline-primary mx-2 my-2 px-2 py-2 z-2" asp-controller="Tag" asp-action="List" asp-route-id="@tag.TagID">@tag.TagName @tag.TagCount</a>
+                                    }
+                                </div>
+                                <a class="full-div-link z-1" href="/Tag"></a>
                             </div>
                         </div>
-                        <div class="card mx-auto my-3 h-px-300 border-0 animated--shadow-translate">
-                            <div class="card-body">
-                                <div class="d-flex">
-                                    <h2 class="mx-auto mt-3 text-economica">Friends</h2>
-                                </div>
-                                <div class="d-flex flex-wrap my-3 animated--link-container">
-                                    <markdown markdown="@Friends.Content"></markdown>
-                                </div>
+                    </div>
+                    <div class="card mx-auto my-3 h-px-300 border-0 animated--shadow-translate">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <h2 class="mx-auto mt-3 text-economica">Friends</h2>
+                            </div>
+                            <div class="d-flex flex-wrap my-3 animated--link-container">
+                                <markdown markdown="@Friends.Content"></markdown>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+</div>

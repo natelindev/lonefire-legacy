@@ -75,7 +75,7 @@ $(document).ready(function() {
     var hsls = [];
     //rgb to hsl
     rgbs.forEach(function(rgb){
-        console.log('rbg: ' + rgb);
+        //console.log('rbg: ' + rgb);
         hsls.push(rgbToHsl(rgb[0],rgb[1],rgb[2]));
     });
 
@@ -90,7 +90,7 @@ $(document).ready(function() {
     //                     posTransparency[0-100]
     // The lowest layer (at the bottom) in the css is the first added layer.
     hsls.forEach(function(hsl){
-        console.log('hsl: '+ hsl);
+        //console.log('hsl: '+ hsl);
         generator.addLayer(new ColorfulBackgroundLayer({degree: getRandomInt(20,300), h: hsl[0], s: hsl[1], l: hsl[2],posColor: getRandomInt(0,50),posTransparency:getRandomInt(50,80)})); 
     });
     

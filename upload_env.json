@@ -1,4 +1,5 @@
 ﻿{
   "img_upload_path": "/img/uploads/",
+  "avatar_upload_path": "/img/avatars/",
   "file_upload_path": "/file/uploads/"
 }

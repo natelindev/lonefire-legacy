@@ -36,7 +36,7 @@
                             <div class="mx-auto ml-sm-auto mr-sm-4 my-2">标签: 
                             @if(!string.IsNullOrEmpty(Model.Tag)){
                                             @foreach (var t in Model.Tag.Split(',').ToList<string>()){
-                                                <a class="btn btn-outline-info px-1 py-1" href="#">@t</a>
+                                                <a class="btn btn-outline-primary px-1 py-1" asp-controller="Tag" asp-action="List" asp-route-name="@t">@t</a>
                                             }
                                         }
                             </div>

@@ -197,11 +197,11 @@ namespace lonefire.Controllers
                 {
                     var cvm = new CommentViewModel
                     {
-                        ID = c.ArticleID,
+                        CommentID = c.CommentID,
                         Content = c.Content,
                         Author = _userController.GetNickNameAsync(c.Author).Result.Value,
                         AddTime = c.AddTime.ToLocalTime(),
-                        Childs = GetChildComments(comments, c.ArticleID)
+                        Childs = GetChildComments(comments, c.CommentID)
                     };
                     cvms.Add(cvm);
                 }
@@ -231,7 +231,7 @@ namespace lonefire.Controllers
             {
                 var cvm = new CommentViewModel
                 {
-                    ID = c.CommentID,
+                    CommentID = c.CommentID,
                     Content = c.Content,
                     Author = _userController.GetNickNameAsync(c.Author).Result.Value,
                     AddTime = c.AddTime.ToLocalTime(),

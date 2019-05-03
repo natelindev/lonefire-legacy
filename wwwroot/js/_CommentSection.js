@@ -24,8 +24,7 @@ window.addEventListener('DOMContentLoaded',
     $(".comment-reply-btn").on('click', function(event){
         event.stopPropagation();
         event.stopImmediatePropagation();
-        $('#new_reply').show();
-        $('#new_reply').insertAfter(this);
+        $('#new_reply').insertAfter($(this).parent());
 
         var parentid = $(this).data('parent-id');
         $('#parent_id_input').val(parentid);

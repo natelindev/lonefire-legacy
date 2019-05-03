@@ -2,29 +2,32 @@
 @using lonefire.Models
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IConfiguration Configuration
 
-<div class="card mx-auto my-2">
-    <div class="card-header border-0"><partial name="_CardHeader" model='"发表新评论"' /></div>
-    <div class="card-body">
+<div class="comment" id="new_reply">
+    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]/Default-1.png" />
+    <div class="comment-body">
         @if (SignInManager.IsSignedIn(User))
         {
-        <form asp-controller="Comment" asp-action="Create">
-            <input type="hidden" name="ArticleID" value="@ViewContext.RouteData.Values["id"]" />
-            <input type="hidden" name="returnUrl" value="@PageManager.GetReturnUrl(ViewContext)" />
-            <div class="form-row">
-                <textarea name="Content" class="form-control h-px-150"></textarea>
-            </div>
-            <div class="form-row">
-                <h7 data-toc-skip class="text-primary ml-3 mr-auto mt-4">当前用户:@UserManager.GetUserName(User)</h7>
-                <button class="btn btn-lf text-white ml-auto mr-3 mt-3 animated--shadow-deep" type="submit"><h7>评论<h7></button>
-            </div>
-        </form>
+            <form asp-controller="Comment" asp-action="Create">
+                <input type="hidden" name="ArticleID" value="@ViewContext.RouteData.Values["id"]" />
+                <input type="hidden" name="returnUrl" value="@PageManager.GetReturnUrl(ViewContext)" />
+                <input type="hidden" name="ParentID" id="parent_id_input" />
+                <div class="form-row mr-2">
+                    <textarea name="Content" class="form-control h-px-150"></textarea>
+                    <label class="small text-gray-600">评论区支持MarkDown语法和Html语法，免疫XSS</label>
+                </div>
+                <div class="form-row">
+                    <p class="text-primary mr-auto mt-3">当前用户:@UserManager.GetUserName(User)</p>
+                    <button class="btn btn-lf text-white ml-auto mr-3 mt-3 animated--shadow-deep" type="submit">评论</button>
+                </div>
+            </form>
         }
-        else{
-    <div class="row">
-        <p class="mx-auto my-4">请<a class="animated--link" asp-controller="Account" asp-action="Login" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">登录</a>或<a class="animated--link" asp-controller="Account" asp-action="Register" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">注册</a>后发表评论...</p>
-    </div>
+        else
+        {
+            <div class="row">
+                <p class="mx-auto my-4">请<a class="animated--link" asp-controller="Account" asp-action="Login" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">登录</a>或<a class="animated--link" asp-controller="Account" asp-action="Register" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">注册</a>后发表评论...</p>
+            </div>
         }
     </div>
 </div>
-

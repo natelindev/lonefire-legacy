@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -509,25 +508,6 @@ namespace lonefire.Controllers
         }
 
         #region Helper
-
-        //Get Function Overloading Helper
-        public class ExactQueryParamAttribute : Attribute, IActionConstraint
-        {
-            private readonly string[] keys;
-
-            public ExactQueryParamAttribute(params string[] keys)
-            {
-                this.keys = keys;
-            }
-
-            public int Order => 0;
-
-            public bool Accept(ActionConstraintContext context)
-            {
-                var query = context.RouteContext.HttpContext.Request.Query;
-                return query.Count == keys.Length && keys.All(query.ContainsKey);
-            }
-        }
 
         public async Task<List<Article>> GetRelatedArticles(Article article)
         {

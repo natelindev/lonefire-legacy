@@ -31,6 +31,13 @@
     z-index: -1;
 }
 
+.tag-cloud-img {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: -1.25rem;
+    width: auto;
+}
+
 /* Toast style */
 .toast-wrapper {
     position: fixed;
@@ -74,16 +81,41 @@
     font-family: Simsun;
 }
 
-/* Custom text imgae overlay */
-.card-img-overlay {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    padding: 1.25rem;
-    color: #fff;
-    text-decoration: none;
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1em;
+}
+
+.comment-avatar {
+    margin-right: 1em;
+}
+
+.comment-body {
+    flex: 1;
+}
+
+    .comment-body,
+    .comment-body :last-child {
+        margin-bottom: 0;
+    }
+
+.comment-title {
+    margin: 0 0 .5em;
+}
+
+.comment--center {
+    align-items: center;
+}
+
+.comment--reverse > .comment-avatar {
+    order: 1;
+    margin: 0 0 0 1em;
+}
+
+.border-comment {
+    border-top: 2px solid #e9ecef !important;
 }
 
 .scroll-to-top {
@@ -110,6 +142,46 @@
     .scroll-to-top i {
         font-weight: 800;
     }
+
+
+/* Flexbox Masonry */
+.masonry {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: space-between;
+    /* Your container needs a fixed height, and it 
+   * needs to be taller than your tallest column. */
+    height: 600px;
+}
+
+.masonry .item {
+    width: 32%;
+    margin-bottom: 2%; /* Optional */
+    height:auto;
+    max-height:100%;
+}
+
+    /* Re-order items into 3 rows */
+    .masonry .item:nth-child(3n+1) {
+        order: 1;
+    }
+
+    .masonry .item:nth-child(3n+2) {
+        order: 2;
+    }
+
+    .masonry .item:nth-child(3n) {
+        order: 3;
+    }
+
+/* Force new columns */
+.masonry::before,
+.masonry::after {
+    content: "";
+    flex-basis: 100%;
+    width: 0;
+    order: 2;
+}
 
 /* Flexbox sticky footer */
 body {
@@ -211,9 +283,13 @@ main {
     .card .card-img-left {
         object-fit: cover;
     }
+    
+.card-img-fit{
+    object-fit: cover;
+}
 
 .card-archive {
-    max-height:10rem;
+    max-height: 10rem;
     width: auto;
     position: relative;
 }
@@ -307,7 +383,7 @@ main {
 
         .sidebar.sidebar-right .sidebar-toggler {
             margin-left: auto;
-            margin-right: 0.1rem;
+            margin-right: -0.1rem;
         }
 
     .sidebar .nav-item {
