@@ -59,7 +59,7 @@ namespace lonefire.Controllers
             }
             foreach(var a in articles)
             {
-                a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
+                a.Author = await _userController.GetNickNameAsync(a.Author);
                 if(a.Content != null)
                 {
                     a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
@@ -94,7 +94,7 @@ namespace lonefire.Controllers
                 article = new Article();
                 _toaster.ToastWarning("暂时没有 关于我 的内容");
             }
-            ViewData["Comments"] = _commentController.GetAllCommentsAsync(article.ArticleID).Result.Value;
+            ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
             return View(article);
         }
 
@@ -114,7 +114,7 @@ namespace lonefire.Controllers
             }
             foreach (var a in articles)
             {
-                a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
+                a.Author = await _userController.GetNickNameAsync(a.Author);
                 if (a.Content != null)
                 {
                     a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);

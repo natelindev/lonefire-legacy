@@ -160,6 +160,7 @@ namespace lonefire
                         .UseEmojiAndSmiley(true)
                         .UseListExtras()
                         .UseFigures()
+                        .UseMathematics()
                         .UseTaskLists()
                         .UseCustomContainers()
                         .UseGenericAttributes();

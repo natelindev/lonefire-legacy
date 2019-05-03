@@ -72,14 +72,14 @@ namespace lonefire.Controllers
             }
 
             //Get Comments
-            ViewData["Comments"] = _commentController.GetAllCommentsAsync(article.ArticleID).Result.Value;
+            ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
 
             article.ViewCount++;
             await _context.SaveChangesAsync();
 
             article.Content = LF_MarkdownParser.Parse(article.Content, ImageUploadPath + article.Title + '/');
 
-            article.Author = _userController.GetNickNameAsync(article.Author).Result.Value;
+            article.Author = await _userController.GetNickNameAsync(article.Author);
 
             ViewData["HeaderImg"] = ImageUploadPath+ article.Title +'/' + article.HeaderImg;
 
@@ -136,7 +136,7 @@ namespace lonefire.Controllers
             foreach (var a in articles)
             {
                 var user = await _userManager.FindByIdAsync(a.Author);
-                a.Author = _userController.GetNickNameAsync(a.Author).Result.Value;
+                a.Author = await _userController.GetNickNameAsync(a.Author);
             }
 
             var res = await articles.ToListAsync();
@@ -169,7 +169,7 @@ namespace lonefire.Controllers
                 return new ChallengeResult();
             }
 
-            article.Author = _userController.GetNickNameAsync(article.Author).Result.Value;
+            article.Author = await _userController.GetNickNameAsync(article.Author);
 
             return View(article);
         }

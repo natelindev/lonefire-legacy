@@ -149,42 +149,59 @@
 
 
 /* Flexbox Masonry */
-.masonry {
-    display: flex;
-    flex-flow: column wrap;
-    align-content: space-between;
-    /* Your container needs a fixed height, and it 
-   * needs to be taller than your tallest column. */
-    height: 600px;
+@media (min-width:768px) {
+    .masonry {
+        display: flex;
+        flex-flow: column wrap;
+        align-content: space-between;
+        /* Your container needs a fixed height, and it 
+* needs to be taller than your tallest column. */
+        height: 600px;
+    }
+
+        .masonry .item {
+            width: 32%;
+            margin-bottom: 2%; /* Optional */
+            height: auto;
+            max-height: 100%;
+        }
+
+            /* Re-order items into 3 rows */
+            .masonry .item:nth-child(3n+1) {
+                order: 1;
+            }
+
+            .masonry .item:nth-child(3n+2) {
+                order: 2;
+            }
+
+            .masonry .item:nth-child(3n) {
+                order: 3;
+            }
+
+        /* Force new columns */
+        .masonry::before,
+        .masonry::after {
+            content: "";
+            flex-basis: 100%;
+            width: 0;
+            order: 2;
+        }
 }
 
-.masonry .item {
-    width: 32%;
-    margin-bottom: 2%; /* Optional */
-    height:auto;
-    max-height:100%;
-}
-
-    /* Re-order items into 3 rows */
-    .masonry .item:nth-child(3n+1) {
-        order: 1;
+@media (max-width:768px) {
+    .masonry {
+        display: flex;
+        flex-wrap: wrap;
     }
 
-    .masonry .item:nth-child(3n+2) {
-        order: 2;
-    }
+        .masonry .item {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
 
-    .masonry .item:nth-child(3n) {
-        order: 3;
-    }
-
-/* Force new columns */
-.masonry::before,
-.masonry::after {
-    content: "";
-    flex-basis: 100%;
-    width: 0;
-    order: 2;
+            margin-top: 1rem;
+        }
 }
 
 /* Flexbox sticky footer */
@@ -254,7 +271,7 @@ main {
     .container-lf:after {
         content: none
     }
-    
+
 .card-article {
     width: 100%;
 }
@@ -276,19 +293,20 @@ main {
         width: 17rem;
     }
 }
-    .card-article .card-img-top {
-        object-fit: cover;
-    }
 
-    .card-article .article-footer {
-        align-self: center;
-    }
+.card-article .card-img-top {
+    object-fit: cover;
+}
 
-    .card .card-img-left {
-        object-fit: cover;
-    }
-    
-.card-img-fit{
+.card-article .article-footer {
+    align-self: center;
+}
+
+.card .card-img-left {
+    object-fit: cover;
+}
+
+.card-img-fit {
     object-fit: cover;
 }
 
@@ -304,21 +322,21 @@ main {
         max-height: 100%;
     }
 
-    .full-div-link {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        bottom: 0;
-    }
-    
+.full-div-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
 .card-related {
     max-height: 10rem;
     max-width: 30%
 }
 
     .card-related .card-img-top {
-        object-fit:cover;
+        object-fit: cover;
     }
 
 @media screen and (max-width: 768px) {
@@ -482,11 +500,11 @@ main {
                         font-weight: 700;
                     }
 
-    .sidebar.toggled{
+    .sidebar.toggled {
         max-width: 500px;
         max-height: 500px;
     }
-        
+
     .sidebar hr.sidebar-divider {
         margin: 0 1rem 1rem;
     }
@@ -545,18 +563,19 @@ main {
         text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15);
     }
 
-    .direction-l {
-        position: relative;
-        width: 300px;
-        float: left;
-        text-align: right;
-    }
+.direction-l {
+    position: relative;
+    width: 300px;
+    float: left;
+    text-align: right;
+}
 
 .direction-r {
     position: relative;
     width: 300px;
     float: right;
 }
+
     .direction-l:before,
     .direction-r:before {
         position: absolute;
@@ -595,19 +614,19 @@ main {
         text-align: center;
     }
 
-    .direction-l:before,
-    .direction-r:before {
-        position: absolute;
-        top: -30px;
-        left: 50%;
-        content: ' ';
-        display: block;
-        width: 1rem;
-        height: 1rem;
-        margin-left: -8px;
-        background: #fff;
-        border-radius: 10px;
-        border: 4px solid rgb(255,80,80);
-        z-index: 2;
-    }
+        .direction-l:before,
+        .direction-r:before {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            content: ' ';
+            display: block;
+            width: 1rem;
+            height: 1rem;
+            margin-left: -8px;
+            background: #fff;
+            border-radius: 10px;
+            border: 4px solid rgb(255,80,80);
+            z-index: 2;
+        }
 }

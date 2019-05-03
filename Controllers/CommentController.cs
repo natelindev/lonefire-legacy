@@ -9,6 +9,7 @@ using lonefire.Data;
 using lonefire.Models.CommentViewModels;
 using Microsoft.AspNetCore.Identity;
 using lonefire.Models;
+using lonefire.Extensions;
 
 namespace lonefire.Controllers
 {
@@ -182,7 +183,7 @@ namespace lonefire.Controllers
 
         #region Helpers
 
-        public async Task<ActionResult<List<CommentViewModel>>> GetAllCommentsAsync(int id)
+        public async Task<List<CommentViewModel>> GetAllCommentsAsync(int id)
         {
             //Get Comments
             List<Comment> comments = await _context.Comment.Where(c => c.ArticleID == id).ToListAsync();
@@ -191,17 +192,16 @@ namespace lonefire.Controllers
             //Build up structure of comments
             foreach (var c in comments)
             {
-                c.AddTime = c.AddTime.ToLocalTime();
-
                 if (c.ParentID == null)
                 {
                     var cvm = new CommentViewModel
                     {
                         CommentID = c.CommentID,
-                        Content = c.Content,
-                        Author = _userController.GetNickNameAsync(c.Author).Result.Value,
+                        Content = LF_MarkdownParser.ParseWithoutStyle(c.Content),
+                        Author = await _userController.GetNickNameAsync(c.Author),
                         AddTime = c.AddTime.ToLocalTime(),
-                        Childs = GetChildComments(comments, c.CommentID)
+                        Childs = await GetChildCommentsAsync(comments, c.CommentID),
+                        Avatar = await _userController.GetAvatarAsync(c.Author)
                     };
                     cvms.Add(cvm);
                 }
@@ -222,20 +222,20 @@ namespace lonefire.Controllers
         }
 
         //Recursive child comment fetcher
-        public List<CommentViewModel> GetChildComments(List<Comment> comments, int cid)
+        public async Task<List<CommentViewModel>> GetChildCommentsAsync(List<Comment> comments, int cid)
         {
             List<Comment> child_comments = comments.Where(c => c.ParentID == cid).ToList();
             List<CommentViewModel> cvms = new List<CommentViewModel>();
-
             foreach (var c in child_comments)
             {
                 var cvm = new CommentViewModel
                 {
                     CommentID = c.CommentID,
-                    Content = c.Content,
-                    Author = _userController.GetNickNameAsync(c.Author).Result.Value,
+                    Content = LF_MarkdownParser.ParseWithoutStyle(c.Content),
+                    Author = await _userController.GetNickNameAsync(c.Author),
                     AddTime = c.AddTime.ToLocalTime(),
-                    Childs = GetChildComments(comments, c.CommentID)
+                    Childs = await GetChildCommentsAsync(comments, c.CommentID),
+                    Avatar = await _userController.GetAvatarAsync(c.Author)
                 };
                 cvms.Add(cvm);
             }

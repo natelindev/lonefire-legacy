@@ -18,18 +18,21 @@ namespace lonefire.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IFileIOHelper _io_helper;
         private readonly IConfiguration _config;
+        private readonly CommentController _commentController;
 
         public AjaxController(
             ILogger<AccountController> logger,
             ApplicationDbContext context,
             IFileIOHelper ioHelper,
-            IConfiguration config
+            IConfiguration config,
+            CommentController commentController
            )
         {
             _io_helper = ioHelper;
             _logger = logger;
             _context = context;
             _config = config;
+            _commentController = commentController;
         }
 
         public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
@@ -84,6 +87,15 @@ namespace lonefire.Controllers
 
             return Content(jsonString, "application/json");
 
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> AjaxGetComments(int id)
+        {
+            var comments = await _commentController.GetAllCommentsAsync(id);
+            var jsonString = JsonConvert.SerializeObject(comments);
+            return Content(jsonString, "application/json");
         }
     }
 }

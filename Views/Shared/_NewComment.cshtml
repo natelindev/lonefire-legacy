@@ -3,11 +3,18 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IConfiguration Configuration
+@inject UserController UserController
 
-<div class="comment" id="new_reply">
-    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]/default-1.png" />
+<div class="comment border-comment pt-3 pl-3" id="new_reply">
+    @if(SignInManager.IsSignedIn(User))
+    {
+    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]@UserController.GetAvatarAsync(UserManager.GetUserId(User)).Result" />
+    }
+    else{
+    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]default-1.png" />
+    }
     <div class="comment-body">
-        @if (SignInManager.IsSignedIn(User))
+        @if(SignInManager.IsSignedIn(User))
         {
             <form asp-controller="Comment" asp-action="Create">
                 <input type="hidden" name="ArticleID" value="@ViewContext.RouteData.Values["id"]" />

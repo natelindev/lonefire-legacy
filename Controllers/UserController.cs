@@ -176,7 +176,7 @@ namespace lonefire.Controllers
 
         #region Helper
 
-        public async Task<ActionResult<string>> GetNickNameAsync(string id)
+        public async Task<string> GetNickNameAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             string res;
@@ -194,6 +194,12 @@ namespace lonefire.Controllers
             }
 
             return res;
+        }
+
+        public async Task<string> GetAvatarAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            return (user == null? "default-1.png" : user.Avatar);
         }
 
         #endregion

@@ -4,7 +4,7 @@
 @inject IConfiguration Configuration
 
 <div class="comment border-comment pl-3 pt-3">
-    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]/Default-1.png" />
+    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]@Model.Avatar" />
     <div class="comment-body">
         <div class="d-flex flex-wrap">
             <div class="mr-auto my-auto">
@@ -14,24 +14,24 @@
                 <p class="m-0 font-weight-bold text-primary">@Html.DisplayFor(modelItem => Model.AddTime)</p>
             </div>
         </div>
-        <markdown markdown="@Model.Content" sanitize-html="true"></markdown>
+        @Html.Raw(@Model.Content)
         <div class="d-flex flex-wrap">
             @if ((await AuthorizationService.AuthorizeAsync(
-       User, Model,
-       CommentOperations.Delete)).Succeeded)
-            {
-                <a href="#" data-toggle="modal" class="btn btn-danger text-white ml-auto mr-3 my-3 animated--shadow-deep" data-target="#deleteModal" data-delete-id="@Model.CommentID" data-name="@Model.Author" data-type="评论">删除</a>
-                <a class="btn btn-lf text-white comment-reply-btn mr-3 my-3 animated--shadow-deep" data-parent-id="@Model.CommentID">回复</a>
-            }
-            else
-            {
-                <a class="btn btn-lf text-white comment-reply-btn ml-auto mr-3 my-3 animated--shadow-deep" data-parent-id="@Model.CommentID">回复</a>
-            }
+    User, Model,
+    CommentOperations.Delete)).Succeeded)
+        {
+            <a href="#" data-toggle="modal" class="btn btn-danger text-white ml-auto mr-3 my-3 animated--shadow-deep" data-target="#deleteModal" data-delete-id="@Model.CommentID" data-name="@Model.Author" data-type="评论">删除</a>
+            <a class="btn btn-lf text-white comment-reply-btn mr-3 my-3 animated--shadow-deep" data-parent-id="@Model.CommentID">回复</a>
+    }
+    else
+    {
+        <a class="btn btn-lf text-white comment-reply-btn ml-auto mr-3 my-3 animated--shadow-deep" data-parent-id="@Model.CommentID">回复</a>
+    }
         </div>
         @foreach (var c in Model.Childs)
-        {
-            <partial name="_Comment" model="c" />
-        }
-    </div>
+    {
+        <partial name="_Comment" model="c" />
+    }
+        </div>
 
 </div>
