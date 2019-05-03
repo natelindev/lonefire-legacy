@@ -66,6 +66,7 @@ namespace lonefire.Controllers
                 Email = user.Email,
                 IsEmailConfirmed = user.EmailConfirmed,
                 Name = user.Name,
+                Avatar = user.Avatar
             };
 
             return View(model);
@@ -86,7 +87,7 @@ namespace lonefire.Controllers
                 }
 
                 if (await TryUpdateModelAsync<ApplicationUser>(
-                user, "", u => u.Email, u => u.Name
+                user, "", u => u.Email, u => u.Name, u=> u.Description, u=>u.Avatar
                     ))
                 {
                     try

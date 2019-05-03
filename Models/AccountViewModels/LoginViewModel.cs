@@ -8,11 +8,11 @@ namespace lonefire.Models.AccountViewModels
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage="请填写用户名")]
         [DataType(DataType.Text)]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "请填写密码")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

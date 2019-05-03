@@ -5,7 +5,7 @@
 @inject IConfiguration Configuration
 
 <div class="comment" id="new_reply">
-    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]/Default-1.png" />
+    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]/default-1.png" />
     <div class="comment-body">
         @if (SignInManager.IsSignedIn(User))
         {
@@ -15,11 +15,10 @@
                 <input type="hidden" name="ParentID" id="parent_id_input" />
                 <div class="form-row mr-2">
                     <textarea name="Content" class="form-control h-px-150"></textarea>
-                    <label class="small text-gray-600">评论区支持MarkDown语法和Html语法，免疫XSS</label>
                 </div>
-                <div class="form-row">
-                    <p class="text-primary mr-auto mt-3">当前用户:@UserManager.GetUserName(User)</p>
-                    <button class="btn btn-lf text-white ml-auto mr-3 mt-3 animated--shadow-deep" type="submit">评论</button>
+                <div class="d-flex mr-2 mt-3">
+                    <label class="small text-gray-600 my-auto">评论区支持MarkDown语法和Html语法，免疫XSS</label>
+                    <button class="btn btn-lf text-white ml-auto mr-2 animated--shadow-deep" type="submit">评论</button>
                 </div>
             </form>
         }

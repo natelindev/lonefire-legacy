@@ -711,6 +711,10 @@ button.bg-dark:focus {
     border: 2px solid #fff;
 }
 
+.border-g-1 {
+    border: 1px solid #ced4da;
+}
+
 @media (max-width: 576px) {
     .w-xs-100 {
         width: 100% !important;

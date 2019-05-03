@@ -3,6 +3,8 @@
     ViewData["Title"] = "用户信息";
 }
 
+@inject IConfiguration Configuration
+
 <h4>@ViewData["Title"]</h4>
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
@@ -38,6 +40,20 @@
     </div>
 
     <div class="form-group mb-3">
+        <label asp-for="Avatar"></label>
+        <input asp-for="Avatar" type="hidden" class="form-control"/>
+        <div class="d-flex flex-wrap avatar-container">
+            @for (int i = 1; i <= 8; ++i)
+            {
+                <div id="avatar-btn-@i" class="btn btn-outline-success avatar-btn col-6 col-md-3 my-2 d-flex" data-id="@i">
+                    @Html.Raw("<img class=\"img-h-3 mx-auto\" src=\"" + Configuration["avatar_upload_path"] + "default-" + i + ".png\" />")
+                </div>
+            }
+        </div>
+        <span asp-validation-for="Avatar" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
         <label asp-for="Description"></label>
         <textarea asp-for="Description" type="text" class="form-control h-px-200"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
@@ -46,3 +62,7 @@
     <button class="btn btn-lf btn-block animated--shadow-deep" type="submit">保存</button>
 
 </form>
+
+@section Scripts{
+    <script src="~/js/Manage.js"></script>
+}

@@ -8,7 +8,7 @@ namespace lonefire.Models.AccountViewModels
 {
     public class ForgotPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "请填写邮箱")]
         [EmailAddress]
         public string Email { get; set; }
     }
