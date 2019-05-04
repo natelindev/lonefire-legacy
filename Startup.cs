@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using lonefire.Authorization;
 using lonefire.Data;
 using lonefire.Extensions;
@@ -13,14 +10,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Westwind.AspNetCore.Markdown;
+using Microsoft.EntityFrameworkCore;
 
 namespace lonefire
 {
@@ -38,7 +34,7 @@ namespace lonefire
         {
             //数据库连接
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             //修改密码加密方式为MD5
             services.AddScoped<IPasswordHasher<ApplicationUser>, LF_PasswordHasher>();

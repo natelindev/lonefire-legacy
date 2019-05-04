@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace lonefire.Models.ArticleViewModels
 {
+    [NotMapped]
     public class ArticleIndexVM
     {
         [Display(Name = "编号")]

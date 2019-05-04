@@ -85,9 +85,12 @@ namespace lonefire.Controllers
 
             try
             {
-                List<ArticleIndexVM> articles = await _context.ArticleIndexVM.FromSql("SELECT ArticleID,Title,Author,Tag,AddTime,Status FROM Articles")
-                .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
-                .OrderByDescending(a => a.AddTime).ToListAsync();
+                var articles = await _context.Article
+                    .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
+                    .OrderByDescending(a => a.AddTime)
+                    .Select(a=> new { a.ArticleID, a.Title, a.Author, a.Tag, a.AddTime, a.Status })
+                    .ToListAsync();
+
                 int idx = articles.FindIndex(a => a.ArticleID == id);
 
                 if (articles.Count > 1)
@@ -121,8 +124,16 @@ namespace lonefire.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var articles = _context.ArticleIndexVM.FromSql("SELECT ArticleID,Title,Author,Tag,AddTime,Status FROM Articles");
-
+            var articles = _context.Article
+                    .Select(a => new ArticleIndexVM{
+                        ArticleID = a.ArticleID,
+                        Title = a.Title,
+                        Author = a.Author,
+                        Tag= a.Tag,
+                        AddTime= a.AddTime,
+                        Status = a.Status 
+                    });
+                    
             var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
 
             var currentUserId = _userManager.GetUserId(User);
@@ -133,13 +144,15 @@ namespace lonefire.Controllers
                 articles = articles.Where(a => a.Author == currentUserId);
             }
 
-            foreach (var a in articles)
+            var res = await articles.ToListAsync();
+
+            foreach (var a in res)
             {
                 var user = await _userManager.FindByIdAsync(a.Author);
                 a.Author = await _userController.GetNickNameAsync(a.Author);
             }
 
-            var res = await articles.ToListAsync();
+
             return View(res);
         }
 
