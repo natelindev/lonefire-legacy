@@ -420,7 +420,8 @@ namespace lonefire.Controllers
                     articleToUpdate.Author = articleToUpdate.Author ?? _userManager.GetUserId(User);
 
                     //Tag Update
-                    if(articleToUpdate.Tag != HttpContext.Request.Form["Tag"])
+                    if( !(string.IsNullOrWhiteSpace(articleToUpdate.Tag) && string.IsNullOrWhiteSpace(HttpContext.Request.Form["Tag"])) 
+                        && articleToUpdate.Tag != HttpContext.Request.Form["Tag"])
                     {
                         var old_tags = articleToUpdate.Tag.Split(',').ToList();
                         var new_tags = ((string)HttpContext.Request.Form["Tag"]).Split(',').ToList();
