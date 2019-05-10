@@ -1,0 +1,15 @@
+<svg width="70.96200561523438" height="70.96200561523438" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1">
+   <path id="svg_2" fill="#D2623E" d="m60.44513,40.19082c-0.85577,-2.001 -9.015,-9.555 -5.801,-17.751c0,0 -7.606,5.946 -4.751,14.56c-1.318,-1.916 -13.833,-8.452 -12.791,-32.56c0,0 -0.79,0.78 -2,2.149l0,61.836c6.901,-0.193 12.097,-2.271 12.097,-2.271s20.052,-10.074 13.246,-25.963z"/>
+   <path id="svg_3" fill="#EC6C51" d="m20.44532,32.53697c0,0 -1.83658,8.16786 3.32858,12.63165c-3.49761,-3.49762 -0.15443,0.62258 -8.99375,-12.15877c-0.658,1.916 -11.97274,17.3672 6.86396,32.02806c4.96697,2.77493 9.12704,3.34694 13.29904,3.22994l0,-61.837c-4.061,4.598 -12.74902,15.27007 -14.49783,26.10612z"/>
+  </g>
+  <text xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_4" y="58.128559" x="31.824405" stroke-width="0" stroke="#000" fill="#ffffff">L</text>
+ </g>
+</svg>

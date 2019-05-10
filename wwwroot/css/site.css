@@ -307,6 +307,7 @@ main {
 }
 
 .card-img-fit {
+    max-width: 100%;
     object-fit: cover;
 }
 

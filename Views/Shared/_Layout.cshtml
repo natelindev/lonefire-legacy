@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - LONEFIRE</title>
+    <title>@ViewData["Title"] - Nathaniel's Dev Area</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,11 +26,11 @@
     @RenderSection("StyleSheets", required: false)
 </head>
 @{
-    ViewData["HeaderImg"] = ViewData["HeaderImg"] ?? "/img/bg-default.jpeg";
+    ViewData["HeaderImg"] = ViewData["HeaderImg"] ?? "/img/bg-default.jpg";
 }
 <body id="page-top" data-spy="scroll" data-target="#toc">
 
-    <partial name="_Spinner" />
+    @*<partial name="_Spinner" />*@
     <partial name="_CookieConsentPartial" />
 
     <partial name="_Toast" />
@@ -43,7 +43,7 @@
         <div id="head-area">
             <nav class="navbar navbar-expand-md navbar-dark h4 text-economica">
                 <img src="/img/logo.svg" class="img-brand img-h-32" />
-                <a class="navbar-brand navbrand" asp-controller="Home" asp-action="Index">LONEFIRE</a>
+                <a class="navbar-brand navbrand" asp-controller="Home" asp-action="Index">Nathaniel's Dev Area</a>
                 <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
@@ -68,8 +68,8 @@
                 </button>
             </nav>
 
-            <div class="card card-w-md-20 card-w-15 px-2 rounded-0 border-draw-within border-b-1 mx-auto my-5 h-px-100">
-                <img src="/img/brand-bold.svg" class="img-h-100 mx-auto my-auto h1 text-economica" alt="LONEFIRE" />
+            <div class="card card-w-20 px-2 rounded-0 border-draw-within border-b-1 mx-auto my-5 h-px-100">
+                <h1 class="mx-auto my-auto text-economica text-nowrap">Nathaniel's Dev Area</h1>
                 <a class="full-div-link z-1" asp-controller="Home" asp-action="Index"></a>
             </div>
 
@@ -93,14 +93,16 @@
     <footer class="footer">
         <div class="d-flex bg-smoke justify-content-around align-items-center flex-wrap flex-sm-nowrap py-4">
 
-            <img src="/img/MIT-License.png" class="d-none d-md-block img-h-50" alt="MIT-Licence" />
+            <img src="/img/logo.svg" class="d-none d-md-block img-h-50" alt="logo" />
 
             <div class="text-muted text-titillium">
                 <div class="d-flex mx-auto justify-content-center">
-                    Copyright &copy; Name of your website @DateTime.Now.ToString("yyyy")
+                    Powered by
+                    <img src="/img/lonefire.svg" class="mt-1 img-h-16" /> Lonefire
+                    <iframe class="ml-1 mt-1" frameborder="0" scrolling="0" width="80px" height="20px" src="https://ghbtns.com/github-btn.html?user=llldar&repo=lonefire&type=star&count=true"></iframe>
                 </div>
                 <div class="d-flex mx-auto justify-content-center">
-                    Powered by lonefire - <a class="animated--link" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+                    <a class="animated--link" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
                 </div>
             </div>
 
