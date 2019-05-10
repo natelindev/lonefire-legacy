@@ -99,7 +99,9 @@
                 <div class="d-flex mx-auto justify-content-center">
                     Powered by
                     <img src="/img/lonefire.svg" class="mt-1 img-h-16" /> Lonefire
-                    <iframe class="ml-1 mt-1" frameborder="0" scrolling="0" width="80px" height="20px" src="https://ghbtns.com/github-btn.html?user=llldar&repo=lonefire&type=star&count=true"></iframe>
+                    <div class="mx-2 mt-1">
+                        <a class="github-button" href="https://github.com/llldar/lonefire" data-show-count="true" aria-label="Star llldar/lonefire on GitHub">Star</a>
+                    </div>
                 </div>
                 <div class="d-flex mx-auto justify-content-center">
                     <a class="animated--link" asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
@@ -136,6 +138,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.0.1/color-thief.min.js"></script>
     </environment>
     <script src="~/lib/colorful-background-css-generator/dist/colorful-background-css-generator.min.js"></script>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="~/js/site.js" asp-append-version="false"></script>
 
     @RenderSection("Scripts", required: false)
