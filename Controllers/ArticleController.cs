@@ -393,13 +393,13 @@ namespace lonefire.Controllers
                     if (User.IsInRole(Constants.AdministratorsRole))
                     {
                         await TryUpdateModelAsync(articleToUpdate, "",
-                         a => a.Title, a => a.Content, a => a.Author, a => a.MediaSerialized
+                         a => a.Title, a => a.Content, a => a.Tag, a => a.Author, a => a.MediaSerialized
                         );
                     }
                     else
                     {
                         await TryUpdateModelAsync(articleToUpdate, "",
-                         a => a.Title, a => a.Content, a => a.MediaSerialized
+                         a => a.Title, a => a.Content,a => a.Tag, a => a.MediaSerialized
                         );
                     }
 
