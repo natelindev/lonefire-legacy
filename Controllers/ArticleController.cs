@@ -393,13 +393,13 @@ namespace lonefire.Controllers
                     if (User.IsInRole(Constants.AdministratorsRole))
                     {
                         await TryUpdateModelAsync(articleToUpdate, "",
-                         a => a.Title, a => a.Content, a => a.Author, a => a.MediaSerialized
+                         a => a.Title, a => a.Content, a => a.Tag, a => a.Author, a => a.MediaSerialized
                         );
                     }
                     else
                     {
                         await TryUpdateModelAsync(articleToUpdate, "",
-                         a => a.Title, a => a.Content, a => a.MediaSerialized
+                         a => a.Title, a => a.Content,a => a.Tag, a => a.MediaSerialized
                         );
                     }
 
@@ -420,7 +420,7 @@ namespace lonefire.Controllers
                     articleToUpdate.Author = articleToUpdate.Author ?? _userManager.GetUserId(User);
 
                     //Tag Update
-                    if( articleToUpdate.Tag != HttpContext.Request.Form["Tag"])
+                    if (articleToUpdate.Tag != HttpContext.Request.Form["Tag"])
                     {
                         List<string> old_tags = new List<string>();
                         List<string> new_tags = new List<string>();
@@ -432,11 +432,11 @@ namespace lonefire.Controllers
                         {
                             new_tags = ((string)HttpContext.Request.Form["Tag"]).Split(',').ToList();
                         }
-                        foreach(var o_tag in old_tags)
+                        foreach (var o_tag in old_tags)
                         {
                             //Check if in the new
                             var res = new_tags.FirstOrDefault(t => t == o_tag);
-                            if(res == null)
+                            if (res == null)
                             {
                                 //Not in new
                                 //Reduce tagCount
@@ -454,10 +454,10 @@ namespace lonefire.Controllers
                                 new_tags.Remove(res);
                             }
                         }
-                        foreach(var n_tag in new_tags)
+                        foreach (var n_tag in new_tags)
                         {
                             //Add all new tags
-                            _context.Add(new Tag() { TagName=n_tag,TagCount = 1});
+                            _context.Add(new Tag() { TagName = n_tag, TagCount = 1 });
                         }
                     }
 
