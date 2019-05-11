@@ -1,5 +1,6 @@
 ﻿@{
     ViewData["Title"] = "归档";
+    ViewData["HeaderImg"] = "/img/bg-archive.jpg";
     int counter = 1;
     int CurrentYear = DateTime.Now.Year;
     string count()
@@ -19,7 +20,7 @@
         if (date.Year < CurrentYear)
         {
             CurrentYear = date.Year;
-            return "<li><div class=\"direction-"+count()+"\"><h1 class=\"archive-year\">" + date.Year.ToString() + "</h1></div></li>";
+            return "<li><div class=\"direction-" + count() + "\"><h1 class=\"archive-year\">" + date.Year.ToString() + "</h1></div></li>";
         }
         else
         {
