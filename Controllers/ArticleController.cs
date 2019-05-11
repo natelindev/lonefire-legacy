@@ -420,16 +420,23 @@ namespace lonefire.Controllers
                     articleToUpdate.Author = articleToUpdate.Author ?? _userManager.GetUserId(User);
 
                     //Tag Update
-                    if( !(string.IsNullOrWhiteSpace(articleToUpdate.Tag) && string.IsNullOrWhiteSpace(HttpContext.Request.Form["Tag"])) 
-                        && articleToUpdate.Tag != HttpContext.Request.Form["Tag"])
+                    if (articleToUpdate.Tag != HttpContext.Request.Form["Tag"])
                     {
-                        var old_tags = articleToUpdate.Tag.Split(',').ToList();
-                        var new_tags = ((string)HttpContext.Request.Form["Tag"]).Split(',').ToList();
-                        foreach(var o_tag in old_tags)
+                        List<string> old_tags = new List<string>();
+                        List<string> new_tags = new List<string>();
+                        if (!string.IsNullOrWhiteSpace(articleToUpdate.Tag))
+                        {
+                            old_tags = articleToUpdate.Tag.Split(',').ToList();
+                        }
+                        if (!string.IsNullOrWhiteSpace(HttpContext.Request.Form["Tag"]))
+                        {
+                            new_tags = ((string)HttpContext.Request.Form["Tag"]).Split(',').ToList();
+                        }
+                        foreach (var o_tag in old_tags)
                         {
                             //Check if in the new
                             var res = new_tags.FirstOrDefault(t => t == o_tag);
-                            if(res == null)
+                            if (res == null)
                             {
                                 //Not in new
                                 //Reduce tagCount
@@ -447,10 +454,10 @@ namespace lonefire.Controllers
                                 new_tags.Remove(res);
                             }
                         }
-                        foreach(var n_tag in new_tags)
+                        foreach (var n_tag in new_tags)
                         {
                             //Add all new tags
-                            _context.Add(new Tag() { TagName=n_tag,TagCount = 1});
+                            _context.Add(new Tag() { TagName = n_tag, TagCount = 1 });
                         }
                     }
 
