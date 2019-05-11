@@ -85,6 +85,18 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
+        public IActionResult Papers()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Notes()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> About()
         {
             var article = await _context.Article.OrderByDescending(a => a.AddTime)
