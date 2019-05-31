@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using lonefire.Models;
 using lonefire.Models.ArticleViewModels;
 using lonefire.Models.CommentViewModels;
+using lonefire.Models.NoteViewModels;
 
 namespace lonefire.Data
 {
@@ -17,6 +18,7 @@ namespace lonefire.Data
         public virtual DbSet<Article> Article { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Tag> Tag { get; set; }
+        public virtual DbSet<Note> Note { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,12 +32,16 @@ namespace lonefire.Data
             builder.Entity<Article>().ToTable("Articles");
             builder.Entity<Comment>().ToTable("Comments");
             builder.Entity<Tag>().ToTable("Tags");
+            builder.Entity<Tag>().ToTable("Notes");
 
             builder.Entity<Comment>().Property(p => p.CommentID).ValueGeneratedOnAdd();
             builder.Entity<Comment>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
             builder.Entity<Article>().Property(p => p.ArticleID).ValueGeneratedOnAdd();
             builder.Entity<Article>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
             builder.Entity<Tag>().Property(p => p.TagID).ValueGeneratedOnAdd();
+
+            builder.Entity<Note>().Property(p => p.NoteID).ValueGeneratedOnAdd();
+            builder.Entity<Note>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
 
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");

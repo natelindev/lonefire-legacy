@@ -1,20 +1,18 @@
-﻿using System;
+﻿using lonefire.Data;
+using lonefire.Extensions;
+using lonefire.Models;
+using lonefire.Models.ArticleViewModels;
+using lonefire.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using lonefire.Models;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.Extensions.Logging;
-using lonefire.Data;
-using lonefire.Models.ArticleViewModels;
-using lonefire.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using lonefire.Authorization;
-using lonefire.Services;
 
 namespace lonefire.Controllers
 {
