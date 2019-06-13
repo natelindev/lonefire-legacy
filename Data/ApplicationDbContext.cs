@@ -32,7 +32,7 @@ namespace lonefire.Data
             builder.Entity<Article>().ToTable("Articles");
             builder.Entity<Comment>().ToTable("Comments");
             builder.Entity<Tag>().ToTable("Tags");
-            builder.Entity<Tag>().ToTable("Notes");
+            builder.Entity<Note>().ToTable("Notes");
 
             builder.Entity<Comment>().Property(p => p.CommentID).ValueGeneratedOnAdd();
             builder.Entity<Comment>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
