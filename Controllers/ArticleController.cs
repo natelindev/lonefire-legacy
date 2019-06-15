@@ -503,14 +503,17 @@ namespace lonefire.Controllers
             //Comments were casecade deleted.
 
             //Reduce Tag Count
-            var tags = article.Tag.Split(',').ToList();
-            foreach(var tag in tags)
+            if (!string.IsNullOrWhiteSpace(article.Tag))
             {
-                var ta = await _context.Tag.Where(t => t.TagName == tag).FirstOrDefaultAsync();
-                ta.TagCount--;
-                if(ta.TagCount == 0)
+                var tags = article.Tag.Split(',').ToList();
+                foreach (var tag in tags)
                 {
-                    _context.Tag.Remove(ta);
+                    var ta = await _context.Tag.Where(t => t.TagName == tag).FirstOrDefaultAsync();
+                    ta.TagCount--;
+                    if (ta.TagCount == 0)
+                    {
+                        _context.Tag.Remove(ta);
+                    }
                 }
             }
 
