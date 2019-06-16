@@ -538,7 +538,7 @@ namespace lonefire.Controllers
             //Randomly pick 3 articles
             //TODO: Actually implement this.
             var random = new Random();
-            return await _context.Article.Where(a => !a.Title.Contains("「LONEFIRE」") && a.Title != article.Title && a.Status == ArticleStatus.Approved).OrderBy(s => random.NextDouble()).Take(3).ToListAsync();
+            return await _context.Article.Where(a => !a.Title.Contains("「LONEFIRE」") && a.Title != article.Title && a.Status == ArticleStatus.Approved).OrderBy(s => random.Next()).Take(3).ToListAsync();
         }
 
         #endregion
