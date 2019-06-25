@@ -365,6 +365,10 @@
     font-family: 'Open Sans', sans-serif;
 }
 
+.text-break {
+    word-break: break-word;
+}
+
 h7, .h7{
     margin-top: 0;
     margin-bottom: 0.5rem;
