@@ -8,6 +8,10 @@ body {
     height: 100% !important;
 }
 
+pre {
+    filter: brightness(92%);
+}
+
 @media(max-width: 768px) {
     .navbar-brand {
         font-size: 1.5rem;

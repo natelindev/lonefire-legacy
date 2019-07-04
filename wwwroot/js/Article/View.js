@@ -35,3 +35,5 @@ button.onclick=function() {
         toast('只能点一次赞哦','danger');
     }
 }
+
+hljs.initHighlightingOnLoad();
