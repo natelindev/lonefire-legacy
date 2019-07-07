@@ -1,0 +1,36 @@
+﻿@model Note
+
+@{
+    ViewData["Title"] = "笔记详情";
+}
+<div class="container-lf">
+    <div class="card card-w-50 mx-auto border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+
+            <div class="form-row">
+                <div class="form-group col-md-5 mx-auto">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" disabled />
+                </div>
+                <div class="form-group col-md-5 mx-auto">
+                    <label asp-for="MediaSerialized" class="control-label"></label>
+                    <input asp-for="MediaSerialized" class="form-control" disabled />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control h-px-350" disabled></textarea>
+            </div>
+
+            <div class="row">
+                <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>
+                <a class="btn btn-lf col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Edit" asp-route-id="@Model.NoteID">编辑</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+}

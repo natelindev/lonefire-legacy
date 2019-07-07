@@ -41,35 +41,23 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Manage()
+        public async Task<IActionResult> List()
         {
-            List<Note> notes = await _context.Note.ToListAsync();
+            List<Note> notes = await _context.Note.OrderByDescending(n => n.AddTime).ToListAsync();
             return View(notes);
-        }
-
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
         }
 
         // POST: Article/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Content")]Note note, IFormFile headerImg, IList<IFormFile> contentImgs)
+        public async Task<IActionResult> Create([Bind("Title,Content")]Note note, IList<IFormFile> contentImgs)
         {
             if (ModelState.IsValid)
             {
                 //save the Images
-                if (headerImg != null || contentImgs.Count > 0)
+                if (contentImgs.Count > 0)
                 {
                     List<string> ArticleImgs = new List<string>();
-                    if (headerImg != null)
-                    {
-                        var headerImgName = await _io_Helper.SaveImgAsync(headerImg, note.Title, 256, headerImg.FileName);
-                        note.HeaderImg = headerImgName;
-                        ArticleImgs.Add(headerImgName);
-                    }
 
                     foreach (var img in contentImgs)
                     {
@@ -84,7 +72,7 @@ namespace lonefire.Controllers
                 _context.Add(note);
                 await _context.SaveChangesAsync();
                 _toaster.ToastSuccess("笔记创建成功");
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(List));
             }
             return View(note);
         }
@@ -128,7 +116,7 @@ namespace lonefire.Controllers
                 try
                 {
                     await TryUpdateModelAsync(note, "",
-                             n => n.Title, n => n.Content, n => n.HeaderImg, n => n.MediaSerialized
+                             n => n.Title, n => n.Content, n => n.MediaSerialized
                         );
                     await _context.SaveChangesAsync();
 

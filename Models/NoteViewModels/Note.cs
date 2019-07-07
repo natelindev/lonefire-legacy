@@ -26,11 +26,5 @@ namespace lonefire.Models.NoteViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime AddTime { get; set; }
 
-        [Display(Name = "顶部图片")]
-        public string HeaderImg { get; set; }
-
-        [Display(Name = "点赞数")]
-        public int LikeCount { get; set; }
-
     }
 }

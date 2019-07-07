@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "笔记管理";
+}
+
+@model IEnumerable<Note>
+
+<div class="container-lf">
+
+    <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NoteID)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AddTime)
+                            </th>
+                            <th>操作</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th><input class="form-control" id="titleSearch" type="text" /></th>
+                            <th><input class="form-control" id="timeSearch" type="text" data-toggle="datepicker" /></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NoteID)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AddTime)
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.NoteID">编辑</a>
+                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.NoteID">详情</a>
+                                    <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.NoteID" data-name="@item.NoteID" data-type="笔记">
+                                        删除
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <partial name="_DeleteModal" />
+</div>
+@section StyleSheets{
+    <environment include="Development">
+        <link href="~/lib/datatables/dataTables.bootstrap4.css" rel="stylesheet" type="text/css">
+        <link href="~/lib/dt-Responsive-2.2.2/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.css" />
+    </environment>
+}
+
+@section Scripts {
+    <environment include="Development">
+        <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+        <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="~/lib/dt-Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
+        <script src="~/lib/dt-Responsive-2.2.2/js/responsive.bootstrap4.min.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
+    </environment>
+    <script src="~/js/Note/Index.js" asp-append-version="true"></script>
+}

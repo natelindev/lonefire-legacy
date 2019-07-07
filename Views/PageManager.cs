@@ -17,7 +17,8 @@ namespace lonefire.Views
                    controllerName == "Article" && actionName == "Billboard" ||
                    controllerName == "User" ||
                    controllerName == "Tag" && actionName == "Manage" ||
-                   controllerName == "Manage"
+                   controllerName == "Manage" ||
+                   controllerName == "Note" && actionName == "Index"
             ;
         }
 

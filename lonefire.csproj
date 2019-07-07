@@ -20,7 +20,6 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Note\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>
