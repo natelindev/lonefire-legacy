@@ -47,6 +47,7 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> List()
         {
             List<Note> notes = await _context.Note.OrderByDescending(n => n.AddTime).ToListAsync();

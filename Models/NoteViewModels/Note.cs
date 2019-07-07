@@ -23,7 +23,7 @@ namespace lonefire.Models.NoteViewModels
         public string MediaSerialized { get; set; }
 
         [Display(Name = "添加时间")]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd HH:mm}")]
         public DateTime AddTime { get; set; }
 
     }
