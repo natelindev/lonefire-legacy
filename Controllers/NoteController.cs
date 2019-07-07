@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lonefire.Data;
+using lonefire.Extensions;
 using lonefire.Models.NoteViewModels;
 using lonefire.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace lonefire.Controllers
@@ -20,30 +22,40 @@ namespace lonefire.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IToaster _toaster;
         private readonly IFileIOHelper _io_Helper;
+        private readonly IConfiguration _config;
+
+        public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
 
         public NoteController(
             ApplicationDbContext context,
             IToaster toaster,
-            IFileIOHelper io_Helper
+            IFileIOHelper io_Helper,
+            IConfiguration config
             )
         {
             _context = context;
             _toaster = toaster;
             _io_Helper = io_Helper;
+            _config = config;
         }
 
         // GET: /<controller>/
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            List<Note> notes = await _context.Note.ToListAsync();
-            return View(notes);
+            return View(await _context.Note.ToListAsync());
         }
 
         [HttpGet]
         public async Task<IActionResult> List()
         {
             List<Note> notes = await _context.Note.OrderByDescending(n => n.AddTime).ToListAsync();
+            
+            foreach (var note in notes)
+            {
+                note.Content = LF_MarkdownParser.Parse(note.Content, ImageUploadPath + note.Title + '/');
+            }
+            
             return View(notes);
         }
 
@@ -59,10 +71,14 @@ namespace lonefire.Controllers
                 {
                     List<string> ArticleImgs = new List<string>();
 
-                    foreach (var img in contentImgs)
+                    //If your note need imgs, it probably need a title.
+                    if (!string.IsNullOrEmpty(note.Title))
                     {
-                        var res = await _io_Helper.SaveImgAsync(img, note.Title, 256, img.FileName);
-                        ArticleImgs.Add(res);
+                        foreach (var img in contentImgs)
+                        {
+                            var res = await _io_Helper.SaveImgAsync(img, note.Title, 256, img.FileName);
+                            ArticleImgs.Add(res);
+                        }
                     }
 
                     if (ArticleImgs.Count > 0)
@@ -159,6 +175,11 @@ namespace lonefire.Controllers
             }
 
             var note = await _context.Note.Where(n => n.NoteID == id).FirstOrDefaultAsync();
+
+            if(!string.IsNullOrEmpty(note.Title))
+            {
+                _io_Helper.DeleteImgDir(note.Title);
+            }
 
             if (note == null)
             {

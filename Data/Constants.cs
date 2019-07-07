@@ -19,7 +19,6 @@
         public static readonly string Light = "light";
         public static readonly string Info = "info";
 
-
         public static readonly string AdministratorsRole = "Administrator";
     }
 }

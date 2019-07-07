@@ -40,11 +40,9 @@
                 <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
                     <div class="card-header border-0"><partial name="_CardHeader" model=@note.Title /></div>
                     <div class="card-body">
-                        <markdown markdown="@note.Content">
-                        </markdown>
+                        @Html.Raw(@note.Content)
                     </div>
                 </div>
-
             }
 
         </div>
@@ -57,6 +55,8 @@
     </environment>
     <environment exclude="Development">
     </environment>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/xcode.min.css">
 }
 
 @section Scripts {
@@ -64,4 +64,6 @@
     </environment>
     <environment exclude="Development">
     </environment>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 }
