@@ -75,7 +75,7 @@ namespace lonefire.Controllers
                 _context.Add(note);
                 await _context.SaveChangesAsync();
                 _toaster.ToastSuccess("笔记创建成功");
-                return RedirectToAction(nameof(HomeController.Notes));
+                return RedirectToAction(nameof(HomeController.Notes),"Home");
             }
             return View(note);
         }
