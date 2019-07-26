@@ -53,7 +53,10 @@ namespace lonefire.Models.ArticleViewModels
 
 public enum ArticleStatus
 {
+    [Display(Name = "已提交")]
     Submitted,
+    [Display(Name = "已通过")]
     Approved,
+    [Display(Name = "未通过")]
     Rejected
 }

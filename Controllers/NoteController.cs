@@ -46,21 +46,7 @@ namespace lonefire.Controllers
             return View(await _context.Note.ToListAsync());
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> List()
-        {
-            List<Note> notes = await _context.Note.OrderByDescending(n => n.AddTime).ToListAsync();
-            
-            foreach (var note in notes)
-            {
-                note.Content = LF_MarkdownParser.Parse(note.Content, ImageUploadPath + note.Title + '/');
-            }
-            
-            return View(notes);
-        }
-
-        // POST: Article/Create
+        // POST: Note/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Content")]Note note, IList<IFormFile> contentImgs)
@@ -89,7 +75,7 @@ namespace lonefire.Controllers
                 _context.Add(note);
                 await _context.SaveChangesAsync();
                 _toaster.ToastSuccess("笔记创建成功");
-                return RedirectToAction(nameof(List));
+                return RedirectToAction(nameof(HomeController.Notes));
             }
             return View(note);
         }

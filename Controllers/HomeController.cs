@@ -2,11 +2,13 @@
 using lonefire.Extensions;
 using lonefire.Models;
 using lonefire.Models.ArticleViewModels;
+using lonefire.Models.NoteViewModels;
 using lonefire.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,13 +26,17 @@ namespace lonefire.Controllers
         private readonly CommentController _commentController;
         private readonly UserController _userController;
         private readonly IToaster _toaster;
+        private readonly IConfiguration _config;
+
+        public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
 
         public HomeController(
             ILogger<AccountController> logger,
             ApplicationDbContext context,
             CommentController commentController,
             UserController userController,
-            IToaster toaster
+            IToaster toaster,
+            IConfiguration config
         )
         {
             _commentController = commentController;
@@ -38,6 +44,7 @@ namespace lonefire.Controllers
             _context = context;
             _logger = logger;
             _toaster = toaster;
+            _config = config;
         }
 
         public async Task<IActionResult> Index(int page = 1)
@@ -49,7 +56,7 @@ namespace lonefire.Controllers
                 .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.AddTime);
 
-                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, 6);
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCount);
             }
             catch (Exception)
             {
@@ -71,6 +78,32 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Notes(int page = 1)
+        {
+            PaginatedList<Note> notes = new PaginatedList<Note>();
+            try
+            {
+                IQueryable<Note> noteIQ = _context.Note
+                .Where(n => n.Status == NoteStatus.Public)
+                .OrderByDescending(a => a.AddTime);
+
+                notes = await PaginatedList<Note>.CreateAsync(noteIQ.AsNoTracking(), page, Constants.PageCount);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取笔记列表失败");
+            }
+
+            foreach (var note in notes)
+            {
+                note.Content = LF_MarkdownParser.Parse(note.Content, ImageUploadPath + note.Title + '/');
+            }
+
+            return View(notes);
+        }
+
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
@@ -84,12 +117,6 @@ namespace lonefire.Controllers
 
         [HttpGet]
         public IActionResult Papers()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult Notes()
         {
             return View();
         }

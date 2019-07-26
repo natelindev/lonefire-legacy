@@ -19,6 +19,9 @@ namespace lonefire.Models.NoteViewModels
         [Required]
         public string Content { get; set; }
 
+        [Display(Name = "访问权限")]
+        public NoteStatus Status { get; set; }
+
         [Display(Name = "媒体文件")]
         public string MediaSerialized { get; set; }
 
@@ -26,5 +29,13 @@ namespace lonefire.Models.NoteViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd HH:mm}")]
         public DateTime AddTime { get; set; }
 
+    }
+
+    public enum NoteStatus
+    {
+        [Display(Name = "公开")]
+        Public,
+        [Display(Name = "私密")]
+        Private
     }
 }
