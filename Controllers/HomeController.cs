@@ -136,27 +136,20 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Archives()
+        public async Task<IActionResult> Archives(int page = 1)
         {
-            List<Article> articles = new List<Article>();
+            PaginatedList<Article> articles = new PaginatedList<Article>();
             try
             {
-                articles = await _context.Article
+                IQueryable<Article> articleIQ = _context.Article
                 .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
-                .OrderByDescending(a => a.AddTime).ToListAsync();
+                .OrderByDescending(a => a.AddTime);
+
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCount);
             }
             catch (Exception)
             {
-                _toaster.ToastError("读取文章列表失败");
-            }
-            foreach (var a in articles)
-            {
-                a.Author = await _userController.GetNickNameAsync(a.Author);
-                if (a.Content != null)
-                {
-                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
-                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 100));
-                }
+                _toaster.ToastError("读取归档文章列表失败");
             }
             return View(articles);
         }

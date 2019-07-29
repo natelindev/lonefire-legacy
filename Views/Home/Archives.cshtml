@@ -2,7 +2,7 @@
     ViewData["Title"] = "归档";
     ViewData["HeaderImg"] = "/img/bg-archive.jpg";
     int counter = 1;
-    int CurrentYear = DateTime.Now.Year;
+    int CurrentYear = DateTime.Now.Year+1;
     string count()
     {
         if (counter++ % 2 == 0)
@@ -29,7 +29,7 @@
     }
 }
 
-@model IEnumerable<Article>
+@model PaginatedList<Article>
 @inject IConfiguration Configuration
 
 <div class="container-lf">
@@ -37,7 +37,7 @@
         <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
         <div class="card-body">
             <ul class="timeline">
-                <li><div class="direction-l"><h1 class="archive-year">@DateTime.Now.ToString("yyyy")</h1></div></li>
+                
                 @foreach (var item in Model)
                 {
                     @Html.Raw(@generateYearStamp(item.AddTime))
@@ -59,6 +59,7 @@
                     </li>
                 }
             </ul>
+            <partial name="_PaginatedIndex" model="Model" />
         </div>
     </div>
 </div>
