@@ -744,3 +744,11 @@ button.bg-dark:focus {
 .bg-w-op-9 {
     background-color: rgba(255,255,255,0.9);
 }
+
+.fit-cover {
+    object-fit: cover;
+}
+
+.fit-contain {
+    object-fit: contain;
+}

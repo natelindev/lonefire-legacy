@@ -10,17 +10,51 @@ namespace lonefire.Data
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
-
+        public int PaginationCap { get; private set; }
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-
+            PaginationCap = Constants.PaginationCap;
             this.AddRange(items);
         }
 
         public PaginatedList()
         {
+        }
+
+        public List<int> getIndexes()
+        {
+            List<int> indexes = new List<int>();
+            indexes.Add(PageIndex);
+            int leftRef = PageIndex, rightRef = PageIndex;
+            while (PaginationCap > 1 && (leftRef > 1 || rightRef < TotalPages))
+            {
+                if(leftRef > 1)
+                {
+                    --leftRef;
+                    --PaginationCap;
+                    indexes.Add(leftRef);
+                }
+                if(PaginationCap > 1 && rightRef < TotalPages)
+                {
+                    ++rightRef;
+                    --PaginationCap;
+                    indexes.Add(rightRef);
+                }
+            }
+            indexes.Sort((a, b) => a - b);
+            //Left dots
+            if(indexes[0] > 1)
+            {
+                indexes.Insert(0,-1);
+            }
+            //Right dots
+            if(indexes.Last() < TotalPages)
+            {
+                indexes.Add(-1);
+            }
+            return indexes;
         }
 
         public bool HasPreviousPage => (PageIndex > 1);

@@ -58,16 +58,7 @@
                 </div>
             }
 
-            <div class="d-flex offset-lg-1 col-md-8">
-                @if (Model.HasPreviousPage)
-                {
-                    <a class="btn btn-outline-success mx-auto" asp-action="Notes" asp-route-page="@(Model.PageIndex-1)">上一页</a>
-                }
-                @if (Model.HasNextPage)
-                {
-                    <a class="btn btn-outline-success mx-auto" asp-action="Notes" asp-route-page="@(Model.PageIndex+1)">下一页</a>
-                }
-            </div>
+        <partial name="_PaginatedIndex" model="Model" />
         </div>
     </div>
 

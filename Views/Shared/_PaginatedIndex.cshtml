@@ -1,11 +1,30 @@
-﻿<div class="d-flex offset-lg-1 col-md-8">
-    @if (Model.HasPreviousPage)
-    {
-        <a class="btn btn-outline-success mx-auto" asp-route-page="@(Model.PageIndex-1)">上一页</a>
-    }
-    @if (Model.HasNextPage)
-    {
-        <a class="btn btn-outline-success mx-auto" asp-route-page="@(Model.PageIndex+1)">下一页</a>
-    }
-</div>
+﻿<nav aria-label="PagedList">
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.PageIndex == 1 ?"disabled":null) ">
+            <a class="page-link" asp-route-page="1" tabindex="-1"><i class="material-icons">first_page</i></a>
+        </li>
+        <li class="page-item @(Model.HasPreviousPage?null:"disabled") ">
+            <a class="page-link" asp-route-page="@(Model.PageIndex-1)" tabindex="-1"><i class="material-icons">chevron_left</i></a>
+        </li>
+        @foreach (int i in Model.getIndexes())
+        {
+            if (i != -1)
+            {
+                <li class="page-item @(Model.PageIndex == i ? "active": null)"><a class="page-link" asp-route-page=@i>@i</a></li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link text-primary"><i class="material-icons">more_horiz</i></a>
+                </li>
+            }
 
+        }
+        <li class="page-item @(Model.HasNextPage?null:"disabled")">
+            <a class="page-link" asp-route-page="@(Model.PageIndex+1)"><i class="material-icons">chevron_right</i></a>
+        </li>
+        <li class="page-item @(Model.PageIndex == Model.TotalPages ?"disabled":null)">
+            <a class="page-link" asp-route-page="@Model.TotalPages"><i class="material-icons">last_page</i></a>
+        </li>
+    </ul>
+</nav>
