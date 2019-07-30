@@ -15,7 +15,8 @@ var button=document.getElementById('like');
 
 button.onclick=function() {
     var articleID=this.getAttribute('articleID');
-    var count = parseInt(this.getAttribute('count'),10);
+    var count = parseInt(this.getAttribute('count'), 10);
+    var likeLabel = document.getElementById('like-label');
     if (!hasLiked(articleID)) {
 
         $.ajax({
@@ -26,7 +27,7 @@ button.onclick=function() {
                 articleID : articleID
             },
             success: function(data) {
-                button.innerText="点赞 "+(count+1);
+                likeLabel.innerHTML=count+1;
             }
         });
 
