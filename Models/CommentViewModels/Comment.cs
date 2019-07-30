@@ -29,6 +29,14 @@ namespace lonefire.Models.CommentViewModels
         [StringLength(64, ErrorMessage = " {0} 长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
         public string Author { get; set; }
 
+        [Display(Name = "网站")]
+        [StringLength(64, ErrorMessage = " {0} 长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
+        public string Website { get; set; }
+
+        [Display(Name = "邮箱")]
+        [StringLength(64, ErrorMessage = " {0} 长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
+        public string Email { get; set; }
+
         [Display(Name = "发布时间")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM-dd HH:mm}")]
         public DateTime AddTime { get; set; }

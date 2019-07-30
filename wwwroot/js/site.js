@@ -68,34 +68,44 @@ $(document).ready(function() {
 
     $('.toast').toast('show');
 
-    //get rgb array from img
-    var colorThief = new ColorThief();
-    var sourceImg = document.getElementById('header-img');
-    var rgbs = colorThief.getPalette(sourceImg, 8);
-    var hsls = [];
-    //rgb to hsl
-    rgbs.forEach(function(rgb){
-        //console.log('rbg: ' + rgb);
-        hsls.push(rgbToHsl(rgb[0],rgb[1],rgb[2]));
-    });
+    function headerImgLoaded() {
+        //get rgb array from img
+        var colorThief = new ColorThief();
+        var sourceImg = document.getElementById('header-img');
+        var rgbs = colorThief.getPalette(sourceImg, 8);
+        var hsls = [];
+        //rgb to hsl
+        rgbs.forEach(function (rgb) {
+            //console.log('rbg: ' + rgb);
+            hsls.push(rgbToHsl(rgb[0], rgb[1], rgb[2]));
+        });
 
-    var generator = new ColorfulBackgroundGenerator();
+        var generator = new ColorfulBackgroundGenerator();
 
-    // This adds 5 layers to the generator
-    // The parameters are: degree[0-360],
-    //                     h[0-360], 
-    //                     s[0-1], 
-    //                     l[0-1],
-    //                     posColor[0-100], 
-    //                     posTransparency[0-100]
-    // The lowest layer (at the bottom) in the css is the first added layer.
-    hsls.forEach(function(hsl){
-        //console.log('hsl: '+ hsl);
-        generator.addLayer(new ColorfulBackgroundLayer({degree: getRandomInt(20,300), h: hsl[0], s: hsl[1], l: hsl[2],posColor: getRandomInt(0,50),posTransparency:getRandomInt(50,80)})); 
-    });
+        // This adds 5 layers to the generator
+        // The parameters are: degree[0-360],
+        //                     h[0-360], 
+        //                     s[0-1], 
+        //                     l[0-1],
+        //                     posColor[0-100], 
+        //                     posTransparency[0-100]
+        // The lowest layer (at the bottom) in the css is the first added layer.
+        hsls.forEach(function (hsl) {
+            //console.log('hsl: '+ hsl);
+            generator.addLayer(new ColorfulBackgroundLayer({ degree: getRandomInt(20, 300), h: hsl[0], s: hsl[1], l: hsl[2], posColor: getRandomInt(0, 50), posTransparency: getRandomInt(50, 80) }));
+        });
+
+        // Assign generated style to the element identified by it's id
+        generator.assignStyleToElementId("page-top");
+    }
+
+    var img = document.getElementById('header-img');
+    if (img.complete) {
+        headerImgLoaded();
+    }else {
+        img.addEventListener('load', headerImgLoaded);
+    }
     
-    // Assign generated style to the element identified by it's id
-    generator.assignStyleToElementId("page-top");
 });
 
 function toast(message,option) {

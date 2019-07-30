@@ -10,9 +10,11 @@ using lonefire.Models.CommentViewModels;
 using Microsoft.AspNetCore.Identity;
 using lonefire.Models;
 using lonefire.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace lonefire.Controllers
 {
+    [Authorize]
     public class CommentController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -76,6 +78,20 @@ namespace lonefire.Controllers
                 //自动设置作者
                 comment.Author = _userManager.GetUserId(User);
 
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return RedirectToLocal(returnUrl);
+            }
+            return RedirectToLocal(returnUrl);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public async Task<IActionResult> VisitorCreate([Bind("ArticleID,ParentID,Content,Author,Email,Blog")] Comment comment, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
                 _context.Add(comment);
                 await _context.SaveChangesAsync();
                 return RedirectToLocal(returnUrl);

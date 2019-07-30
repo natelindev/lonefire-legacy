@@ -31,9 +31,34 @@
         }
         else
         {
-            <div class="row">
-                <p class="mx-auto my-4">请<a class="animated--link" asp-controller="Account" asp-action="Login" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">登录</a>或<a class="animated--link" asp-controller="Account" asp-action="Register" asp-route-returnurl="@PageManager.GetReturnUrl(ViewContext)">注册</a>后发表评论...</p>
+    <form asp-controller="Comment" asp-action="VisitorCreate">
+        <input type="hidden" name="ArticleID" value="@ViewContext.RouteData.Values["id"]" />
+        <input type="hidden" name="returnUrl" value="@PageManager.GetReturnUrl(ViewContext)" />
+        <input type="hidden" name="ParentID" id="parent_id_input" />
+        <div class="form-row mr-2">
+            <div class="form-group col-md-4 mx-auto">
+                <label for="Author" class="control-label">昵称*</label>
+                <input name="Author" class="form-control " required />
             </div>
+            <div class="form-group col-md-4 mx-auto">
+                <label for="Author" class="control-label">邮箱(暂不支持邮件提醒)*</label>
+                <input name="Email" class="form-control" required />
+            </div>
+            <div class="form-group col-md-4 mx-auto">
+                <label for="Author" class="control-label">网站</label>
+                <input name="Website" class="form-control" />
+            </div>
+        </div>
+        <div class="form-row mr-2">
+            <textarea name="Content" class="form-control h-px-150"></textarea>
+        </div>
+     
+            <div class="d-flex mr-2 mt-3">
+                <label class="small text-gray-600 my-auto">评论区支持MarkDown语法和Html语法，免疫XSS</label>
+                <button class="btn btn-lf text-white ml-auto mr-2 animated--shadow-deep" type="submit">评论</button>
+            </div>
+       
+    </form>
         }
     </div>
 </div>

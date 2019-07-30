@@ -124,12 +124,40 @@ namespace lonefire.Controllers
         [HttpGet]
         public async Task<IActionResult> About()
         {
-            var article = await _context.Article.OrderByDescending(a => a.AddTime)
+            var article = await _context.Article
                 .FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」关于");
             if(article == null)
             {
                 article = new Article();
                 _toaster.ToastWarning("暂时没有 关于我 的内容");
+            }
+            ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
+            return View(article);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MessageBoard()
+        {
+            var article = await _context.Article
+                .FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」留言板");
+            if (article == null)
+            {
+                article = new Article();
+                _toaster.ToastWarning("暂时没有 留言板 的内容");
+            }
+            ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
+            return View(article);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Friends()
+        {
+            var article = await _context.Article
+                .FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」友链");
+            if (article == null)
+            {
+                article = new Article();
+                _toaster.ToastWarning("暂时没有 友链 的内容");
             }
             ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
             return View(article);

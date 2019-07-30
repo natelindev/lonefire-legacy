@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "留言板";
+    ViewData["CommentSectionTitle"] = "评论区";
+    ViewData["HeaderImg"] = "/img/bg-mb.jpg";
+}
+
+@model Article
+
+<div class="container-lf">
+    <div class="col-md-9 mx-auto px-0">
+        <div class="card mx-auto my-5 border-0 shadow-lg">
+            <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+            <div class="card-body animated--link-container">
+                <markdown markdown="@Model.Content"></markdown>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9 mx-auto px-0">
+        <partial name="_CommentSection" model='ViewData["Comments"]' />
+    </div>
+</div>
