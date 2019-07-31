@@ -86,7 +86,7 @@ namespace lonefire.Controllers
             try
             {
                 var articles = await _context.Article
-                    .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
+                    .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                     .OrderByDescending(a => a.AddTime)
                     .Select(a=> new { a.ArticleID, a.Title, a.Author, a.Tag, a.AddTime, a.Status })
                     .ToListAsync();
@@ -538,7 +538,7 @@ namespace lonefire.Controllers
             //Randomly pick 3 articles
             //TODO: Actually implement this.
             var random = new Random();
-            return await _context.Article.Where(a => !a.Title.Contains("「LONEFIRE」") && a.Title != article.Title && a.Status == ArticleStatus.Approved).OrderBy(s => random.Next()).Take(3).ToListAsync();
+            return await _context.Article.Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Title != article.Title && a.Status == ArticleStatus.Approved).OrderBy(s => random.Next()).Take(3).ToListAsync();
         }
 
         #endregion

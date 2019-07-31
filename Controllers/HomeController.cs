@@ -53,7 +53,7 @@ namespace lonefire.Controllers
             try
             {
                 IQueryable<Article> articleIQ = _context.Article
-                .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
+                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.AddTime);
 
                 articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCount);
@@ -68,11 +68,11 @@ namespace lonefire.Controllers
                 if(a.Content != null)
                 {
                     a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
-                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 100));
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 60));
                 }
             }
-            ViewData["AboutMe"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」首页关于");
-            ViewData["Friends"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」首页友链");
+            ViewData["AboutMe"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "首页关于");
+            ViewData["Friends"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "首页友链");
             ViewData["Tags"] = await _context.Tag.OrderByDescending(t => t.TagCount).Take(6).ToListAsync();
             return View(articles);
         }
@@ -125,11 +125,11 @@ namespace lonefire.Controllers
         public async Task<IActionResult> About()
         {
             var article = await _context.Article
-                .FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」关于");
+                .FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "关于");
             if(article == null)
             {
                 article = new Article();
-                _toaster.ToastWarning("暂时没有 关于我 的内容");
+                _toaster.ToastWarning("暂时没有 关于 的内容");
             }
             ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
             return View(article);
@@ -139,7 +139,7 @@ namespace lonefire.Controllers
         public async Task<IActionResult> MessageBoard()
         {
             var article = await _context.Article
-                .FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」留言板");
+                .FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "留言板");
             if (article == null)
             {
                 article = new Article();
@@ -153,7 +153,7 @@ namespace lonefire.Controllers
         public async Task<IActionResult> Friends()
         {
             var article = await _context.Article
-                .FirstOrDefaultAsync(m => m.Title == "「LONEFIRE」友链");
+                .FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "友链");
             if (article == null)
             {
                 article = new Article();
@@ -164,20 +164,20 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Archives(int page = 1)
+        public async Task<IActionResult> Timeline(int page = 1)
         {
             PaginatedList<Article> articles = new PaginatedList<Article>();
             try
             {
                 IQueryable<Article> articleIQ = _context.Article
-                .Where(a => !a.Title.Contains("「LONEFIRE」") && a.Status == ArticleStatus.Approved)
+                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.AddTime);
 
                 articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCount);
             }
             catch (Exception)
             {
-                _toaster.ToastError("读取归档文章列表失败");
+                _toaster.ToastError("读取 时间线 文章列表失败");
             }
             return View(articles);
         }

@@ -311,13 +311,13 @@ main {
     object-fit: cover;
 }
 
-.card-archive {
+.card-timeline {
     max-height: 10rem;
     width: auto;
     position: relative;
 }
 
-    .card-archive .card-img-left {
+    .card-timeline .card-img-left {
         object-fit: cover;
         max-width: 100%;
         max-height: 100%;
@@ -558,7 +558,7 @@ main {
             visibility: hidden;
         }
 
-    .timeline .archive-year {
+    .timeline .timeline-year {
         position: relative;
         z-index: 2;
         text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15);

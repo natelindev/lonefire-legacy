@@ -64,13 +64,16 @@
                             <a class="nav-link @PageManager.IsActive(ViewContext,"Home","MessageBoard")" asp-controller="Home" asp-action="MessageBoard">留言板</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @PageManager.IsActive(ViewContext,"Home","Notes")" asp-controller="Home" asp-action="Notes">心情</a>
+                            <a class="nav-link @PageManager.IsActive(ViewContext,"Home","Notes")" asp-controller="Home" asp-action="Notes">动态</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link @PageManager.IsActive(ViewContext,"Home","Archives")" asp-controller="Home" asp-action="Archives">归档</a>
+                            <a class="nav-link @PageManager.IsActive(ViewContext,"Home","Timeline")" asp-controller="Home" asp-action="Timeline">时间线</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link @PageManager.IsActive(ViewContext,"Home","About")" asp-controller="Home" asp-action="About">关于</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @PageManager.IsActive(ViewContext,"Article","Index")" asp-controller="Article" asp-action="Index">管理</a>
                         </li>
                     </ul>
                 </div>

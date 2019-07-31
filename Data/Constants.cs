@@ -11,6 +11,7 @@
 
         public static readonly string AdminTag = "「管理员」";
         public static readonly string EmptyUserTag = "「异次元用户」";
+        public static readonly string ReservedTag = "「LONEFIRE」";
 
         public static readonly string ToastMessage = "ToastMessage";
         public static readonly string ToastOption = "ToastOption";
@@ -20,7 +21,7 @@
         public static readonly string Info = "info";
 
         public static readonly int PageCount = 6;
-        public static readonly int PaginationCap = 5;
+        public static readonly int PaginationCap = 4;
 
         public static readonly string AdministratorsRole = "Administrator";
     }

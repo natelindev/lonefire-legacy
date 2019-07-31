@@ -4,14 +4,21 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject IConfiguration Configuration
 @inject UserController UserController
+@{ 
+    string getRandomAvatar(){
+        Random random = new Random();
+        int randomNumber = random.Next(1, 8);
+        return randomNumber + ".png";
+    }
 
+}
 <div class="comment border-comment pt-3 pl-3" id="new_reply">
     @if(SignInManager.IsSignedIn(User))
     {
     <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]@UserController.GetAvatarAsync(UserManager.GetUserId(User)).Result" />
     }
     else{
-    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]default-1.png" />
+    <img class="comment-avatar img-h-32" src="@Configuration["avatar_upload_path"]default-@getRandomAvatar()" />
     }
     <div class="comment-body">
         @if(SignInManager.IsSignedIn(User))
@@ -35,7 +42,7 @@
         <input type="hidden" name="ArticleID" value="@ViewContext.RouteData.Values["id"]" />
         <input type="hidden" name="returnUrl" value="@PageManager.GetReturnUrl(ViewContext)" />
         <input type="hidden" name="ParentID" id="parent_id_input" />
-        <div class="form-row mr-2">
+        <div class="form-row mr-2 mb-4">
             <div class="form-group col-md-4 mx-auto">
                 <label for="Author" class="control-label">昵称*</label>
                 <input name="Author" class="form-control " required />
