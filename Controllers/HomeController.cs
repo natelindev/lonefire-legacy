@@ -92,7 +92,7 @@ namespace lonefire.Controllers
             }
             catch (Exception)
             {
-                _toaster.ToastError("读取笔记列表失败");
+                _toaster.ToastError("读取动态列表失败");
             }
 
             foreach (var note in notes)
