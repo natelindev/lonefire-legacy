@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace lonefire.Controllers
 {
@@ -39,6 +40,26 @@ namespace lonefire.Controllers
         {
             List<ApplicationUser> users = await _context.Users.Where(u => u.Id != _userManager.GetUserId(User)).ToListAsync();
             return View(users);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<string>> GetUserInfo(string data)
+        {
+            ApplicationUser targetUser = null;
+            if (!string.IsNullOrWhiteSpace(data))
+            {
+                return NotFound();
+            }
+            if (Guid.TryParse(data, out Guid dump))
+            {
+                //Is GUID
+                targetUser = await _userManager.FindByIdAsync(data);
+            }
+            else
+            {
+                targetUser = await _userManager.FindByNameAsync(data);
+            }
+            return JsonConvert.SerializeObject(targetUser);
         }
 
         [HttpGet]
