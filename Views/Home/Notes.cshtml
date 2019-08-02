@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "笔记";
+    ViewData["Title"] = "动态";
 }
 
 @model PaginatedList<Note>
@@ -41,19 +41,15 @@
             @foreach (var item in Model)
             {
 
-                <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
-                    <div class="card-header border-0">
-                        <div class="d-flex flex-wrap">
-                            <div class="mr-auto my-auto">
-                                <h6 class="m-0 font-weight-bold text-primary">@item.Title</h6>
-                            </div>
-                            <div class="ml-auto">
-                                <p class="m-0 font-weight-bold text-primary">@Html.DisplayFor(modelItem => item.AddTime)</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card mx-auto card-w-40 border-0 my-5 shadow-lg">
                     <div class="card-body">
+                        <div class="d-flex flex-wrap">
+                            <h6 class="mx-auto font-weight-bold text-primary">@item.Title</h6>
+                        </div>
                         @Html.Raw(@item.Content)
+                        <div class="d-flex mt-4">
+                            <small class="ml-auto text-primary mb-n1">@Html.DisplayFor(modelItem => item.AddTime)</small>
+                        </div>
                     </div>
                 </div>
             }
