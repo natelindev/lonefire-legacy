@@ -3,7 +3,12 @@
 }
 
 @model IEnumerable<ArticleIndexVM>
-
+@{ 
+    int toInt(ArticleStatus val)
+    {
+        return (int)val;
+    }
+}
 <div class="container-lf">
 
     <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
@@ -77,18 +82,7 @@
                                     @Html.DisplayFor(modelItem => item.AddTime)
                                 </td>
                                 <td>
-                                    @switch (item.Status)
-                                    {
-                                        case ArticleStatus.Approved:
-                                            <p class="text-success">已通过</p>
-                                            break;
-                                        case ArticleStatus.Submitted:
-                                            <p class="text-primary">已提交</p>
-                                            break;
-                                        case ArticleStatus.Rejected:
-                                            <p class="text-danger">未通过</p>
-                                            break;
-                                    }
+                                    @toInt(item.Status)
                                 </td>
                                 <td>
                                     <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.ArticleID">编辑</a>
@@ -119,12 +113,14 @@
 
 @section Scripts {
     <environment include="Development">
+        <script src="~/lib/moment.js/moment.js"></script>
         <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
         <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
         <script src="~/lib/dt-Responsive-2.2.2/js/dataTables.responsive.min.js"></script>
         <script src="~/lib/dt-Responsive-2.2.2/js/responsive.bootstrap4.min.js"></script>
     </environment>
     <environment exclude="Development">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
     </environment>
     <script src="~/js/Article/Index.js" asp-append-version="true"></script>

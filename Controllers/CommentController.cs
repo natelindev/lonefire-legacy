@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using lonefire.Models;
 using lonefire.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json;
 
 namespace lonefire.Controllers
 {
@@ -36,6 +37,15 @@ namespace lonefire.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Comment.ToListAsync());
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> AjaxGetComments(int id)
+        {
+            var comments = await GetAllCommentsAsync(id);
+            var jsonString = JsonConvert.SerializeObject(comments);
+            return Content(jsonString, "application/json");
         }
 
         // GET: Comment/Details/5

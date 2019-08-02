@@ -10,12 +10,12 @@ namespace lonefire.Data
     {
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
-        public int PaginationCap { get; private set; }
+        public int PageIndexCap { get; private set; }
         public PaginatedList(List<T> items, int count, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
-            PaginationCap = Constants.PaginationCap;
+            PageIndexCap = Constants.PageIndexCap;
             this.AddRange(items);
         }
 
@@ -28,18 +28,18 @@ namespace lonefire.Data
             List<int> indexes = new List<int>();
             indexes.Add(PageIndex);
             int leftRef = PageIndex, rightRef = PageIndex;
-            while (PaginationCap > 1 && (leftRef > 1 || rightRef < TotalPages))
+            while (PageIndexCap > 1 && (leftRef > 1 || rightRef < TotalPages))
             {
                 if(leftRef > 1)
                 {
                     --leftRef;
-                    --PaginationCap;
+                    --PageIndexCap;
                     indexes.Add(leftRef);
                 }
-                if(PaginationCap > 1 && rightRef < TotalPages)
+                if(PageIndexCap > 1 && rightRef < TotalPages)
                 {
                     ++rightRef;
-                    --PaginationCap;
+                    --PageIndexCap;
                     indexes.Add(rightRef);
                 }
             }

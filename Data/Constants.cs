@@ -20,8 +20,9 @@
         public static readonly string Light = "light";
         public static readonly string Info = "info";
 
-        public static readonly int PageCount = 6;
-        public static readonly int PaginationCap = 7;
+        public static readonly int PageCap = 6;
+        public static readonly int DTPageCap = 10;
+        public static readonly int PageIndexCap = 7;
 
         public static readonly string AdministratorsRole = "Administrator";
     }

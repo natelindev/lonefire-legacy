@@ -20,7 +20,7 @@ button.onclick=function() {
     if (!hasLiked(articleID)) {
 
         $.ajax({
-            url: '/Ajax/AjaxLikeArticle',
+            url: '/Article/AjaxLikeArticle',
             type: 'post',
             data: 
             {

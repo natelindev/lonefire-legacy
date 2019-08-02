@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace lonefire.Controllers
@@ -29,6 +30,7 @@ namespace lonefire.Controllers
         private readonly UserController _userController;
         private readonly IFileIOHelper _io_Helper;
         private readonly IConfiguration _config;
+        private readonly ILogger<ArticleController> _logger;
 
         public ArticleController(
         ApplicationDbContext context,
@@ -38,8 +40,8 @@ namespace lonefire.Controllers
             UserController userController,
             IFileIOHelper io_Helper,
             IToaster toaster,
-            IConfiguration config
-
+            IConfiguration config,
+            ILogger<ArticleController> logger
             )
         {
             _aus = aus;
@@ -50,6 +52,7 @@ namespace lonefire.Controllers
             _io_Helper = io_Helper;
             _toaster = toaster;
             _config = config;
+            _logger = logger;
         }
 
         public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
@@ -125,15 +128,16 @@ namespace lonefire.Controllers
         public async Task<IActionResult> Index()
         {
             var articles = _context.Article
-                    .Select(a => new ArticleIndexVM{
+                    .Select(a => new ArticleIndexVM
+                    {
                         ArticleID = a.ArticleID,
                         Title = a.Title,
                         Author = a.Author,
-                        Tag= a.Tag,
-                        AddTime= a.AddTime,
-                        Status = a.Status 
+                        Tag = a.Tag,
+                        AddTime = a.AddTime,
+                        Status = a.Status
                     });
-                    
+
             var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
 
             var currentUserId = _userManager.GetUserId(User);
@@ -144,6 +148,8 @@ namespace lonefire.Controllers
                 articles = articles.Where(a => a.Author == currentUserId);
             }
 
+            articles = articles.OrderByDescending(a => a.ArticleID).Take(Constants.DTPageCap);
+
             var res = await articles.ToListAsync();
 
             foreach (var a in res)
@@ -152,8 +158,46 @@ namespace lonefire.Controllers
                 a.Author = await _userController.GetNickNameAsync(a.Author);
             }
 
-
             return View(res);
+        }
+
+        // GET: Article
+        [HttpGet]
+        public async Task<IActionResult> AjaxGetArticles()
+        {
+            var articles = _context.Article
+                    .Select(a => new ArticleIndexVM
+                    {
+                        ArticleID = a.ArticleID,
+                        Title = a.Title,
+                        Author = a.Author,
+                        Tag = a.Tag,
+                        AddTime = a.AddTime,
+                        Status = a.Status
+                    });
+
+            var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
+
+            var currentUserId = _userManager.GetUserId(User);
+
+            // Only show your own Articles unless you are admin
+            if (!isAuthorized)
+            {
+                articles = articles.Where(a => a.Author == currentUserId);
+            }
+
+            articles = articles.OrderByDescending(a => a.ArticleID).Skip(Constants.DTPageCap);
+
+            var res = await articles.ToListAsync();
+
+            foreach (var a in res)
+            {
+                var user = await _userManager.FindByIdAsync(a.Author);
+                a.Author = await _userController.GetNickNameAsync(a.Author);
+            }
+
+            var jsonString = JsonConvert.SerializeObject(new { data = res });
+            return Content(jsonString, "application/json");
         }
 
         // GET: Article/Details/5
@@ -524,6 +568,37 @@ namespace lonefire.Controllers
             _toaster.ToastSuccess("文章删除成功");
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> AjaxLikeArticle(int? articleID)
+        {
+            if (articleID == null)
+            {
+                return NotFound();
+            }
+
+            var articleToUpdate = await _context.Article.SingleOrDefaultAsync(a => a.ArticleID == articleID);
+
+            if (articleToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            ++articleToUpdate.LikeCount;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogInformation("User Like Article Failed For " + articleID);
+                _logger.LogInformation(e.Message);
+            }
+
+            return new OkResult();
         }
 
         private bool ArticleExists(int id)

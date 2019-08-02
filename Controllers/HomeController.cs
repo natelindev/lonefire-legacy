@@ -56,7 +56,7 @@ namespace lonefire.Controllers
                 .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.AddTime);
 
-                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCount);
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCap);
             }
             catch (Exception)
             {
@@ -88,7 +88,7 @@ namespace lonefire.Controllers
                 .Where(n => n.Status == NoteStatus.Public)
                 .OrderByDescending(a => a.AddTime);
 
-                notes = await PaginatedList<Note>.CreateAsync(noteIQ.AsNoTracking(), page, Constants.PageCount);
+                notes = await PaginatedList<Note>.CreateAsync(noteIQ.AsNoTracking(), page, Constants.PageCap);
             }
             catch (Exception)
             {
@@ -173,7 +173,7 @@ namespace lonefire.Controllers
                 .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.AddTime);
 
-                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCount);
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCap);
             }
             catch (Exception)
             {
