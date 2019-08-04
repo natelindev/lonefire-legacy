@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace lonefire.Models
@@ -18,5 +19,9 @@ namespace lonefire.Models
         [Display(Name = "头像")]
         [StringLength(256, ErrorMessage = " {0} 名称长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
         public string Avatar { get; set; }
+
+        [Display(Name = "上次访问时间")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTimeOffset? LastLoginDate { get; set; }
     }
 }

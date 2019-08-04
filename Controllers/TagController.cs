@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace lonefire.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Constants.AdministratorsRole)]
     public class TagController : Controller
     {
         private readonly ApplicationDbContext _context;

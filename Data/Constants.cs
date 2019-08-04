@@ -2,28 +2,32 @@
 {
     public static class Constants
     {
-        public static readonly string CreateOperationName = "Create";
-        public static readonly string ReadOperationName = "Read";
-        public static readonly string UpdateOperationName = "Update";
-        public static readonly string DeleteOperationName = "Delete";
-        public static readonly string ApproveOperationName = "Approve";
-        public static readonly string RejectOperationName = "Reject";
+        public const string CreateOperationName = "Create";
+        public const string ReadOperationName = "Read";
+        public const string UpdateOperationName = "Update";
+        public const string DeleteOperationName = "Delete";
+        public const string ApproveOperationName = "Approve";
+        public const string RejectOperationName = "Reject";
 
-        public static readonly string AdminTag = "「管理员」";
-        public static readonly string EmptyUserTag = "「异次元用户」";
-        public static readonly string ReservedTag = "「LONEFIRE」";
+        public const string AdminTag = "「管理员」";
+        public const string EmptyUserTag = "「异次元用户」";
+        public const string ReservedTag = "「LONEFIRE」";
 
-        public static readonly string ToastMessage = "ToastMessage";
-        public static readonly string ToastOption = "ToastOption";
-        public static readonly string Success = "success";
-        public static readonly string Danger = "danger";
-        public static readonly string Light = "light";
-        public static readonly string Info = "info";
+        public const string AdminName = "admin";
 
-        public static readonly int PageCap = 6;
-        public static readonly int DTPageCap = 10;
-        public static readonly int PageIndexCap = 7;
+        public const string ToastMessage = "ToastMessage";
+        public const string ToastOption = "ToastOption";
+        public const string Success = "success";
+        public const string Danger = "danger";
+        public const string Light = "light";
+        public const string Info = "info";
 
-        public static readonly string AdministratorsRole = "Administrator";
+        public const int PageCap = 6;
+        public const int DTPageCap = 10;
+        public const int PageIndexCap = 7;
+
+        public const string DefaultAvatar = "default-1.png";
+
+        public const string AdministratorsRole = "Administrator";
     }
 }

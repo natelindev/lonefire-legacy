@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using lonefire.Data;
 using lonefire.Models;
 using lonefire.Models.AccountViewModels;
 using lonefire.Services;
@@ -57,6 +58,14 @@ namespace lonefire.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                   
+                    ApplicationUser user = await _userManager.FindByNameAsync(model.UserName);
+                    
+                    if (user != null && await _userManager.IsInRoleAsync(user, Constants.AdministratorsRole))
+                    {
+                        // Only record admin's login time.
+                        user.LastLoginDate = DateTimeOffset.UtcNow;
+                    }
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }

@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace lonefire.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = Constants.AdministratorsRole)]
     public class UserController : Controller
     {
 
@@ -133,6 +133,19 @@ namespace lonefire.Controllers
             return View(user);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<int>> GetLastAdminLoginTime()
+        {
+
+            var user = await _userManager.FindByNameAsync(Constants.AdminName);
+            if (user == null)
+            {
+                _toaster.ToastError("管理员不存在");
+                return NotFound();
+            }
+            return (user.LastLoginDate - DateTimeOffset.UtcNow).Value.Days;
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
@@ -220,7 +233,7 @@ namespace lonefire.Controllers
         public async Task<string> GetAvatarAsync(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            return (user == null? "default-1.png" : user.Avatar);
+            return (user == null? Constants.DefaultAvatar : user.Avatar);
         }
 
         #endregion

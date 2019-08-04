@@ -260,8 +260,8 @@ main {
 
 .container-lf {
     width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 7px;
+    padding-left: 7px;
     margin-left: auto;
     margin-right: auto;
     margin-top: -10rem;
@@ -271,6 +271,14 @@ main {
     .container-lf:after {
         content: none
     }
+
+@media (min-width:768px) {
+    .container-lf {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
 
 .card-article {
     width: 100%;

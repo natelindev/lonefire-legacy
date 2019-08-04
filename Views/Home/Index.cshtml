@@ -7,6 +7,7 @@
 
 @model PaginatedList<Article>
 @inject IConfiguration Configuration
+@inject UserController UserController
 
 <div class="container-lf">
     <div class="card mx-md-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
@@ -25,7 +26,7 @@
                                         {
                                             @foreach (var t in item.Tag.Split(',').ToList<string>())
                                             {
-                                                <a class="btn btn-outline-light px-1 py-1 position-relative z-2" asp-controller="Tag" asp-action="List" asp-route-name="@t">@t</a>
+                                                <a class="btn btn-outline-light px-1 py-1 mt-n2 mb-3 position-relative z-2" asp-controller="Tag" asp-action="List" asp-route-name="@t">@t</a>
                                             }
                                         }
                                     </div>
@@ -47,7 +48,7 @@
                             }
                         }
                     </div>
-                    <partial name="_PaginatedIndex" model="Model"/>
+                    <partial name="_PaginatedIndex" model="Model" />
                 </div>
 
                 <div class="d-none d-md-block col-lg-3 col-md-4 mx-auto mt-3">
@@ -116,12 +117,24 @@
                             </div>
                         </div>
                     </div>
+                    @*<div class="card mx-auto my-3 border-0 animated--shadow-translate">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap">
+                                <h2 class="mx-auto mt-3 text-economica">站点状态</h2>
+                                <div class="d-flex flex-wrap my-3">
+                                    主人上次访问: @{await UserController.GetLastAdminLoginTime();}天前
+                                上次更新:
+                                </div>
+                                <a class="full-div-link z-1" href="/Tag"></a>
+                            </div>
+                        </div>
+                    </div>*@
                     <div class="card mx-auto my-3 border-0 animated--shadow-translate">
                         <div class="card-body">
                             <div class="d-flex flex-wrap">
                                 <h2 class="mx-auto mt-3 text-economica">标签</h2>
                                 <div class="d-flex flex-wrap my-3">
-                                    @foreach(var tag in Tags)
+                                    @foreach (var tag in Tags)
                                     {
                                         <a class="btn btn-outline-primary mx-2 my-2 px-2 py-2 z-2" asp-controller="Tag" asp-action="List" asp-route-id="@tag.TagID">@tag.TagName @tag.TagCount</a>
                                     }
