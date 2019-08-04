@@ -41,7 +41,7 @@ namespace lonefire.Extensions
                     var src_regex = @"src=\""[^""]+\""";
                     var src_tags = Regex.Matches(img_tag.Value, src_regex);
                     var src_tag = src_tags[0];
-                    new_imgs.Add(img_tag.Value.Substring(0, src_tag.Index) + "class=\"img-fluid img-center mb-3 shadow-lg\" " + "src=\"" + img_path + src_tag.Value.Substring(5, src_tag.Length - 5) + img_tag.Value.Substring(src_tag.Index+src_tag.Length,img_tag.Length- src_tag.Index - src_tag.Length));
+                    new_imgs.Add(img_tag.Value.Substring(0, src_tag.Index) + "class=\"img-fluid img-center mb-3 shadow\" " + "src=\"" + img_path + src_tag.Value.Substring(5, src_tag.Length - 5) + img_tag.Value.Substring(src_tag.Index+src_tag.Length,img_tag.Length- src_tag.Index - src_tag.Length));
                 }
 
                 //Replace

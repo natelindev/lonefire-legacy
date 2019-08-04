@@ -231,11 +231,9 @@
 }
 
 .img-center {
-    position: relative;
+    display:block;
     margin-left: auto;
     margin-right: auto;
-    /*left: 50%;
-    transform: translateX(-50%);*/
 }
 
 /* custom max width cards */

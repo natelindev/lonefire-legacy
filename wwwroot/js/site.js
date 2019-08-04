@@ -66,8 +66,8 @@ $(document).ready(function() {
             files.push($(this)[0].files[i].name);
         }
 
-        for (var i = 0; i < $(this)[0].names.length; i++) {
-            names.push('![' + $(this)[0].names[i].name + ']' + '(' + $(this)[0].names[i].name+ ')');
+        for (var i = 0; i < $(this)[0].files.length; i++) {
+            names.push('![' + $(this)[0].files[i].name + ']' + '(' + $(this)[0].files[i].name+ ')');
         }
 
         $(this).next('.custom-file-label').html(files.join(' '));
