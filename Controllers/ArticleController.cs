@@ -88,37 +88,37 @@ namespace lonefire.Controllers
 
             try
             {
-                var articles = await _context.Article
+
+                List<ArticleIndexVM> articles = await _context.Article
                     .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                     .OrderByDescending(a => a.AddTime)
-                    .Select(a=> new { a.ArticleID, a.Title, a.Author, a.Tag, a.AddTime, a.Status })
+                    .Select(a => new ArticleIndexVM
+                    {
+                        ArticleID = a.ArticleID,
+                        Title = a.Title,
+                        Author = a.Author,
+                        Tag = a.Tag,
+                        AddTime = a.AddTime,
+                        Status = a.Status
+                    })
                     .ToListAsync();
 
                 int idx = articles.FindIndex(a => a.ArticleID == id);
 
-                if (articles.Count > 1)
+                if (idx - 1 >= 0)
                 {
-                    if (idx == 0)
-                    {
-                        ViewData["Next"] = articles[idx + 1];
-                    }
-                    else if (idx == articles.Count - 1)
-                    {
-                        ViewData["Prev"] = articles[idx - 1];
-                    }
-                    else
-                    {
-                        ViewData["Prev"] = articles[idx - 1];
-                        ViewData["Next"] = articles[idx + 1];
-                    }
-
+                    ViewData["Prev"] = articles[idx - 1];
+                }
+                if (idx + 1 < articles.Count)
+                {
+                    ViewData["Next"] = articles[idx + 1];
                 }
             }
             catch (Exception)
             {
                 _toaster.ToastError("读取文章列表失败");
             }
-
+            ViewData["AboutMe"] = await _userController.GetUserInfo(Constants.AdminName);
             ViewData["Related"] = await GetRelatedArticles(article);
             return View(article);
         }

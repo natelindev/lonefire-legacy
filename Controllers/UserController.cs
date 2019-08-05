@@ -43,12 +43,12 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<string>> GetUserInfo(string data)
+        public async Task<string> GetUserInfo(string data)
         {
             ApplicationUser targetUser = null;
-            if (!string.IsNullOrWhiteSpace(data))
+            if (string.IsNullOrWhiteSpace(data))
             {
-                return NotFound();
+                return null;
             }
             if (Guid.TryParse(data, out Guid dump))
             {
@@ -59,7 +59,7 @@ namespace lonefire.Controllers
             {
                 targetUser = await _userManager.FindByNameAsync(data);
             }
-            return JsonConvert.SerializeObject(targetUser);
+            return targetUser.Description;
         }
 
         [HttpGet]
@@ -134,14 +134,14 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TimeSpan>> GetLastAdminLoginTime()
+        public async Task<TimeSpan> GetLastAdminLoginTime()
         {
 
             var user = await _userManager.FindByNameAsync(Constants.AdminName);
             if (user == null)
             {
                 _toaster.ToastError("管理员不存在");
-                return NotFound();
+                return TimeSpan.Zero;
             }
             return (DateTimeOffset.UtcNow - (user.LastLoginDate??DateTimeOffset.UtcNow));
         }

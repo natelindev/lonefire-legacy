@@ -71,7 +71,7 @@ namespace lonefire.Controllers
                     a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 60));
                 }
             }
-            ViewData["AboutMe"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "首页关于");
+            ViewData["AboutMe"] = await _userController.GetUserInfo(Constants.AdminName);
             ViewData["Friends"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "首页友链");
             ViewData["Tags"] = await _context.Tag.OrderByDescending(t => t.TagCount).Take(6).ToListAsync();
             return View(articles);
@@ -131,6 +131,7 @@ namespace lonefire.Controllers
                 article = new Article();
                 _toaster.ToastWarning("暂时没有 关于 的内容");
             }
+            ViewData["AboutMe"] = await _userController.GetUserInfo(Constants.AdminName);
             ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
             return View(article);
         }

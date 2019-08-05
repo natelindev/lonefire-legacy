@@ -1,6 +1,5 @@
 ﻿@{
     ViewData["Title"] = "主页";
-    var AboutMe = ViewData["AboutMe"] as Article;
     var Friends = ViewData["Friends"] as Article;
     var Tags = ViewData["Tags"] as List<Tag>;
 }
@@ -62,7 +61,7 @@
                                 <img src="/img/avatar.svg" class="mx-auto img-h-150 my-2" />
                                 <a class="full-div-link z-1" asp-controller="Article" asp-action="Index"></a>
                             </div>
-                            <markdown markdown="@AboutMe.Content"></markdown>
+                            <markdown markdown="@ViewData["AboutMe"]"></markdown>
                             <div class="social-wrapper-links">
                                 <a class="social-link social-link--github z-2" id="github" href="https://github.com/llldar" target="_blank">
                                     <svg class="social-svg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +123,7 @@
                                 <h2 class="mx-auto mt-3 text-economica">站点状态</h2>
                                 <div class="d-flex flex-wrap my-3 ml-4">
                                     <div class="d-flex flex-wrap">
-                                        主人上次访问: @HCController.FormatTimeSpan(UserController.GetLastAdminLoginTime().Result.Value)前
+                                        主人上次访问: @HCController.FormatTimeSpan(await UserController.GetLastAdminLoginTime())前
                                     </div>
                                     <div class="d-flex flex-wrap">
                                         站点软件更新: @(HCController.FormatTimeSpan(HCController.GetLastUpdateTime()))前

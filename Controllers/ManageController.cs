@@ -66,7 +66,8 @@ namespace lonefire.Controllers
                 Email = user.Email,
                 IsEmailConfirmed = user.EmailConfirmed,
                 Name = user.Name,
-                Avatar = user.Avatar
+                Avatar = user.Avatar,
+                Description = user.Description
             };
 
             return View(model);

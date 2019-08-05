@@ -225,7 +225,7 @@ namespace lonefire.Controllers
                         CommentID = c.CommentID,
                         Content = LF_MarkdownParser.ParseWithoutStyle(c.Content),
                         Author = await _userController.GetNickNameAsync(c.Author),
-                        AddTime = c.AddTime.ToLocalTime(),
+                        AddTime = c.AddTime,
                         Childs = await GetChildCommentsAsync(comments, c.CommentID),
                         Avatar = await _userController.GetAvatarAsync(c.Author)
                     };
@@ -259,7 +259,7 @@ namespace lonefire.Controllers
                     CommentID = c.CommentID,
                     Content = LF_MarkdownParser.ParseWithoutStyle(c.Content),
                     Author = await _userController.GetNickNameAsync(c.Author),
-                    AddTime = c.AddTime.ToLocalTime(),
+                    AddTime = c.AddTime,
                     Childs = await GetChildCommentsAsync(comments, c.CommentID),
                     Avatar = await _userController.GetAvatarAsync(c.Author)
                 };
