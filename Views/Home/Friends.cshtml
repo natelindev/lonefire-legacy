@@ -4,14 +4,60 @@
     ViewData["HeaderImg"] = "/img/bg-friends.jpg";
 }
 
-@model Article
+@model PaginatedList<Friend>
 
 <div class="container-lf">
     <div class="col-md-9 mx-auto px-0">
         <div class="card mx-auto my-5 border-0 shadow-lg">
             <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
-            <div class="card-body animated--link-container">
-                <markdown markdown="@Model.Content"></markdown>
+            <div class="card-body">
+                <markdown markdown='@(((Article)ViewData["Friend"]).Content)'></markdown>
+                @if (User.IsInRole(Constants.AdministratorsRole))
+                {
+
+                    <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
+                        <div class="card-header border-0"><partial name="_CardHeader" model='"创建新友链"' /></div>
+                        <div class="card-body">
+                            <form asp-controller="Friend" asp-action="Create" enctype="multipart/form-data">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6 mx-auto">
+                                        <input name="URL" class="form-control" placeholder="链接" required/>
+                                    </div>
+                                    <div class="form-group col-md-6 mx-auto">
+                                        <input name="Icon" class="form-control" placeholder="图标网址" />
+                                    </div>
+                                </div>
+                                <textarea class="form-control h-px-50" name="Description" placeholder="描述" required></textarea>
+                                <div class="form-row">
+                                    <a class="btn btn-secondary col-md-2 mx-auto mt-3 animated--shadow-deep" asp-action="List">重置</a>
+                                    <button class="btn btn-lf col-md-2 mx-auto mt-3 animated--shadow-deep" type="submit">提交</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+                <div class="d-flex flex-wrap justify-content-center">
+                    @foreach (var item in Model)
+                    {
+                        <div class="card card-friend mx-5 col-md-2 border-0 animated--shadow-translate my-4">
+                            @if (!string.IsNullOrWhiteSpace(item.Icon))
+                            {
+                                <img src="@item.Icon" class="card-img-top card-img-fit rounded darken-30 text-economica" />
+                            }
+                            <div class="card-img-overlay">
+                                <div class="d-flex flex-wrap">
+                                    <h4 class="mx-auto text-white text-economica">@item.Description</h4>
+                                </div>
+                                <div class="d-flex flex-wrap">
+                                    <a class="h4 mx-auto animated--link animated--link-white text-economica text-wrap z-2" target="_blank" href="@item.URL">@item.URL</a>
+                                </div>
+                            </div>
+                            <a class="full-div-link z-1" href="@item.URL" target="_blank"></a>
+                        </div>
+                    }
+
+                </div>
+                <partial name="_PaginatedIndex" model="Model" />
             </div>
         </div>
     </div>

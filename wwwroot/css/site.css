@@ -390,6 +390,13 @@ main {
     }
 }
 
+.card-friend {
+    padding: 0;
+}
+    .card-friend .card-Img-top{
+        object-fit: cover;
+    }
+
 /* Custom Sidebar */
 .sidebar-lf .sidebar-brand .sidebar-brand-text {
     color: #8BC34A;

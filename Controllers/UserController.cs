@@ -100,7 +100,7 @@ namespace lonefire.Controllers
                 try
                 {
                     await TryUpdateModelAsync(user, "",
-                             u => u.Name,u => u.Name,u=> u.Email
+                             u => u.Name,u => u.PhoneNumber,u=> u.Email
                         );
                     await _context.SaveChangesAsync();
 

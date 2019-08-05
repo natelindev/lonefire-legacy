@@ -1,7 +1,7 @@
-﻿@model Note
+﻿@model Friend
 
 @{
-    ViewData["Title"] = "编辑动态";
+    ViewData["Title"] = "编辑友链";
 }
 
 <div class="container-lf">
@@ -12,21 +12,21 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-row">
                     <div class="form-group col-md-5 mx-auto">
-                        <label asp-for="Title" class="control-label"></label>
-                        <input asp-for="Title" class="form-control"/>
-                        <span asp-validation-for="Title" class="text-danger"></span>
+                        <label asp-for="URL" class="control-label"></label>
+                        <input asp-for="URL" class="form-control" />
+                        <span asp-validation-for="URL" class="text-danger"></span>
                     </div>
                     <div class="form-group col-md-5 mx-auto">
-                        <label asp-for="MediaSerialized" class="control-label"></label>
-                        <input asp-for="MediaSerialized" class="form-control" />
-                        <span asp-validation-for="MediaSerialized" class="text-danger"></span>
+                        <label asp-for="Icon" class="control-label"></label>
+                        <input asp-for="Icon" class="form-control" />
+                        <span asp-validation-for="Icon" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Content" class="control-label"></label>
-                    <textarea asp-for="Content" class="form-control h-px-350"></textarea>
-                    <span asp-validation-for="Content" class="text-danger"></span>
+                    <label asp-for="Description" class="control-label"></label>
+                    <textarea asp-for="Description" class="form-control h-px-350"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
                 <div class="form-row">
                     <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>

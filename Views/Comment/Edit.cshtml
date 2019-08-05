@@ -1,0 +1,50 @@
+﻿@model Comment
+
+@{
+    ViewData["Title"] = "编辑评论";
+}
+
+<div class="container-lf">
+    <div class="card card-w-50 mx-auto border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="CommentID" />
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label asp-for="Author" class="control-label"></label>
+                        <input asp-for="Author" class="form-control" />
+                        <span asp-validation-for="Author" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Website" class="control-label"></label>
+                        <input asp-for="Website" class="form-control" />
+                        <span asp-validation-for="Website" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label"></label>
+                    <textarea asp-for="Content" class="form-control h-px-350"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                    
+                    <div class="form-row">
+                        <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>
+                        <button class="btn btn-lf col-md-2 mx-auto my-3 animated--shadow-deep" type="submit">提交</button>
+                    </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+}

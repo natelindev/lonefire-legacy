@@ -72,7 +72,7 @@ namespace lonefire.Controllers
                 }
             }
             ViewData["AboutMe"] = await _userController.GetUserInfo(Constants.AdminName);
-            ViewData["Friends"] = await _context.Article.FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "首页友链");
+            ViewData["Friends"] = await _context.Friend.OrderBy(f => f.FriendID).ToListAsync();
             ViewData["Tags"] = await _context.Tag.OrderByDescending(t => t.TagCount).Take(6).ToListAsync();
             return View(articles);
         }
@@ -151,7 +151,7 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Friends()
+        public async Task<IActionResult> Friends(int page = 1)
         {
             var article = await _context.Article
                 .FirstOrDefaultAsync(m => m.Title == Constants.ReservedTag + "友链");
@@ -161,7 +161,20 @@ namespace lonefire.Controllers
                 _toaster.ToastWarning("暂时没有 友链 的内容");
             }
             ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
-            return View(article);
+            ViewData["Friend"] = article;
+
+            PaginatedList<Friend> friends = new PaginatedList<Friend>();
+            try
+            {
+                IQueryable<Friend> friendIQ = _context.Friend.OrderBy(f => f.FriendID);
+
+                friends = await PaginatedList<Friend>.CreateAsync(friendIQ.AsNoTracking(), page, Constants.FriendPageCap);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取友链列表失败");
+            }
+            return View(friends);
         }
 
         [HttpGet]

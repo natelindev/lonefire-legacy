@@ -261,6 +261,17 @@
     max-width: 50rem;
 }
 
+.card-w-60 {
+    max-width: 60rem;
+}
+.card-w-70 {
+    max-width: 70rem;
+}
+
+.card-w-80 {
+    max-width: 80rem;
+}
+
 @media (min-width: 768px) {
     .card-w-md-20 {
         max-width: 20rem;
@@ -749,6 +760,10 @@ button.bg-dark:focus {
 
 .fit-contain {
     object-fit: contain;
+}
+
+.float-link-container a{
+    z-index: 2;
 }
 
 .btn-circle {

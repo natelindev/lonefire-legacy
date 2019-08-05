@@ -1,12 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "动态管理";
+    ViewData["Title"] = "友链管理";
 }
 
-@model IEnumerable<Note>
+@model IEnumerable<Friend>
 
 <div class="container-lf">
 
-    <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
+    <div class="card mx-auto card-w-80 border-0 my-5 shadow-lg">
         <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
         <div class="card-body">
 
@@ -15,44 +15,44 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.NoteID)
+                                @Html.DisplayNameFor(model => model.URL)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Title)
+                                @Html.DisplayNameFor(model => model.Description)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.AddTime)
+                                @Html.DisplayNameFor(model => model.Icon)
                             </th>
                             <th>操作</th>
                         </tr>
                         <tr>
                             <th></th>
-                            <th><input class="form-control" id="titleSearch" type="text" /></th>
-                            <th><input class="form-control" id="timeSearch" type="text" data-toggle="datepicker" /></th>
+                            <th><input class="form-control" id="descSearch" type="text" /></th>
+                            <th><input class="form-control" id="iconSearch" type="text" /></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NoteID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Title)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AddTime)
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.NoteID">编辑</a>
-                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.NoteID">详情</a>
-                                    <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.NoteID" data-name="@item.Title" data-type="动态">
-                                        删除
-                                    </a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.URL)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Icon)
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.FriendID">编辑</a>
+                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.FriendID">详情</a>
+                                <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.FriendID" data-name="@item.URL" data-type="友链">
+                                    删除
+                                </a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
@@ -82,5 +82,5 @@
     <environment exclude="Development">
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
     </environment>
-    <script src="~/js/Note/Index.js" asp-append-version="true"></script>
+    <script src="~/js/Friend/Index.js" asp-append-version="true"></script>
 }

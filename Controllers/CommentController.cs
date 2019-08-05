@@ -12,6 +12,7 @@ using lonefire.Models;
 using lonefire.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
+using lonefire.Services;
 
 namespace lonefire.Controllers
 {
@@ -21,16 +22,19 @@ namespace lonefire.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly UserController _userController;
+        private readonly IToaster _toaster;
 
         public CommentController(
         ApplicationDbContext context,
         UserManager<ApplicationUser> userManager,
-        UserController userController
+        UserController userController,
+        IToaster toaster
             )
         {
             _userController = userController;
             _userManager = userManager;
             _context = context;
+            _toaster = toaster;
         }
 
         // GET: Comment
@@ -128,12 +132,19 @@ namespace lonefire.Controllers
         // POST: Comment/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,ArticleID,ParentID,Content,Author,AddTime")] Comment comment)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != comment.CommentID)
+            if (id == null)
             {
+                return NotFound();
+            }
+
+            var comment = await _context.Comment.Where(c=>c.CommentID == id).FirstOrDefaultAsync();
+            if (comment == null)
+            {
+                _toaster.ToastError("获取评论失败");
                 return NotFound();
             }
 
@@ -141,22 +152,19 @@ namespace lonefire.Controllers
             {
                 try
                 {
-                    _context.Update(comment);
+                    await TryUpdateModelAsync(comment, "",
+                             c => c.Author, c => c.Website, c => c.Email, c => c.Content
+                        );
                     await _context.SaveChangesAsync();
+
+                    _toaster.ToastSuccess("编辑评论成功");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
-                    if (!CommentExists(comment.CommentID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    _toaster.ToastError("编辑评论失败");
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             return View(comment);
         }
 

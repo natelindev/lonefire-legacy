@@ -20,6 +20,8 @@ namespace lonefire.Data
         public virtual DbSet<Tag> Tag { get; set; }
         public virtual DbSet<Note> Note { get; set; }
 
+        public virtual DbSet<Friend> Friend { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Customize the ASP.NET Core Identity model and override the defaults if needed.
@@ -33,6 +35,7 @@ namespace lonefire.Data
             builder.Entity<Comment>().ToTable("Comments");
             builder.Entity<Tag>().ToTable("Tags");
             builder.Entity<Note>().ToTable("Notes");
+            builder.Entity<Friend>().ToTable("Friends");
 
             builder.Entity<Comment>().Property(p => p.CommentID).ValueGeneratedOnAdd();
             builder.Entity<Comment>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
@@ -51,6 +54,8 @@ namespace lonefire.Data
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
         }
+
+        public DbSet<lonefire.Models.Friend> Friend_1 { get; set; }
 
     }
 }

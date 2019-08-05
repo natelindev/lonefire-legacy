@@ -78,8 +78,8 @@ namespace lonefire.Extensions
             var indices = new[] { 0 }.Union(index).Union(new[] { source.Length });
 
             return indices
-                        .Zip(indices.Skip(1), (a, b) => (a, b))
-                        .Select(_ => source.Substring(_.a, _.b - _.a));
+                        .Zip(indices.Skip(1), (a, b) => (a: a, b: b))
+                        .Select(_ => source.Substring(startIndex: _.a, length: _.b - _.a));
         }
 
         public static string ParseWithoutStyle(string markdown)

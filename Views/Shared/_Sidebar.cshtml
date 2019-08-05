@@ -24,15 +24,15 @@
             <li class="nav-item @PageManager.IsActive(ViewContext,"Note","Index")">
                 <a class="nav-link" asp-controller="Note" asp-action="Index">
                     <i class="fas fa-sticky-note"></i>
-                    <span>笔记管理</span>
+                    <span>动态管理</span>
                 </a>
             </li>
 
             <!-- Nav Item - Tag -->
-            <li class="nav-item @PageManager.IsActive(ViewContext,"Tag")">
-                <a class="nav-link" asp-controller="Tag" asp-action="Index">
-                    <i class="fas fa-fw fa-tag"></i>
-                    <span>标签管理</span>
+            <li class="nav-item @PageManager.IsActive(ViewContext,"Comment")">
+                <a class="nav-link" asp-controller="Comment" asp-action="Index">
+                    <i class="fas fa-fw fa-comments"></i>
+                    <span>评论管理</span>
                 </a>
             </li>
 
@@ -41,6 +41,14 @@
                 <a class="nav-link" asp-controller="User" asp-action="Index">
                     <i class="fas fa-fw fa-user-friends"></i>
                     <span>用户管理</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Friend -->
+            <li class="nav-item @PageManager.IsActive(ViewContext,"Friend")">
+                <a class="nav-link" asp-controller="Friend" asp-action="Index">
+                    <i class="fas fa-fw fa-link"></i>
+                    <span>友链管理</span>
                 </a>
             </li>
 
