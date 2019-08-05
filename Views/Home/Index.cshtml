@@ -8,6 +8,7 @@
 @model PaginatedList<Article>
 @inject IConfiguration Configuration
 @inject UserController UserController
+@inject HealthCheckController HCController
 
 <div class="container-lf">
     <div class="card mx-md-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
@@ -117,18 +118,26 @@
                             </div>
                         </div>
                     </div>
-                    @*<div class="card mx-auto my-3 border-0 animated--shadow-translate">
+                    <div class="card mx-auto my-3 border-0 animated--shadow-translate">
                         <div class="card-body">
                             <div class="d-flex flex-wrap">
                                 <h2 class="mx-auto mt-3 text-economica">站点状态</h2>
-                                <div class="d-flex flex-wrap my-3">
-                                    主人上次访问: @{await UserController.GetLastAdminLoginTime();}天前
-                                上次更新:
+                                <div class="d-flex flex-wrap my-3 ml-4">
+                                    <div class="d-flex flex-wrap">
+                                        主人上次访问: @HCController.FormatTimeSpan(UserController.GetLastAdminLoginTime().Result.Value)前
+                                    </div>
+                                    <div class="d-flex flex-wrap">
+                                        站点软件更新: @(HCController.FormatTimeSpan(HCController.GetLastUpdateTime()))前
+                                    </div>
+                                    <div class="d-flex flex-wrap">
+                                        站点运行时间: @(HCController.FormatTimeSpan(HCController.GetUptime()))
+                                    </div>
+
                                 </div>
                                 <a class="full-div-link z-1" href="/Tag"></a>
                             </div>
                         </div>
-                    </div>*@
+                    </div>
                     <div class="card mx-auto my-3 border-0 animated--shadow-translate">
                         <div class="card-body">
                             <div class="d-flex flex-wrap">

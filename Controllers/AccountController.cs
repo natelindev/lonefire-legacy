@@ -65,6 +65,7 @@ namespace lonefire.Controllers
                     {
                         // Only record admin's login time.
                         user.LastLoginDate = DateTimeOffset.UtcNow;
+                        await _userManager.UpdateAsync(user);
                     }
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);

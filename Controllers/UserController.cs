@@ -134,7 +134,7 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<int>> GetLastAdminLoginTime()
+        public async Task<ActionResult<TimeSpan>> GetLastAdminLoginTime()
         {
 
             var user = await _userManager.FindByNameAsync(Constants.AdminName);
@@ -143,7 +143,7 @@ namespace lonefire.Controllers
                 _toaster.ToastError("管理员不存在");
                 return NotFound();
             }
-            return (user.LastLoginDate - DateTimeOffset.UtcNow).Value.Days;
+            return (DateTimeOffset.UtcNow - (user.LastLoginDate??DateTimeOffset.UtcNow));
         }
 
         [HttpPost]
