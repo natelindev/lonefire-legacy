@@ -9,12 +9,30 @@
         autoWidth: false,
         columns : [
             { width : '40px' },
-            { width : '140px' },
-            { width : '60px' },
+            { width: '140px' },
+            {
+                width: '60px', "render": function (status) {
+                    switch (status) {
+                        case 0:
+                        case '0':
+                        case '公开':
+                        case 'Public':
+                            return '<p class="text-success">公开</p>'
+                            break;
+                        case 1:
+                        case '1':
+                        case '私密':
+                        case 'Private':
+                            return '<p class="text-danger">私密</p>'
+                            break;
+                    }
+                }
+            },
+            { width: '60px' },
             { width : '100px' }
         ], 
         columnDefs: [
-            {"orderable": false, "targets": 3 }
+            {"orderable": false, "targets": 4 }
         ],
         order: [[ 0, "desc" ]]
     });

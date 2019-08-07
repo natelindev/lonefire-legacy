@@ -158,6 +158,7 @@ namespace lonefire.Controllers
                     await _context.SaveChangesAsync();
 
                     _toaster.ToastSuccess("编辑评论成功");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException)
                 {

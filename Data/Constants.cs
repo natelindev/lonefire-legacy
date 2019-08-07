@@ -26,6 +26,8 @@
         public const int FriendPageCap = 12;
         public const int DTPageCap = 10;
         public const int PageIndexCap = 7;
+        public const int FrontPageWordCount = 60;
+        public const int NoteIndexWordCount = 30;
 
         public const string DefaultAvatar = "default-1.png";
 

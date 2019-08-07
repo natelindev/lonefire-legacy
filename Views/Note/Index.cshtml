@@ -18,7 +18,10 @@
                                 @Html.DisplayNameFor(model => model.NoteID)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Title)
+                                @Html.DisplayNameFor(model => model.Title) + @Html.DisplayNameFor(model => model.Content)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Status)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.AddTime)
@@ -28,6 +31,7 @@
                         <tr>
                             <th></th>
                             <th><input class="form-control" id="titleSearch" type="text" /></th>
+                            <th><input class="form-control" id="statusSearch" type="text" /></th>
                             <th><input class="form-control" id="timeSearch" type="text" data-toggle="datepicker" /></th>
                             <th></th>
                         </tr>
@@ -35,24 +39,28 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NoteID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Title)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.AddTime)
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.NoteID">编辑</a>
-                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.NoteID">详情</a>
-                                    <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.NoteID" data-name="@item.Title" data-type="动态">
-                                        删除
-                                    </a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NoteID)
+                            </td>
+                            <td>
+                                @item.Title @if (!string.IsNullOrWhiteSpace(item.Content))
+                                {@item.Content.Substring(0, Math.Min(item.Content.Length, Constants.NoteIndexWordCount))}
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Status)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AddTime)
+                            </td>
+                            <td>
+                                <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.NoteID">编辑</a>
+                                <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.NoteID">详情</a>
+                                <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.NoteID" data-name="@item.Title" data-type="动态">
+                                    删除
+                                </a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

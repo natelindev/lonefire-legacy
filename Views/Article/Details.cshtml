@@ -48,13 +48,13 @@
                             <form method="post">
                                 <input type="hidden" name="id" value="@Model.ArticleID" />
                                 <input type="hidden" name="status" value="@ArticleStatus.Approved" />
-                                <button type="submit" class="btn btn-primary animated--shadow-deep col-12">通过</button>
+                                <button type="submit" class="btn btn-primary animated--shadow-deep col-12">展示</button>
                             </form>
                         </div>
                     }
                 }
-                @if (Model.Status != ArticleStatus.Approved)
-                {
+               
+                
                     @if ((await AuthorizationService.AuthorizeAsync(
       User, Model, ArticleOperations.Reject)).Succeeded)
                     {
@@ -62,11 +62,11 @@
                             <form method="post">
                                 <input type="hidden" name="id" value="@Model.ArticleID" />
                                 <input type="hidden" name="status" value="@ArticleStatus.Rejected" />
-                                <button type="submit" class="btn btn-danger animated--shadow-deep col-12">拒绝</button>
+                                <button type="submit" class="btn btn-danger animated--shadow-deep col-12">隐藏</button>
                             </form>
                         </div>
                     }
-                }
+                
                 @if ((await AuthorizationService.AuthorizeAsync(
 User, Model, ArticleOperations.Update)).Succeeded)
                 {

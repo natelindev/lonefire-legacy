@@ -27,14 +27,20 @@
                     switch (status) {
                         case 1:
                         case '1':
+                        case 'Approved':
+                        case '已通过':
                             return '<p class="text-success">已通过</p>'
+                            break;
+                        case 0:
+                        case '0':
+                        case 'Submitted':
+                        case '已提交':
+                            return '<p class="text-primary">已提交</p>'
                             break;
                         case 2:
                         case '2':
-                            return '<p class="text-primary">已提交</p>'
-                            break;
-                        case 3:
-                        case '3':
+                        case 'Rejected':
+                        case '未通过':
                             return '<p class="text-danger">未通过</p>'
                             break;
                     }

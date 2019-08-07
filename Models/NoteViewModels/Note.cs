@@ -34,8 +34,8 @@ namespace lonefire.Models.NoteViewModels
     public enum NoteStatus
     {
         [Display(Name = "公开")]
-        Public,
+        Public = 0,
         [Display(Name = "私密")]
-        Private
+        Private = 1
     }
 }

@@ -13,14 +13,17 @@ namespace lonefire.Views
         {
             var controllerName = viewContext.RouteData.Values["controller"] as string;
             var actionName = viewContext.RouteData.Values["action"] as string;
-            return controllerName == "Article" && actionName == "Index" ||
-                   controllerName == "User" ||
-                   controllerName == "Comment"||
-                   controllerName == "Manage" ||
-                   controllerName == "Note" ||
-                   controllerName == "Friend" ||
-                   controllerName == "Images" 
-            ;
+            var sidebarDict = new Dictionary<string, List<string>>
+            {
+                { "Article", new List<string>{"Index","Edit","Details" } },
+                { "User", null },
+                { "Comment", null },
+                { "Note", null },
+                { "Friend", null },
+                { "Images", null }
+            };
+
+            return sidebarDict.ContainsKey(controllerName) && (sidebarDict[controllerName] == null || sidebarDict[controllerName].Contains(actionName));
         }
 
         public static string IsActive(ViewContext viewContext,string controller)

@@ -68,7 +68,7 @@ namespace lonefire.Controllers
                 if(a.Content != null)
                 {
                     a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
-                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, 60));
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, Constants.FrontPageWordCount));
                 }
             }
             ViewData["AboutMe"] = await _userController.GetUserInfo(Constants.AdminName);
@@ -81,13 +81,18 @@ namespace lonefire.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Notes(int page = 1)
         {
+            var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
+
             PaginatedList<Note> notes = new PaginatedList<Note>();
             try
             {
                 IQueryable<Note> noteIQ = _context.Note
-                .Where(n => n.Status == NoteStatus.Public)
                 .OrderByDescending(a => a.AddTime);
 
+                if (!isAuthorized)
+                {
+                    noteIQ = noteIQ.Where(n => n.Status == NoteStatus.Public);
+                }
                 notes = await PaginatedList<Note>.CreateAsync(noteIQ.AsNoTracking(), page, Constants.PageCap);
             }
             catch (Exception)

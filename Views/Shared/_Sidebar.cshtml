@@ -12,7 +12,7 @@
         </button>
 
         <!-- Nav Item - Article -->
-        <li class="nav-item @PageManager.IsActive(ViewContext,"Article","Index")">
+        <li class="nav-item @PageManager.IsActive(ViewContext,"Article")">
             <a class="nav-link" asp-controller="Article" asp-action="Index">
                 <i class="fas fa-fw fa-book"></i>
                 <span>文章管理</span>
@@ -21,7 +21,7 @@
 
         @if (User.IsInRole(Constants.AdministratorsRole))
         {
-            <li class="nav-item @PageManager.IsActive(ViewContext,"Note","Index")">
+            <li class="nav-item @PageManager.IsActive(ViewContext,"Note")">
                 <a class="nav-link" asp-controller="Note" asp-action="Index">
                     <i class="fas fa-sticky-note"></i>
                     <span>动态管理</span>

@@ -114,6 +114,7 @@ namespace lonefire.Controllers
                     await _context.SaveChangesAsync();
 
                     _toaster.ToastSuccess("编辑友链成功");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException)
                 {

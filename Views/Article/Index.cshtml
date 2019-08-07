@@ -3,12 +3,6 @@
 }
 
 @model IEnumerable<ArticleIndexVM>
-@{ 
-    int toInt(ArticleStatus val)
-    {
-        return (int)val;
-    }
-}
 <div class="container-lf">
 
     <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
@@ -82,7 +76,7 @@
                                     @Html.DisplayFor(modelItem => item.AddTime)
                                 </td>
                                 <td>
-                                    @toInt(item.Status)
+                                    @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td>
                                     <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.ArticleID">编辑</a>

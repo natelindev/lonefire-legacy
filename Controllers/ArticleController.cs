@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -292,7 +293,7 @@ namespace lonefire.Controllers
         // POST: Article/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Author,Tag,Content")]Article article,IFormFile headerImg,IList<IFormFile> contentImgs)
+        public async Task<IActionResult> Create([Bind("Title,Author,Tag,Content")]Article article,ArticleStatus? Status, IFormFile headerImg,IList<IFormFile> contentImgs)
         {
             if (ModelState.IsValid)
             {
@@ -313,7 +314,7 @@ namespace lonefire.Controllers
                 {
                     //Only Mod can change Article Author & Does not need Approving
                     article.Author = article.Author ?? uid;
-                    article.Status = ArticleStatus.Approved;
+                    article.Status = Status ?? ArticleStatus.Approved;
                 }
                 else
                 {
@@ -508,7 +509,7 @@ namespace lonefire.Controllers
                     await _context.SaveChangesAsync();
                     _toaster.ToastSuccess("文章更新成功");
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception)
                 {
                     _toaster.ToastError("文章更新失败");
 

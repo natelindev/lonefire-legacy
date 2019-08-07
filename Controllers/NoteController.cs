@@ -49,7 +49,7 @@ namespace lonefire.Controllers
         // POST: Note/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Content")]Note note, IList<IFormFile> contentImgs)
+        public async Task<IActionResult> Create([Bind("Title,Content")]Note note, NoteStatus? Status, IList<IFormFile> contentImgs)
         {
             if (ModelState.IsValid)
             {
@@ -71,10 +71,10 @@ namespace lonefire.Controllers
                     if (ArticleImgs.Count > 0)
                         note.MediaSerialized = JsonConvert.SerializeObject(ArticleImgs);
                 }
-
+                note.Status = Status ?? NoteStatus.Public; 
                 _context.Add(note);
                 await _context.SaveChangesAsync();
-                _toaster.ToastSuccess("笔记创建成功");
+                _toaster.ToastSuccess("动态创建成功");
                 return RedirectToAction(nameof(HomeController.Notes),"Home");
             }
             return View(note);
@@ -91,7 +91,7 @@ namespace lonefire.Controllers
             var note = await _context.Note.Where(n => n.NoteID == id).FirstOrDefaultAsync();
             if (note == null)
             {
-                _toaster.ToastError("获取笔记失败");
+                _toaster.ToastError("获取动态失败");
                 return NotFound();
             }
 
@@ -110,7 +110,7 @@ namespace lonefire.Controllers
             var note = await _context.Note.Where(n => n.NoteID == id).FirstOrDefaultAsync();
             if (note == null)
             {
-                _toaster.ToastError("获取笔记失败");
+                _toaster.ToastError("获取动态失败");
                 return NotFound();
             }
 
@@ -119,15 +119,16 @@ namespace lonefire.Controllers
                 try
                 {
                     await TryUpdateModelAsync(note, "",
-                             n => n.Title, n => n.Content, n => n.MediaSerialized
+                             n => n.Title, n => n.Content, n => n.MediaSerialized, n => n.Status
                         );
                     await _context.SaveChangesAsync();
 
-                    _toaster.ToastSuccess("编辑笔记成功");
+                    _toaster.ToastSuccess("编辑动态成功");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateException)
                 {
-                    _toaster.ToastError("编辑笔记失败");
+                    _toaster.ToastError("编辑动态失败");
                 }
             }
 
@@ -145,7 +146,7 @@ namespace lonefire.Controllers
             var note = await _context.Note.Where(n => n.NoteID == id).FirstOrDefaultAsync();
             if (note == null)
             {
-                _toaster.ToastError("获取笔记失败");
+                _toaster.ToastError("获取动态失败");
                 return NotFound();
             }
 
@@ -170,7 +171,7 @@ namespace lonefire.Controllers
 
             if (note == null)
             {
-                _toaster.ToastError("获取笔记失败");
+                _toaster.ToastError("获取动态失败");
                 return NotFound();
             }
 
@@ -178,11 +179,11 @@ namespace lonefire.Controllers
             {
                 _context.Note.Remove(note);
                 await _context.SaveChangesAsync();
-                _toaster.ToastSuccess("删除笔记成功");
+                _toaster.ToastSuccess("删除动态成功");
             }
             catch (DbUpdateException)
             {
-                _toaster.ToastError("删除笔记失败");
+                _toaster.ToastError("删除动态失败");
             }
             return RedirectToAction(nameof(Index));
         }
