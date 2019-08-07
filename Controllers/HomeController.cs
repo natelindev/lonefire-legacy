@@ -121,6 +121,8 @@ namespace lonefire.Controllers
             return View();
         }
 
+        
+
         [HttpGet]
         public async Task<IActionResult> About()
         {
@@ -148,6 +150,12 @@ namespace lonefire.Controllers
             }
             ViewData["Comments"] = await _commentController.GetAllCommentsAsync(article.ArticleID);
             return View(article);
+        }
+
+        [HttpGet]
+        public IActionResult Images()
+        {
+            return View();
         }
 
         [HttpGet]

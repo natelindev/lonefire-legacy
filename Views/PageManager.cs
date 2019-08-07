@@ -13,13 +13,13 @@ namespace lonefire.Views
         {
             var controllerName = viewContext.RouteData.Values["controller"] as string;
             var actionName = viewContext.RouteData.Values["action"] as string;
-            return controllerName == "Article" && actionName == "Index" ||
-                   controllerName == "Article" && actionName == "Billboard" ||
+            return controllerName == "Article" ||
                    controllerName == "User" ||
                    controllerName == "Comment"||
                    controllerName == "Manage" ||
-                   controllerName == "Note" && actionName == "Index" ||
-                   controllerName == "Friend"
+                   controllerName == "Note" ||
+                   controllerName == "Friend" ||
+                   controllerName == "Images" 
             ;
         }
 

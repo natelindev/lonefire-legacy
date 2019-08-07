@@ -26,7 +26,7 @@ namespace lonefire.Controllers
         // GET: Friend
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Friend_1.ToListAsync());
+            return View(await _context.Friend.ToListAsync());
         }
 
         // GET: Friend/Details/5
@@ -37,7 +37,7 @@ namespace lonefire.Controllers
                 return NotFound();
             }
 
-            var friend = await _context.Friend_1
+            var friend = await _context.Friend
                 .FirstOrDefaultAsync(m => m.FriendID == id);
             if (friend == null)
             {
@@ -77,7 +77,7 @@ namespace lonefire.Controllers
                 return NotFound();
             }
 
-            var friend = await _context.Friend_1.FindAsync(id);
+            var friend = await _context.Friend.FindAsync(id);
             if (friend == null)
             {
                 return NotFound();
@@ -132,7 +132,7 @@ namespace lonefire.Controllers
                 return NotFound();
             }
 
-            var friend = await _context.Friend_1
+            var friend = await _context.Friend
                 .FirstOrDefaultAsync(m => m.FriendID == id);
             if (friend == null)
             {
@@ -147,15 +147,15 @@ namespace lonefire.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var friend = await _context.Friend_1.FindAsync(id);
-            _context.Friend_1.Remove(friend);
+            var friend = await _context.Friend.FindAsync(id);
+            _context.Friend.Remove(friend);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FriendExists(int id)
         {
-            return _context.Friend_1.Any(e => e.FriendID == id);
+            return _context.Friend.Any(e => e.FriendID == id);
         }
     }
 }

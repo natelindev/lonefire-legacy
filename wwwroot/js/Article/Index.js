@@ -10,7 +10,7 @@
         ajax: {
             'url': "Article/AjaxGetArticles"
         },
-        deferLoading : 6,
+        deferLoading : 10,
         autoWidth: false,
         columns : [
             { data:"ArticleID", width : '40px' },

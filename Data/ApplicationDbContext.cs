@@ -21,6 +21,7 @@ namespace lonefire.Data
         public virtual DbSet<Note> Note { get; set; }
 
         public virtual DbSet<Friend> Friend { get; set; }
+        public virtual DbSet<Image> Image { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -36,6 +37,7 @@ namespace lonefire.Data
             builder.Entity<Tag>().ToTable("Tags");
             builder.Entity<Note>().ToTable("Notes");
             builder.Entity<Friend>().ToTable("Friends");
+            builder.Entity<Image>().ToTable("Images");
 
             builder.Entity<Comment>().Property(p => p.CommentID).ValueGeneratedOnAdd();
             builder.Entity<Comment>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
@@ -54,8 +56,6 @@ namespace lonefire.Data
             builder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
             builder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
         }
-
-        public DbSet<lonefire.Models.Friend> Friend_1 { get; set; }
 
     }
 }

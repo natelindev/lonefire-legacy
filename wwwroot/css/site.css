@@ -442,7 +442,7 @@ main {
 
     .sidebar.sidebar-left {
         left: 1rem;
-        top: 40%;
+        top: 20%;
     }
 
         .sidebar.sidebar-left .sidebar-toggler {

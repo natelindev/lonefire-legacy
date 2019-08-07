@@ -28,7 +28,7 @@
                 </a>
             </li>
 
-            <!-- Nav Item - Tag -->
+            <!-- Nav Item - Comment -->
             <li class="nav-item @PageManager.IsActive(ViewContext,"Comment")">
                 <a class="nav-link" asp-controller="Comment" asp-action="Index">
                     <i class="fas fa-fw fa-comments"></i>
@@ -52,6 +52,13 @@
                 </a>
             </li>
 
+            <!-- Nav Item - Friend -->
+            <li class="nav-item @PageManager.IsActive(ViewContext,"Images")">
+                <a class="nav-link" asp-controller="Image" asp-action="Index">
+                    <i class="fas fa-fw fa-images"></i>
+                    <span>图片管理</span>
+                </a>
+            </li>
         }
 
         <!-- Nav Item - Manage -->
