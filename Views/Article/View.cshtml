@@ -72,7 +72,10 @@
                         <button class="btn btn-outline-danger btn-circle mt-1" id="like" articleID="@Model.ArticleID" count="@Model.LikeCount"><i class="fas fa-heart"></i></button>
                         <label id="like-label" class="control-label text-danger">@Model.LikeCount</label>
                         <div class="ml-auto mr-2 my-auto">
-                            <h7 data-toc-skip>阅读次数: @Model.ViewCount 次</h7>
+                            <div class="mt-auto mb-2">
+                                <i class="material-icons img-h-32">remove_red_eye</i>
+                                @Model.ViewCount
+                            </div>
                         </div>
                     </div>
                 </div>

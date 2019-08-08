@@ -9,8 +9,11 @@ body {
 }
 
 pre {
-    filter: brightness(92%);
+    border-radius: 0.25rem;
 }
+    pre code {
+        background: #e9ecef !important;
+    }
 
 @media(max-width: 768px) {
     .navbar-brand {

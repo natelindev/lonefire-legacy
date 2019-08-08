@@ -41,7 +41,7 @@ hljs.initHighlightingOnLoad();
 
 
 
-$(document).ready(function () {
+/*$(document).ready(function () {
     var scrollDistance = $(this).scrollTop();
     var main_distance = $('.card-main').offset().top;
 
@@ -54,4 +54,4 @@ $(document).ready(function () {
     }
 
     $('.sidebar').css('top', main_distance + 'px');
-});
+});*/

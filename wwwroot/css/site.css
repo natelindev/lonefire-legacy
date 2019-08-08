@@ -328,7 +328,7 @@ main {
 
 @media (min-width:768px) {
     .card-article {
-        width: 22rem;
+        width: 24rem;
     }
 }
 
@@ -437,8 +437,8 @@ main {
         max-width: 500px;
         max-height: 500px;
         overflow: hidden;
-        position: absolute;
-        transition: max-width,max-height,transform .5s ease-out;
+        position: fixed;
+        transition: all .5s ease-out;
     }
 }
 
@@ -447,8 +447,8 @@ main {
         max-width: 2.5rem;
         max-height: 2.5rem;
         overflow: hidden;
-        position: absolute;
-        transition: transform .5s ease-out;
+        position: fixed;
+        transition: all .5s ease-out;
     }
 }
 
@@ -464,9 +464,7 @@ main {
 
         .sidebar.sidebar-right {
             right: 1rem;
-            top: 0;
-            flex-grow: 0;
-            align-self: flex-start;
+            top: 40%;
         }
     
 

@@ -13,7 +13,7 @@
     <div class="card mx-md-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
         <div class="card-body">
             <div class="row mx-auto">
-                <div class="offset-lg-1 col-md-8 mt-md-3">
+                <div class="offset-lg-1 col-md-8 mt-md-3 d-flex flex-wrap">
                     <div class="row justify-content-lg-start justify-content-center">
                         @foreach (var item in Model)
                         {
@@ -37,15 +37,16 @@
                                         <div class="text-titillium d-flex my-3 flex-wrap flex-grow-1 text-break">
                                             @Html.Raw(item.Content)...
                                         </div>
-                                        <div class="d-flex article-footer text-economica justify-content-between">
+                                        <div class="d-flex align-self-center text-economica justify-content-between">
                                            
-                                            @Html.DisplayFor(modelItem => item.AddTime)
-                                           
-                                            <a class="btn border-draw-within mx-2 z-2 pb-2" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID">阅读更多</a>
-                                      
+                                            <div class="mt-auto mb-2">
+                                                @Html.DisplayFor(modelItem => item.AddTime)
+                                            </div>
+                                            <a class="btn border-draw-within mx-2 z-2" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID">阅读更多</a>
+                                            <div class="mt-auto mb-2">
                                                 <i class="material-icons img-h-32">remove_red_eye</i>
                                                 @item.ViewCount
-                                            
+                                            </div>
                                         </div>
                                         <a class="full-div-link z-1" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID"></a>
                                     </div>
