@@ -8,7 +8,10 @@
     <div class="card mx-md-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
         <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
         <div class="card-body">
-            <div class="row justify-content-lg-start justify-content-center">
+            <div class="d-flex flex-wrap">
+                <h1 class="mx-auto">@ViewData["Keyword"]</h1>
+            </div>
+            <div class="row justify-content-center mx-1">
                 @foreach (var item in Model)
                 {
                     @if (item != null)

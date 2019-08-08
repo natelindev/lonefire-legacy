@@ -24,6 +24,7 @@
         public const string LastKeyword = "LastKeyword";
 
         public const int PageCap = 6;
+        public const int SearchPageCap = 10;
         public const int FriendPageCap = 12;
         public const int DTPageCap = 10;
         public const int PageIndexCap = 7;

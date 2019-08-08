@@ -139,8 +139,8 @@ namespace lonefire.Controllers
                 Regex.Matches(a.Title, pattern, RegexOptions.IgnoreCase).Count * 3 //Title weight 3
                 + Regex.Matches(a.Tag, pattern, RegexOptions.IgnoreCase).Count * 2 //Tag weight 2
                 + Regex.Matches(a.Content, pattern, RegexOptions.IgnoreCase).Count) //Content weight 1
-                .Take(Constants.PageCap * 3);
-            var results = await PaginatedList<Article>.CreateAsync(resultIQ.AsNoTracking(), page, Constants.PageCap);
+                .Take(Constants.SearchPageCap * 3);
+            var results = await PaginatedList<Article>.CreateAsync(resultIQ.AsNoTracking(), page, Constants.SearchPageCap);
             foreach (var a in results)
             {
                 //a.Author = await _userController.GetNickNameAsync(a.Author);
@@ -150,6 +150,7 @@ namespace lonefire.Controllers
                     a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, Constants.FrontPageWordCount));
                 }
             }
+            ViewData["Keyword"] = "\"" + keyword +"\""+ " 的搜索结果";
             return View(results);
         }
 
