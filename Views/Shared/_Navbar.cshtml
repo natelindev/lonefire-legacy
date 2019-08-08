@@ -35,9 +35,13 @@
                 <a class="nav-link @PageManager.IsActive(ViewContext,"Article","Index")" asp-controller="Article" asp-action="Index">管理</a>
             </li>
             <li class="nav-item">
-                <form asp-controller="Home" asp-action="Search" method="post">
-                    <input class="form-control" name="keyword" placeholder="搜索..." />
-                    <button class="btn btn-light"><i class="material-icons">search</i></button>
+                <form asp-controller="Home" asp-action="Search" method="get">
+                    <div class="input-group mt-1 bg-tp search-bar">
+                        <input type="text" name="keyword" class="form-control bg-tp search-input" placeholder="搜索...">
+                        <div class="input-group-append">
+                            <button class="input-group-text search-btn"><i class="material-icons">search</i></button>
+                        </div>
+                    </div>
                 </form>
             </li>
         </ul>

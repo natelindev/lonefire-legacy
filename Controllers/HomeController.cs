@@ -109,10 +109,23 @@ namespace lonefire.Controllers
             return View(notes);
         }
 
-        [HttpPost]
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Search(string keyword)
+        public async Task<IActionResult> Search(string keyword, int page = 1)
         {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = TempData.Peek<string>(Constants.LastKeyword);
+            }
+            else
+            {
+                TempData.Put(Constants.LastKeyword, keyword);
+            }
+            //Keyword shouldn't be null now
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                return NotFound();
+            }
             var keywords = keyword.Split(" ");
             var L_keywords = keywords.Select(k => (k.Length > 1 ? k.Substring(1, k.Length - 1) : k));
             var R_keywords = keywords.Select(k => (k.Length > 1 ? k.Substring(0, k.Length - 2) : k));
@@ -121,13 +134,23 @@ namespace lonefire.Controllers
             var articlesIQ = _context.Article
                 .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.AddTime);
-            var result = articlesIQ
+            var resultIQ = articlesIQ
                 .OrderByDescending(a =>
                 Regex.Matches(a.Title, pattern, RegexOptions.IgnoreCase).Count * 3 //Title weight 3
                 + Regex.Matches(a.Tag, pattern, RegexOptions.IgnoreCase).Count * 2 //Tag weight 2
                 + Regex.Matches(a.Content, pattern, RegexOptions.IgnoreCase).Count) //Content weight 1
-                .Take(5); //Take 5 Result
-            return View(await result.ToListAsync());
+                .Take(Constants.PageCap * 3);
+            var results = await PaginatedList<Article>.CreateAsync(resultIQ.AsNoTracking(), page, Constants.PageCap);
+            foreach (var a in results)
+            {
+                //a.Author = await _userController.GetNickNameAsync(a.Author);
+                if (a.Content != null)
+                {
+                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, Constants.FrontPageWordCount));
+                }
+            }
+            return View(results);
         }
 
         [HttpGet]

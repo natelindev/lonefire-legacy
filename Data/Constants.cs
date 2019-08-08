@@ -21,6 +21,7 @@
         public const string Danger = "danger";
         public const string Light = "light";
         public const string Info = "info";
+        public const string LastKeyword = "LastKeyword";
 
         public const int PageCap = 6;
         public const int FriendPageCap = 12;

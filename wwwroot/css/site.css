@@ -83,6 +83,40 @@ blockquote {
     z-index: 100;
 }
 
+.search-btn {
+    background-color: transparent;
+    color: #fff;
+    transition: color 0.5s;
+}
+
+    .search-btn:active,
+    .search-btn:hover,
+    .search-btn:focus {
+        color: #333;
+        background-color: #fff;
+        transition: color 0.5s;
+    }
+
+    .search-input {
+        color: #fff;
+        transition: color 0.3s;
+    }
+
+.search-input::-webkit-input-placeholder, .search-input::-webkit-input-placeholder {
+    color: #fff;
+    transition: color 0.3s;
+}
+
+    .search-input:focus {
+        color: #333;
+        transition: color 0.3s;
+    }
+
+.search-input:focus::-webkit-input-placeholder, .search-input:focus::-webkit-input-placeholder {
+    color: #333;
+    transition: color 0.3s;
+}
+
 /* Custom button */
 .btn-lf {
     color: #fff;

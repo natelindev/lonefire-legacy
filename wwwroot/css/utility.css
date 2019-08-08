@@ -511,6 +511,10 @@ h7, .h7{
 }
 
 /* background colors */
+.bg-tp {
+    background-color: transparent;
+}
+
 .bg-main {
     background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://images.unsplash.com/photo-1483611703176-31a1e4306d2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1491&q=80');
 }
