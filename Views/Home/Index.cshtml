@@ -38,9 +38,14 @@
                                             @Html.Raw(item.Content)...
                                         </div>
                                         <div class="d-flex article-footer text-economica justify-content-between">
-                                            <p class="text-muted my-auto">@Html.DisplayFor(modelItem => item.AddTime)</p>
-                                            <a class="btn border-draw-within mx-2 z-2" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID">阅读更多</a>
-                                            <p class="text-muted my-auto">@item.ViewCount 次阅读</p>
+                                           
+                                            @Html.DisplayFor(modelItem => item.AddTime)
+                                           
+                                            <a class="btn border-draw-within mx-2 z-2 pb-2" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID">阅读更多</a>
+                                      
+                                                <i class="material-icons img-h-32">remove_red_eye</i>
+                                                @item.ViewCount
+                                            
                                         </div>
                                         <a class="full-div-link z-1" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID"></a>
                                     </div>

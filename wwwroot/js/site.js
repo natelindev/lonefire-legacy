@@ -7,21 +7,12 @@
   // Scroll to top button appear
   $(document).on('scroll', function() {
       var scrollDistance = $(this).scrollTop();
-      var main_distance = $('.card-main').offset().top;
       if (scrollDistance > 100) {
           $('.scroll-to-top').fadeIn();
       } else {
           $('.scroll-to-top').fadeOut();
-      }
-      if (scrollDistance > main_distance) {
-          $('.sidebar').css('top', '0px');
-          $('.sidebar').addClass('fixed');
-      } else {
-          $('.sidebar').css('top', main_distance + 'px');
-          $('.sidebar').removeClass('fixed');
-      }
+      } 
   });
-
     // Toggle the side navigation
     $(".sidebar-toggler").on('click', function(e) {
         $(".sidebar").toggleClass("toggled");
@@ -52,7 +43,7 @@
 
 $(document).ready(function() {
 
-    $('.sidebar').css('top', $('.card-main').offset().top + 'px');
+    
     //smooth hover class modifcation
     $('.border-draw, .border-draw-within').hoverIntent(function() {
         $(this).removeClass('active');

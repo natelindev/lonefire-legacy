@@ -38,3 +38,20 @@ button.onclick=function() {
 }
 
 hljs.initHighlightingOnLoad();
+
+
+
+$(document).ready(function () {
+    var scrollDistance = $(this).scrollTop();
+    var main_distance = $('.card-main').offset().top;
+
+    if (scrollDistance > main_distance) {
+        $('.sidebar').css('top', '0px');
+        $('.sidebar').addClass('fixed');
+    } else {
+        $('.sidebar').css('top', main_distance + 'px');
+        $('.sidebar').removeClass('fixed');
+    }
+
+    $('.sidebar').css('top', main_distance + 'px');
+});
