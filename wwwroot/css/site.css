@@ -432,12 +432,24 @@ main {
         outline: none;
     }
 
-.sidebar {
-    position: fixed;
-    max-width: 2.5rem;
-    max-height: 2.5rem;
-    overflow: hidden;
-    transition: all .5s ease-out;
+@media screen and (max-width: 768px) {
+    .sidebar {
+        max-width: 500px;
+        max-height: 500px;
+        overflow: hidden;
+        position: absolute;
+        transition: max-width,max-height,transform .5s ease-out;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .sidebar {
+        max-width: 2.5rem;
+        max-height: 2.5rem;
+        overflow: hidden;
+        position: absolute;
+        transition: transform .5s ease-out;
+    }
 }
 
     .sidebar.sidebar-left {
@@ -450,10 +462,13 @@ main {
             margin-left: 0.1rem;
         }
 
-    .sidebar.sidebar-right {
-        right: 1rem;
-        top: 40%;
-    }
+        .sidebar.sidebar-right {
+            right: 1rem;
+            top: 0;
+            flex-grow: 0;
+            align-self: flex-start;
+        }
+    
 
         .sidebar.sidebar-right .sidebar-toggler {
             margin-left: auto;
@@ -552,9 +567,18 @@ main {
                         font-weight: 700;
                     }
 
-    .sidebar.toggled {
-        max-width: 500px;
-        max-height: 500px;
+    @media screen and (max-width: 768px) {
+        .sidebar.toggled {
+            max-width: 2.5rem;
+            max-height: 2.5rem;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .sidebar.toggled {
+            max-width: 500px;
+            max-height: 500px;
+        }
     }
 
     .sidebar hr.sidebar-divider {
@@ -568,117 +592,117 @@ main {
         font-size: 0.65rem;
     }
 
-/* Timeline Page */
-.timeline {
-    position: relative;
-    width: 660px;
-    margin: 0 auto;
-    margin-top: 20px;
-    padding: 1em 0;
-    list-style-type: none;
-}
-
-    .timeline:before {
-        position: absolute;
-        left: 50%;
-        top: 0;
-        content: ' ';
-        display: block;
-        width: 6px;
-        height: 100%;
-        margin-left: -3px;
-        background: rgb(80,80,80);
-        background: -moz-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(100%,rgba(125,185,232,1)));
-        background: -webkit-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
-        background: -o-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
-        background: -ms-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
-        background: linear-gradient(to bottom, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
-        z-index: 1;
-    }
-
-    .timeline li {
-        padding: 1rem 0;
-    }
-
-        .timeline li:after {
-            content: "";
-            display: block;
-            height: 0;
-            clear: both;
-            visibility: hidden;
-        }
-
-    .timeline .timeline-year {
-        position: relative;
-        z-index: 2;
-        text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15);
-    }
-
-.direction-l {
-    position: relative;
-    width: 300px;
-    float: left;
-    text-align: right;
-}
-
-.direction-r {
-    position: relative;
-    width: 300px;
-    float: right;
-}
-
-    .direction-l:before,
-    .direction-r:before {
-        position: absolute;
-        top: 50%;
-        right: -38px;
-        content: ' ';
-        display: block;
-        width: 1rem;
-        height: 1rem;
-        margin-top: -10px;
-        background: #fff;
-        border-radius: 10px;
-        border: 4px solid rgb(255,80,80);
-        z-index: 10;
-    }
-
-    .direction-r:before {
-        left: -38px;
-    }
-
-@media screen and (max-width: 768px) {
-
+    /* Timeline Page */
     .timeline {
-        width: 100%;
-        padding: 4em 0 1em 0;
+        position: relative;
+        width: 660px;
+        margin: 0 auto;
+        margin-top: 20px;
+        padding: 1em 0;
+        list-style-type: none;
     }
+
+        .timeline:before {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            content: ' ';
+            display: block;
+            width: 6px;
+            height: 100%;
+            margin-left: -3px;
+            background: rgb(80,80,80);
+            background: -moz-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(100%,rgba(125,185,232,1)));
+            background: -webkit-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
+            background: -o-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
+            background: -ms-linear-gradient(top, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
+            background: linear-gradient(to bottom, rgba(80,80,80,0) 0%, rgb(80,80,80) 8%, rgb(80,80,80) 92%, rgba(80,80,80,0) 100%);
+            z-index: 1;
+        }
 
         .timeline li {
-            padding: 2em 0;
+            padding: 1rem 0;
         }
 
-    .direction-l,
+            .timeline li:after {
+                content: "";
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
+            }
+
+        .timeline .timeline-year {
+            position: relative;
+            z-index: 2;
+            text-shadow: 4px 3px 0px #fff, 9px 8px 0px rgba(0,0,0,0.15);
+        }
+
+    .direction-l {
+        position: relative;
+        width: 300px;
+        float: left;
+        text-align: right;
+    }
+
     .direction-r {
-        float: none;
-        width: 100%;
-        text-align: center;
+        position: relative;
+        width: 300px;
+        float: right;
     }
 
         .direction-l:before,
         .direction-r:before {
             position: absolute;
-            top: -30px;
-            left: 50%;
+            top: 50%;
+            right: -38px;
             content: ' ';
             display: block;
             width: 1rem;
             height: 1rem;
-            margin-left: -8px;
+            margin-top: -10px;
             background: #fff;
             border-radius: 10px;
             border: 4px solid rgb(255,80,80);
-            z-index: 2;
+            z-index: 10;
         }
-}
+
+        .direction-r:before {
+            left: -38px;
+        }
+
+    @media screen and (max-width: 768px) {
+
+        .timeline {
+            width: 100%;
+            padding: 4em 0 1em 0;
+        }
+
+            .timeline li {
+                padding: 2em 0;
+            }
+
+        .direction-l,
+        .direction-r {
+            float: none;
+            width: 100%;
+            text-align: center;
+        }
+
+            .direction-l:before,
+            .direction-r:before {
+                position: absolute;
+                top: -30px;
+                left: 50%;
+                content: ' ';
+                display: block;
+                width: 1rem;
+                height: 1rem;
+                margin-left: -8px;
+                background: #fff;
+                border-radius: 10px;
+                border: 4px solid rgb(255,80,80);
+                z-index: 2;
+            }
+    }

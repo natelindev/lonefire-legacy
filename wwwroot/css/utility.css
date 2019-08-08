@@ -766,6 +766,14 @@ button.bg-dark:focus {
     z-index: 2;
 }
 
+.fixed{
+    position:fixed !important;
+}
+
+.sticky {
+    position: sticky !important;
+}
+
 .btn-circle {
     width: 32px;
     height: 32px;
