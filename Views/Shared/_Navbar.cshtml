@@ -34,6 +34,12 @@
             <li class="nav-item">
                 <a class="nav-link @PageManager.IsActive(ViewContext,"Article","Index")" asp-controller="Article" asp-action="Index">管理</a>
             </li>
+            <li class="nav-item">
+                <form asp-controller="Home" asp-action="Search" method="post">
+                    <input class="form-control" name="keyword" placeholder="搜索..." />
+                    <button class="btn btn-light"><i class="material-icons">search</i></button>
+                </form>
+            </li>
         </ul>
     </div>
     <button class="animated--toggler navbar-toggler collapsed ml-auto collapsed" type="button" data-toggle="collapse" data-target=".dual-collapse2">

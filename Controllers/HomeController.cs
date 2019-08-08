@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace lonefire.Controllers
@@ -64,7 +65,7 @@ namespace lonefire.Controllers
             }
             foreach(var a in articles)
             {
-                a.Author = await _userController.GetNickNameAsync(a.Author);
+                //a.Author = await _userController.GetNickNameAsync(a.Author);
                 if(a.Content != null)
                 {
                     a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
@@ -106,6 +107,27 @@ namespace lonefire.Controllers
             }
 
             return View(notes);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Search(string keyword)
+        {
+            var keywords = keyword.Split(" ");
+            var L_keywords = keywords.Select(k => (k.Length > 1 ? k.Substring(1, k.Length - 1) : k));
+            var R_keywords = keywords.Select(k => (k.Length > 1 ? k.Substring(0, k.Length - 2) : k));
+            var words = keywords.Union(L_keywords).Union(R_keywords).ToArray();
+            string pattern = '(' + string.Join('|', words) + ')';
+            var articlesIQ = _context.Article
+                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
+                .OrderByDescending(a => a.AddTime);
+            var result = articlesIQ
+                .OrderByDescending(a =>
+                Regex.Matches(a.Title, pattern, RegexOptions.IgnoreCase).Count * 3 //Title weight 3
+                + Regex.Matches(a.Tag, pattern, RegexOptions.IgnoreCase).Count * 2 //Tag weight 2
+                + Regex.Matches(a.Content, pattern, RegexOptions.IgnoreCase).Count) //Content weight 1
+                .Take(5); //Take 5 Result
+            return View(await result.ToListAsync());
         }
 
         [HttpGet]
