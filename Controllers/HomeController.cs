@@ -127,8 +127,8 @@ namespace lonefire.Controllers
                 return NotFound();
             }
             var keywords = keyword.Split(" ");
-            var L_keywords = keywords.Select(k => (k.Length > 1 ? k.Substring(1, k.Length - 1) : k));
-            var R_keywords = keywords.Select(k => (k.Length > 1 ? k.Substring(0, k.Length - 2) : k));
+            var L_keywords = keywords.Select(k => (k.Length >= 5 ? k.Substring(1, k.Length - 2) : k));
+            var R_keywords = keywords.Select(k => (k.Length >= 5 ? k.Substring(0, k.Length - 2) : k));
             var words = keywords.Union(L_keywords).Union(R_keywords).ToArray();
             string pattern = '(' + string.Join('|', words) + ')';
             var articlesIQ = _context.Article
