@@ -5,7 +5,7 @@
 @model IEnumerable<ArticleIndexVM>
 <div class="container-lf">
 
-    <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
+    <div class="card mx-auto card-w-60 border-0 my-5 shadow-lg">
         <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
         <div class="card-body">
 
@@ -79,11 +79,13 @@
                                     @Html.DisplayFor(modelItem => item.Status)
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-warning" asp-action="Edit" asp-route-id="@item.ArticleID">编辑</a>
-                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.ArticleID">详情</a>
-                                    <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.ArticleID" data-name="@item.Title" data-type="文章">
-                                        删除
-                                    </a>
+                                    <div class="d-flex flex-wrap">
+                                        <a class="btn btn-sm btn-outline-warning mx-auto mt-1" asp-action="Edit" asp-route-id="@item.ArticleID"><i class="material-icons">edit</i></a>
+                                        <a class="btn btn-sm btn-outline-info mx-auto mt-1" asp-action="Details" asp-route-id="@item.ArticleID"><i class="material-icons">list</i></a>
+                                        <a href="#" data-toggle="modal" class="btn btn-sm btn-outline-danger mx-auto mt-1" data-target="#deleteModal" data-delete-id="@item.ArticleID" data-name="@item.Title" data-type="文章" data-field="标题">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         }

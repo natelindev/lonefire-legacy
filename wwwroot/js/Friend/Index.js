@@ -1,17 +1,25 @@
 ﻿$(document).ready(function() {
     $.fn.dataTable.ext.errMode = 'none';
 
-    var table = $('#dataTable').DataTable( {
+    var table = $('#dataTable').DataTable({
         orderCellsTop: true,
         language: {
             "url": "/js/dt-friend.json"
         },
         autoWidth: false,
-        columns : [
-            { width : '20px' },
-            { width : '40px' },
-            { width : '20px' },
-            { width : '100px' }
+        columns: [
+            {
+                width: '2rem', "render": function (link) {
+                    return '<p style="max-width:8rem;">' + link + '</p>';
+                }
+            },
+            { width: '5rem' },
+            {
+                width: '10rem', "render": function (link) {
+                    return '<div style="max-width:10rem;word-break:break-all">'+ link+'</div>';
+                }
+            },
+            { width : '10rem' }
         ], 
         columnDefs: [
             {"orderable": false, "targets": 3 }

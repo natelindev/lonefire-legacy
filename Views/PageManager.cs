@@ -20,10 +20,16 @@ namespace lonefire.Views
                 { "Comment", null },
                 { "Note", null },
                 { "Friend", null },
-                { "Images", null }
+                { "Image", null },
+                { "Manage", null}
             };
 
             return sidebarDict.ContainsKey(controllerName) && (sidebarDict[controllerName] == null || sidebarDict[controllerName].Contains(actionName));
+        }
+
+        public static string IsActive(bool condition)
+        {
+            return condition ? "active" : null;
         }
 
         public static string IsActive(ViewContext viewContext,string controller)

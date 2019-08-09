@@ -56,3 +56,11 @@ pre {
 .material-icons {
     font-size: 14px; 
 }
+
+.material-icons.md{
+    font-size: 24px;
+}
+
+.material-icons.lg{
+    font-size: 32px;
+}

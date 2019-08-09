@@ -9,12 +9,13 @@ window.addEventListener('DOMContentLoaded',
         var ItemID = $(e.relatedTarget).data('delete-id');
         var ItemName = $(e.relatedTarget).data('name');
         var ItemType = $(e.relatedTarget).data('type');
+        var ItemField = $(e.relatedTarget).data('field');
         $('#textid').val(ItemID);
         $('#textName').val(ItemName);
 
         $('#deleteModalLabel').text("确定要删除该"+ ItemType +"?")
         $('#IDLabel').text("即将删除的"+ ItemType +"编号为:")
-        $('#NameLabel').text("即将删除的"+ ItemType +"名称为:");
+        $('#NameLabel').text("即将删除的" + ItemType + ItemField + "为:");
 
         $('#delete_input').val(ItemID);
 

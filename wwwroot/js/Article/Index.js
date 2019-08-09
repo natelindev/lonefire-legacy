@@ -51,10 +51,12 @@
                     if (content) {
                         return content
                     } else {
-                        return '<a class="btn btn-outline-warning" href="Article/Edit/' + row.ArticleID + '">编辑</a>'
-                            + '<a class="btn btn-outline-info" href="Article/Details/' + row.ArticleID + '">详情</a>'
-                            + '<a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="' + row.ArticleID + '" data-name="' + row.Title +'" data-type="文章">'
-                            + '删除</a>';
+                        return '<div class="d-flex flex-wrap">'
+                            + '<a class="btn btn-sm btn-outline-warning mx-auto mt-1" href="Article/Edit/' + row.ArticleID + '"><i class="material-icons">edit</i></a>'
+                            + '<a class="btn btn-sm btn-outline-info mx-auto mt-1" href="Article/Details/' + row.ArticleID + '"><i class="material-icons">list</i></a>'
+                            + '<a href="#" data-toggle="modal" class="btn btn-outline-danger btn-sm mx-auto mt-1" data-target="#deleteModal" data-delete-id="' + row.ArticleID + '" data-name="' + row.Title +'" data-type="文章" data-field="标题">'
+                            + '<i class="material-icons">delete</i></a>'
+                            + '</div>';
                     }
                 }
             }

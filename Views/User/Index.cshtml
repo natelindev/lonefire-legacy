@@ -43,12 +43,13 @@
                                     }
                                 </td>
                                 <td>
-                                    <a class="btn btn-outline-info" asp-action="Edit" asp-route-id="@item.Id">编辑</a>
-                                    <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">详情</a>
-                                    <a href="#" data-toggle="modal" class="btn btn-outline-warning" data-target="#lockModal" data-lock-id="@item.Id" data-name="@item.UserName" data-type="用户">锁定</a>
-                                    <a href="#" data-toggle="modal" class="btn btn-outline-danger" data-target="#deleteModal" data-delete-id="@item.Id" data-name="@item.UserName" data-type="用户">
-                                        删除
-                                    </a>
+                                    <div class="d-flex flex-wrap">
+                                        <a class="btn btn-sm btn-outline-warning mx-auto mt-1" asp-action="Edit" asp-route-id="@item.Id"><i class="material-icons">edit</i></a>
+                                        <a class="btn btn-sm btn-outline-info mx-auto mt-1" asp-action="Details" asp-route-id="@item.Id"><i class="material-icons">list</i></a>
+                                        <a href="#" data-toggle="modal" class="btn btn-sm btn-outline-danger mx-auto mt-1" data-target="#deleteModal" data-delete-id="@item.Id" data-name="@item.UserName" data-type="用户" data-field="用户名">
+                                            <i class="material-icons">delete</i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         }

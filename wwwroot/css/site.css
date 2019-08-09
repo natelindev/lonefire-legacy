@@ -11,6 +11,28 @@
     background-color: #fff;
 }
 
+.dropdown-text{
+    color: #fff;
+}
+
+.dropdown-item:hover .dropdown-text{
+    color: #333;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    color: #fff;
+    background-color: #fff;
+}
+    .dropdown-item.active .dropdown-text,
+    .dropdown-item:active .dropdown-text {
+        color: #333;
+    }
+
+.dropdown-menu {
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
 .sidebar .animated--toggler .icon-bar {
     background-color: #333;
 }
