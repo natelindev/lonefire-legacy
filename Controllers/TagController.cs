@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lonefire.Data;
+using lonefire.Extensions;
 using lonefire.Models.ArticleViewModels;
 using lonefire.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -39,7 +40,7 @@ namespace lonefire.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> List(int? id)
+        public async Task<IActionResult> List(int? id, int page = 1)
         {
             if (id == null)
             {
@@ -54,17 +55,39 @@ namespace lonefire.Controllers
                 _toaster.ToastError("未找到该标签");
                 return NotFound();
             }
-                
-            var artcles = await _context.Article.Where(a => a.Tag.Contains(tagToBeFound.TagName) && a.Status == ArticleStatus.Approved ).ToListAsync();
+
+            PaginatedList<Article> articles = new PaginatedList<Article>();
+            try
+            {
+                IQueryable<Article> articleIQ = _context.Article
+                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Tag.Contains(tagToBeFound.TagName) && a.Status == ArticleStatus.Approved)
+                .OrderByDescending(a => a.AddTime);
+
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.TagPageCap);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取文章列表失败");
+            }
+
+            foreach (var a in articles)
+            {
+                //a.Author = await _userController.GetNickNameAsync(a.Author);
+                if (a.Content != null)
+                {
+                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, Constants.FrontPageWordCount));
+                }
+            }
 
             ViewData["Tag"] = tagToBeFound;
-            return View(artcles);
+            return View(articles);
         }
 
         [HttpGet]
         [AllowAnonymous]
         [ExactQueryParam("name")]
-        public async Task<IActionResult> List(string name)
+        public async Task<IActionResult> List(string name,int page = 1)
         {
             if (name == null)
             {
@@ -80,11 +103,32 @@ namespace lonefire.Controllers
                 return NotFound();
             }
 
-            var artcles = await _context.Article.Where(a => a.Tag.Contains(tagToBeFound.TagName) && a.Status == ArticleStatus.Approved).ToListAsync();
+            PaginatedList<Article> articles = new PaginatedList<Article>();
+            try
+            {
+                IQueryable<Article> articleIQ = _context.Article
+                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Tag.Contains(name) && a.Status == ArticleStatus.Approved)
+                .OrderByDescending(a => a.AddTime);
+
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.TagPageCap);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取文章列表失败");
+            }
+
+            foreach (var a in articles)
+            {
+                //a.Author = await _userController.GetNickNameAsync(a.Author);
+                if (a.Content != null)
+                {
+                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, Constants.FrontPageWordCount));
+                }
+            }
 
             ViewData["Tag"] = tagToBeFound;
-
-            return View(artcles);
+            return View(articles);
         }
 
         [HttpGet]

@@ -23,11 +23,13 @@
         public const string Info = "info";
         public const string LastKeyword = "LastKeyword";
 
-        public const int PageCap = 6;
-        public const int SearchPageCap = 10;
+        public const int PageCap = 6; //Default page cap
+        public const int TagPageCap = 8; 
+        public const int SearchPageCap = 10; 
         public const int FriendPageCap = 12;
-        public const int DTPageCap = 10;
-        public const int PageIndexCap = 7;
+        public const int NotePageCap = 10;
+        public const int DTPageCap = 10; //Datatable page cap
+        public const int PageIndexCap = 7; 
         public const int FrontPageWordCount = 100;
         public const int NoteIndexWordCount = 30;
 

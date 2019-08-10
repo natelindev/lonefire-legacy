@@ -9,45 +9,51 @@
     <div class="card mx-md-4 my-5 h-100 border-0 bg-w-op-9 shadow px-0">
         <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
         <div class="card-body">
-
             @if (User.IsInRole(Constants.AdministratorsRole))
-            {
+    {
 
-                <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
-                    <div class="card-header border-0"><partial name="_CardHeader" model='"创建新动态"' /></div>
-                    <div class="card-body">
-                        <form asp-controller="Note" asp-action="Create" enctype="multipart/form-data">
-                            <div class="form-row">
-                                <div class="form-group col-md-5 mx-auto">
-                                    <input name="Title" class="form-control" placeholder="标题" />
-                                </div>
-                                <div class="form-group col-md-5 mx-auto">
-                                    <div class="custom-file">
-                                        <input name="contentImgs" id="contentImgs" type="file" accept=".jpg, .gif, .png, .bmp, .jpeg .svg" class="custom-file-input" multiple>
-                                        <label class="custom-file-label text-no-wrap" for="contentImgs" data-browse="选择文件">内容图片</label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-2 mx-auto">
-                                    <select class="form-control" name="Status">
-                                        <option value="0" selected>公开</option>
-                                        <option value="1">私密</option>
-                                    </select>
-                                </div>
+        <div class="card mx-auto card-w-50 border-0 my-5 shadow-lg">
+            <div class="card-header border-0"><partial name="_CardHeader" model='"创建新动态"' /></div>
+            <div class="card-body">
+                <form asp-controller="Note" asp-action="Create" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group col-md-5 mx-auto">
+                            <input name="Title" class="form-control" placeholder="标题" />
+                        </div>
+                        <div class="form-group col-md-5 mx-auto">
+                            <div class="custom-file">
+                                <input name="contentImgs" id="contentImgs" type="file" accept=".jpg, .gif, .png, .bmp, .jpeg .svg" class="custom-file-input" multiple>
+                                <label class="custom-file-label text-no-wrap" for="contentImgs" data-browse="选择文件">内容图片</label>
                             </div>
-                            <textarea class="form-control h-px-200" name="Content" required></textarea>
-                            <div class="form-row">
-                                <a class="btn btn-secondary col-md-2 mx-auto mt-3 animated--shadow-deep" asp-action="List">重置</a>
-                                <button class="btn btn-lf col-md-2 mx-auto mt-3 animated--shadow-deep" type="submit">提交</button>
-                            </div>
-                        </form>
+                        </div>
+                        <div class="form-group col-md-2 mx-auto">
+                            <select class="form-control" name="Status">
+                                <option value="0" selected>公开</option>
+                                <option value="1">私密</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            }
+                    <textarea class="form-control h-px-200" name="Content" required></textarea>
+                    <div class="form-row">
+                        <a class="btn btn-secondary col-md-2 mx-auto mt-3 animated--shadow-deep" asp-action="List">重置</a>
+                        <button class="btn btn-lf col-md-2 mx-auto mt-3 animated--shadow-deep" type="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+}
+            <div class="grid justify-content-center">
+                <div class="grid-col grid-col-layout grid-col--1"></div>
+                <div class="grid-col grid-col-layout grid-col--2"></div>
+                <div class="grid-col grid-col-layout grid-col--3"></div>
 
-            @foreach (var item in Model)
-            {
 
-                <div class="card mx-auto card-w-40 border-0 my-5 shadow-lg">
+
+                @foreach (var item in Model)
+        {
+            <div class="grid-item">
+
+                <div class="card mx-auto card-w-40 mx-sm-2 mx-md-3 border-0 my-5 shadow-lg">
                     <div class="card-body">
                         <div class="d-flex flex-wrap">
                             <h6 class="mx-auto font-weight-bold text-primary">@item.Title</h6>
@@ -56,19 +62,23 @@
                         <div class="d-flex mt-4">
 
                             @if (item.Status == NoteStatus.Private)
-                            {
-                            <i class="material-icons text-primary mr-auto mb-n1">
-                                lock
-                            </i>
-                            }
+                    {
+                        <i class="material-icons text-primary mr-auto mb-n1">
+                            lock
+                        </i>
+            }
                             <small class="ml-auto text-primary mb-n1">@Html.DisplayFor(modelItem => item.AddTime)</small>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
+}
+            </div>
 
-        <partial name="_PaginatedIndex" model="Model" />
+            <partial name="_PaginatedIndex" model="Model" />
         </div>
+
+
     </div>
 
 </div>

@@ -94,7 +94,7 @@ namespace lonefire.Controllers
                 {
                     noteIQ = noteIQ.Where(n => n.Status == NoteStatus.Public);
                 }
-                notes = await PaginatedList<Note>.CreateAsync(noteIQ.AsNoTracking(), page, Constants.PageCap);
+                notes = await PaginatedList<Note>.CreateAsync(noteIQ.AsNoTracking(), page, Constants.NotePageCap);
             }
             catch (Exception)
             {
