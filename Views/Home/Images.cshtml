@@ -49,7 +49,7 @@
                     <div class="grid-item">
                         <div class="card card-album my-3 border-0 mx-2 animated--shadow-translate px-0">
                             <img class="card-img-top rounded darken-20 text-economica h-100" src="@Configuration["img_upload_path"]/@item.Path/@item.Name" alt="Header Image">
-                            <div class="card-img-overlay flex-wrap">
+                            <div class="card-img-overlay">
                                 <div class="d-flex flex-wrap">
                                     <h4 class="mx-auto text-economica">@item.Name</h4>
                                 </div>
@@ -65,7 +65,7 @@
                                 <div class="d-flex flex-wrap">
                                     @if (User.IsInRole(Constants.AdministratorsRole))
                                     {
-                                        <a href="#" data-toggle="modal" class="btn btn-sm btn-outline-danger mx-auto mt-1" data-target="#deleteModal" data-delete-id="@item.ImageID" data-name="@item.Name" data-type="图片" data-field="名称">
+                                        <a href="#" data-toggle="modal" class="btn btn-sm btn-outline-danger ml-auto mt-auto" data-target="#deleteModal" data-delete-id="@item.ImageID" data-name="@item.Name" data-type="图片" data-field="名称">
                                             <i class="material-icons">delete</i>
                                         </a>
                                     }

@@ -371,7 +371,7 @@ main {
     }
 
     .card-album:hover .card-img-overlay {
-        display: flex;
+        display: block;
     }
 
 .full-div-link {
