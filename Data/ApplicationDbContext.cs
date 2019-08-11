@@ -48,6 +48,9 @@ namespace lonefire.Data
             builder.Entity<Note>().Property(p => p.NoteID).ValueGeneratedOnAdd();
             builder.Entity<Note>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
 
+            builder.Entity<Image>().Property(p => p.ImageID).ValueGeneratedOnAdd();
+            builder.Entity<Image>().Property(p => p.AddTime).HasDefaultValueSql("now()").ValueGeneratedOnAdd();
+
             builder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
             builder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
             builder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");

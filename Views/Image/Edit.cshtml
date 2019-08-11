@@ -1,31 +1,42 @@
-﻿@model lonefire.Models.Image
+﻿@model Image
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "编辑图片";
 }
 
-<h1>Edit</h1>
+@inject IConfiguration Configuration
 
-<h4>Image</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ImageID" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container-lf">
+    <div class="card card-w-60 mx-auto border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row">
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="Path" class="control-label"></label>
+                        <input asp-for="Path" class="form-control" />
+                        <span asp-validation-for="Path" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <img src="@Configuration["img_upload_path"]@Model.Path/@Model.Name" />
+                </div>
+                <div class="form-row">
+                    <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>
+                    <button class="btn btn-lf col-md-2 mx-auto my-3 animated--shadow-deep" type="submit">提交</button>
+                </div>
+            </form>
+
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+@section Scripts {
+}

@@ -103,6 +103,7 @@ namespace lonefire.Controllers
                         AddTime = a.AddTime,
                         Status = a.Status
                     })
+                    .AsNoTracking()
                     .ToListAsync();
 
                 int idx = articles.FindIndex(a => a.ArticleID == id);

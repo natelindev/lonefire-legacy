@@ -38,7 +38,7 @@ namespace lonefire.Controllers
         // GET: /<controller>/
         public async Task<IActionResult> Index()
         {
-            List<ApplicationUser> users = await _context.Users.Where(u => u.Id != _userManager.GetUserId(User)).ToListAsync();
+            List<ApplicationUser> users = await _context.Users.Where(u => u.Id != _userManager.GetUserId(User)).AsNoTracking().ToListAsync();
             return View(users);
         }
 

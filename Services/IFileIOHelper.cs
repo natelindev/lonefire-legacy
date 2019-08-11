@@ -10,8 +10,20 @@ namespace lonefire.Services
     public interface IFileIOHelper
     {
         //Save to Image upload directory
-        Task<string> SaveImgAsync(IFormFile img, string savePath); //256 default limit
-        Task<string> SaveImgAsync(IFormFile img, string savePath, int img_name_length_limit); //random name
+
+        /// <summary>
+        /// Save Image with radnom name and custom path and 256 length limit
+        /// </summary>
+        Task<string> SaveImgAsync(IFormFile img, string savePath);
+
+        /// <summary>
+        /// Save Image with radnom name and custom path and name length limit
+        /// </summary>
+        Task<string> SaveImgAsync(IFormFile img, string savePath, int img_name_length_limit); 
+
+        /// <summary>
+        /// Save Image with custom name and custom path and name length limit
+        /// </summary>
         Task<string> SaveImgAsync(IFormFile img, string savePath, int img_name_length_limit, string img_name);
 
         /// <summary>

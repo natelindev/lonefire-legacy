@@ -1,24 +1,41 @@
-﻿@model lonefire.Models.Image
+﻿@model Image
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "图片详情";
 }
 
-<h1>Details</h1>
+@inject IConfiguration Configuration
 
-<div>
-    <h4>Image</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
+<div class="container-lf">
+    <div class="card card-w-60 mx-auto border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-row">
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" disabled/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-5 mx-auto">
+                        <label asp-for="Path" class="control-label"></label>
+                        <input asp-for="Path" class="form-control" disabled/>
+                        <span asp-validation-for="Path" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <img src="@Configuration["img_upload_path"]@Model.Path/@Model.Name" />
+                </div>
+                <div class="row">
+                    <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>
+                    <a class="btn btn-lf col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Edit" asp-route-id="@Model.ImageID">编辑</a>
+                </div>
+
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ImageID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Scripts {
+}

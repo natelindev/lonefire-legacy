@@ -27,6 +27,7 @@
         public const int TagPageCap = 8; 
         public const int SearchPageCap = 10; 
         public const int FriendPageCap = 12;
+        public const int ImagePageCap = 12;
         public const int NotePageCap = 10;
         public const int DTPageCap = 10; //Datatable page cap
         public const int PageIndexCap = 7; 

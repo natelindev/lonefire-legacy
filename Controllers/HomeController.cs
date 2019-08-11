@@ -204,9 +204,22 @@ namespace lonefire.Controllers
         }
 
         [HttpGet]
-        public IActionResult Images()
+        public async Task<IActionResult> Images(int page = 1)
         {
-            return View();
+            PaginatedList<Image> images = new PaginatedList<Image>();
+            try
+            {
+                IQueryable<Image> ImageIQ = _context.Image
+                .OrderByDescending(i => i.AddTime);
+                
+                images = await PaginatedList<Image>.CreateAsync(ImageIQ.AsNoTracking(), page, Constants.ImagePageCap);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取动态列表失败");
+            }
+
+            return View(images);
         }
 
         [HttpGet]

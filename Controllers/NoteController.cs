@@ -43,7 +43,7 @@ namespace lonefire.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Note.ToListAsync());
+            return View(await _context.Note.AsNoTracking().ToListAsync());
         }
 
         // POST: Note/Create

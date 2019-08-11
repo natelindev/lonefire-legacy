@@ -1,0 +1,22 @@
+﻿{
+  "processing": "处理中...",
+  "search": "搜索:",
+  "lengthMenu": "每页显示 _MENU_ 张图片",
+  "info": "显示第 _START_ 至 _END_ 张图片， 共 _TOTAL_ 张图片",
+  "infoEmpty": "显示第 0 至 0 张图片，共 0 张图片",
+  "infoFiltered": "(由 _MAX_ 张图片过滤)",
+  "infoPostFix": "",
+  "loadingRecords": "载入中...",
+  "zeroRecords": "没有匹配结果",
+  "emptyTable": "暂时没有图片",
+  "paginate": {
+    "first": "首页",
+    "previous": "上一页",
+    "next": "下一页",
+    "last": "尾页"
+  },
+  "aria": {
+    "sortAscending": ": 以升序排列此列",
+    "sortDescending": ": 以降序排列此列"
+  }
+}

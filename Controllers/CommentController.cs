@@ -40,7 +40,7 @@ namespace lonefire.Controllers
         // GET: Comment
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Comment.ToListAsync());
+            return View(await _context.Comment.AsNoTracking().ToListAsync());
         }
 
         [HttpGet]

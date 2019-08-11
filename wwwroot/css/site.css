@@ -362,6 +362,18 @@ main {
         max-height: 100%;
     }
 
+.card-album .card-img-top {
+    object-fit: cover;
+}
+
+    .card-album .card-img-overlay {
+        display: none;
+    }
+
+    .card-album:hover .card-img-overlay {
+        display: flex;
+    }
+
 .full-div-link {
     position: absolute;
     top: 0;

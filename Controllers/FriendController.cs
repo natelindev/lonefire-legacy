@@ -26,7 +26,7 @@ namespace lonefire.Controllers
         // GET: Friend
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Friend.ToListAsync());
+            return View(await _context.Friend.AsNoTracking().ToListAsync());
         }
 
         // GET: Friend/Details/5

@@ -14,32 +14,36 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace lonefire.Controllers
 {
+    [Authorize]
     public class ImageController : Controller
     {
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
         private readonly IFileIOHelper _io_helper;
         private readonly IConfiguration _config;
+        private readonly IToaster _toaster;
 
         public ImageController(
             ILogger<AccountController> logger,
             ApplicationDbContext context,
             IFileIOHelper ioHelper,
-            IConfiguration config
+            IConfiguration config,
+            IToaster toaster
            )
         {
             _io_helper = ioHelper;
             _logger = logger;
             _context = context;
             _config = config;
+            _toaster = toaster;
         }
 
         public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> AjaxImgUpload(IFormFile upload)
         {
 
@@ -95,15 +99,33 @@ namespace lonefire.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ImageID,Name")] Image image)
+        public async Task<IActionResult> Create(string Path, IList<IFormFile> uploads)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(image);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                foreach(var upload in uploads)
+                {
+                    var new_image = new Image
+                    {
+                        Path = Path,
+                        Name = upload.FileName
+                    };
+
+                    string img_name = await _io_helper.SaveImgAsync(upload, Path, 256, upload.FileName);
+                    _context.Add(new_image);
+                }
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    _toaster.ToastSuccess("图片上传成功");
+                    return RedirectToAction(nameof(HomeController.Images), "Home");
+                }
+                catch (Exception)
+                {
+                    _toaster.ToastError("图片上传失败");
+                }
             }
-            return View(image);
+            return RedirectToAction(nameof(HomeController.Images), "Home");
         }
 
         // GET: Images/Edit/5
@@ -122,15 +144,19 @@ namespace lonefire.Controllers
             return View(image);
         }
 
-        // POST: Images/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ImageID,Name")] Image image)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != image.ImageID)
+            if (id == null)
             {
+                return NotFound();
+            }
+
+            var image = await _context.Image.Where(n => n.ImageID == id).FirstOrDefaultAsync();
+            if (image == null)
+            {
+                _toaster.ToastError("获取图片失败");
                 return NotFound();
             }
 
@@ -138,24 +164,23 @@ namespace lonefire.Controllers
             {
                 try
                 {
-                    _context.Update(image);
+                    await TryUpdateModelAsync(image, "",
+                             i => i.Name, i => i.Path
+                        );
                     await _context.SaveChangesAsync();
+
+                    _toaster.ToastSuccess("编辑图片成功");
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
-                    if (!ImageExists(image.ImageID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    _toaster.ToastError("编辑图片失败");
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             return View(image);
         }
+
 
         // GET: Images/Delete/5
         public async Task<IActionResult> Delete(int? id)
