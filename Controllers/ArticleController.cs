@@ -30,6 +30,7 @@ namespace lonefire.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly CommentController _commentController;
         private readonly UserController _userController;
+        private readonly ImageController _imageController;
         private readonly IFileIOHelper _io_Helper;
         private readonly IConfiguration _config;
         private readonly ILogger<ArticleController> _logger;
@@ -40,6 +41,7 @@ namespace lonefire.Controllers
             UserManager<ApplicationUser> userManager,
             CommentController commentController,
             UserController userController,
+            ImageController imageController,
             IFileIOHelper io_Helper,
             IToaster toaster,
             IConfiguration config,
@@ -55,6 +57,7 @@ namespace lonefire.Controllers
             _toaster = toaster;
             _config = config;
             _logger = logger;
+            _imageController = imageController;
         }
 
         public string ImageUploadPath => _config.GetValue<string>("img_upload_path");
@@ -330,15 +333,37 @@ namespace lonefire.Controllers
                     List<string> ArticleImgs = new List<string>();
                     if (headerImg != null)
                     {
-                        var headerImgName = await _io_Helper.SaveImgAsync(headerImg, article.Title, 256, headerImg.FileName);
-                        article.HeaderImg = headerImgName;
-                        ArticleImgs.Add(headerImgName);
+                        
+                        article.HeaderImg = headerImg.FileName;
+                        ArticleImgs.Add(headerImg.FileName);
+                        var res = await _imageController.CreateAsync(article.Title, new List<IFormFile> { headerImg });
+                        if (res)
+                        {
+                            _toaster.ToastSuccess("标题图片上传成功");
+                        }
+                        else
+                        {
+                            _toaster.ToastError("标题图片上传失败");
+                            return RedirectToAction(nameof(Index));
+                        }
                     }
 
-                    foreach (var img in contentImgs)
+                    if(contentImgs != null && contentImgs.Count > 0)
                     {
-                        var res = await _io_Helper.SaveImgAsync(img, article.Title, 256, img.FileName);
-                        ArticleImgs.Add(res);
+                        foreach (var img in contentImgs)
+                        {
+                            ArticleImgs.Add(img.FileName);
+                        }
+                        var res = await _imageController.CreateAsync(article.Title, contentImgs);
+                        if (res)
+                        {
+                            _toaster.ToastSuccess("内容图片上传成功");
+                        }
+                        else
+                        {
+                            _toaster.ToastError("内容图片上传失败");
+                            return RedirectToAction(nameof(Index));
+                        }
                     }
 
                     if (ArticleImgs.Count > 0)
@@ -544,9 +569,17 @@ namespace lonefire.Controllers
                 return new ChallengeResult();
             }
 
+            //delete Image in db
+            var res = await _imageController.DeleteByPath(article.Title);
+            if (!res)
+            {
+                _toaster.ToastError("删除数据库图片时失败");
+                return RedirectToAction(nameof(Index));
+            }
+
             //delete the Images
             _io_Helper.DeleteImgDir(article.Title);
-
+            
             //Comments were casecade deleted.
 
             //Reduce Tag Count

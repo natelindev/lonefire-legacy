@@ -128,6 +128,31 @@ namespace lonefire.Controllers
             return RedirectToAction(nameof(HomeController.Images), "Home");
         }
 
+        //Backend Internal Use
+        public async Task<bool> CreateAsync(string Path, IList<IFormFile> uploads)
+        {
+            foreach (var upload in uploads)
+            {
+                var new_image = new Image
+                {
+                    Path = Path,
+                    Name = upload.FileName
+                };
+
+                string img_name = await _io_helper.SaveImgAsync(upload, Path, 256, upload.FileName);
+                _context.Add(new_image);
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         // GET: Images/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -208,7 +233,49 @@ namespace lonefire.Controllers
             var image = await _context.Image.FindAsync(id);
             _context.Image.Remove(image);
             await _context.SaveChangesAsync();
+            //Also removes Image file
+            _io_helper.DeleteImg(image.Path, image.Name);
             return RedirectToAction(nameof(Index));
+        }
+
+        /// <summary>
+        /// Only remove from DB
+        /// </summary>
+        public async Task<bool> DeleteByName(string name)
+        {
+            var image = await _context.Image.Where(i => i.Name == name).FirstOrDefaultAsync();
+            _context.Image.Remove(image);
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
+        }
+
+        /// <summary>
+        /// Only remove from DB
+        /// </summary>
+        public async Task<bool> DeleteByPath(string path)
+        {
+            var images = await _context.Image.Where(i => i.Path == path).ToListAsync();
+            foreach(var image in images)
+            {
+                _context.Image.Remove(image);
+            }
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private bool ImageExists(int id)
