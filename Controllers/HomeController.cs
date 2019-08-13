@@ -49,34 +49,12 @@ namespace lonefire.Controllers
             _config = config;
         }
 
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index()
         {
-            PaginatedList<Article> articles = new PaginatedList<Article>();
-            try
-            {
-                IQueryable<Article> articleIQ = _context.Article
-                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
-                .OrderByDescending(a => a.AddTime);
-
-                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.IndexPageCap);
-            }
-            catch (Exception)
-            {
-                _toaster.ToastError("读取文章列表失败");
-            }
-            foreach(var a in articles)
-            {
-                //a.Author = await _userController.GetNickNameAsync(a.Author);
-                if(a.Content != null)
-                {
-                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
-                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, Constants.FrontPageWordCount));
-                }
-            }
             ViewData["AboutMe"] = await _userController.GetUserInfo(Constants.AdminName);
             ViewData["Friends"] = await _context.Friend.OrderBy(f => f.FriendID).ToListAsync();
             ViewData["Tags"] = await _context.Tag.OrderByDescending(t => t.TagCount).Take(6).ToListAsync();
-            return View(articles);
+            return View();
         }
 
         public async Task<PaginatedList<Article>> AjaxIndex(int page = 1)

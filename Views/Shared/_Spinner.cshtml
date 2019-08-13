@@ -1,5 +1,5 @@
-﻿<div id="overlay"></div>
-<div id="spinner" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+﻿<div id="overlay"><div id="spinner" class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+
 
 <style>
 
@@ -10,19 +10,29 @@
 
     #overlay {
         display: none;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 100;
-        background: #fff;
+        position: absolute;
+        background-color: #fff;
+        /*dim the background*/
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        color:black;
+        text-align: center;
+        z-index: 999;
     }
+
+    #overlay #spinner {
+    position: absolute;
+    top:15%;
+    left:50%;
+    -webkit-transform:translate(-50%, -50%);
+    transform:translate(-50%, -50%);
+}
 
     #spinner {
         display: none;
-        position: fixed;
+        position: relative;
         width: 40px;
         height: 40px;
         top: 50%;
@@ -102,13 +112,13 @@
 
 </style>
 
-<script>document.body.setAttribute("class", "noscroll");
+<script>
 
     document.getElementById("overlay").style.display = "block";
     document.getElementById("spinner").style.display = "block";
 
 
-    window.onload = function () {
+    function hideSpinner() {
         document.getElementById("spinner").style.display = "none";
         document.getElementById("overlay").style.display = "none";
 
