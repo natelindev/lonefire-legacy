@@ -24,6 +24,7 @@
         public const string LastKeyword = "LastKeyword";
 
         public const int PageCap = 6; //Default page cap
+        public const int IndexPageCap = 9; //Default page cap
         public const int TagPageCap = 8; 
         public const int SearchPageCap = 10; 
         public const int FriendPageCap = 12;

@@ -1,0 +1,10 @@
+﻿<nav class="d-flex flex-wrap justify-content-center align-self-end mx-auto">
+    @if (Model.HasNextPage)
+    {
+        <button class="btn btn-outline-primary mx-auto" id="load-more">加载更多</button>
+    }
+    else
+    {
+        <h5 class="text-economica mx-auto">没有更多内容了</h5>
+    }
+</nav>

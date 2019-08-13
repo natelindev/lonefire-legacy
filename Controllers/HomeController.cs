@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -57,7 +58,7 @@ namespace lonefire.Controllers
                 .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
                 .OrderByDescending(a => a.AddTime);
 
-                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.PageCap);
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.IndexPageCap);
             }
             catch (Exception)
             {
@@ -76,6 +77,33 @@ namespace lonefire.Controllers
             ViewData["Friends"] = await _context.Friend.OrderBy(f => f.FriendID).ToListAsync();
             ViewData["Tags"] = await _context.Tag.OrderByDescending(t => t.TagCount).Take(6).ToListAsync();
             return View(articles);
+        }
+
+        public async Task<PaginatedList<Article>> AjaxIndex(int page = 1)
+        {
+            PaginatedList<Article> articles = new PaginatedList<Article>();
+            try
+            {
+                IQueryable<Article> articleIQ = _context.Article
+                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
+                .OrderByDescending(a => a.AddTime);
+
+                articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.IndexPageCap);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取文章列表失败");
+            }
+            foreach (var a in articles)
+            {
+                //a.Author = await _userController.GetNickNameAsync(a.Author);
+                if (a.Content != null)
+                {
+                    a.Content = LF_MarkdownParser.ParseAsPlainText(a.Content);
+                    a.Content = a.Content.Substring(0, Math.Min(a.Content.Length, Constants.FrontPageWordCount));
+                }
+            }
+            return articles;
         }
 
         [HttpGet]
@@ -107,6 +135,35 @@ namespace lonefire.Controllers
             }
 
             return View(notes);
+        }
+
+        public async Task<PaginatedList<Note>> AjaxNotes(int page = 1)
+        {
+            var isAuthorized = User.IsInRole(Constants.AdministratorsRole);
+
+            PaginatedList<Note> notes = new PaginatedList<Note>();
+            try
+            {
+                IQueryable<Note> noteIQ = _context.Note
+                .OrderByDescending(a => a.AddTime);
+
+                if (!isAuthorized)
+                {
+                    noteIQ = noteIQ.Where(n => n.Status == NoteStatus.Public);
+                }
+                notes = await PaginatedList<Note>.CreateAsync(noteIQ.AsNoTracking(), page, Constants.NotePageCap);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取动态列表失败");
+            }
+
+            foreach (var note in notes)
+            {
+                note.Content = LF_MarkdownParser.Parse(note.Content, ImageUploadPath + note.Title + '/');
+            }
+
+            return notes;
         }
 
         [HttpGet]
@@ -220,6 +277,24 @@ namespace lonefire.Controllers
             }
 
             return View(images);
+        }
+
+        public async Task<PaginatedList<Image>> AjaxImages(int page = 1)
+        {
+            PaginatedList<Image> images = new PaginatedList<Image>();
+            try
+            {
+                IQueryable<Image> ImageIQ = _context.Image
+                .OrderByDescending(i => i.AddTime);
+
+                images = await PaginatedList<Image>.CreateAsync(ImageIQ.AsNoTracking(), page, Constants.ImagePageCap);
+            }
+            catch (Exception)
+            {
+                _toaster.ToastError("读取动态列表失败");
+            }
+
+            return images;
         }
 
         [HttpGet]

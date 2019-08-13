@@ -61,23 +61,22 @@
                                 <div class="d-flex flex-wrap">
                                     <h5 class="mx-auto text-economica">@Html.DisplayFor(modelItem => item.AddTime)</h5>
                                 </div>
-
-                                <div class="d-flex flex-wrap">
-                                    @if (User.IsInRole(Constants.AdministratorsRole))
-                                    {
-                                        <a href="#" data-toggle="modal" class="btn btn-sm btn-outline-danger ml-auto mt-auto" data-target="#deleteModal" data-delete-id="@item.ImageID" data-name="@item.Name" data-type="图片" data-field="名称">
-                                            <i class="material-icons">delete</i>
-                                        </a>
-                                    }
-                                </div>
                             </div>
                         </div>
                     </div>
                 }
             </div>
-            <partial name="_PaginatedIndex" model="Model" />
+            <partial name="_PaginatedLoadMore" model="Model" />
         </div>
     </div>
 
     <partial name="_DeleteModalWithController" model='"Images"' />
 </div>
+
+@section Scripts{
+    <script>
+        var img_upload_path = '@Configuration["img_upload_path"]';
+    </script>
+
+    <script src="~/js/Images.js" asp-append-version="true"></script>
+}
