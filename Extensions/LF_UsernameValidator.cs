@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using lonefire.Data;
 using Microsoft.AspNetCore.Identity;
 
 namespace lonefire.Extensions
@@ -12,18 +13,18 @@ namespace lonefire.Extensions
         public Task<IdentityResult> ValidateAsync(UserManager<TUser> manager,
                                                   TUser user)
         {
-            //if (foobar)
-            //{
+            if (!user.UserName.Contains(Constants.AdminTag) && !user.UserName.Contains(Constants.EmptyUserTag))
+            {
                 return Task.FromResult(IdentityResult.Success);
-            //}
+            }
 
 
-            //return Task.FromResult(
-                     //IdentityResult.Failed(new IdentityError
-                     //{
-                     //    Code = "Invalid foobar",
-                     //    Description = "foobar is invalid."
-                     //}));
+            return Task.FromResult(
+                     IdentityResult.Failed(new IdentityError
+                     {
+                         Code = "非法用户名",
+                         Description = "用户名包含系统预留字段"
+                     }));
         }
     }
 }

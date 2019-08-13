@@ -118,4 +118,8 @@
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/r-2.2.2/datatables.min.js"></script>
     </environment>
     <script src="~/js/Article/Index.js" asp-append-version="true"></script>
+    <script> 
+        var admin_tag = '@Html.Raw(Constants.AdminTag)';
+        var empty_user_tag = '@Html.Raw(Constants.EmptyUserTag)';
+    </script>
 }

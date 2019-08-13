@@ -15,7 +15,16 @@
         columns : [
             { data:"ArticleID", width : '40px' },
             { data:"Title", width : '140px' },
-            { data:"Author", width : '60px' },
+            {
+                data: "Author", width: '60px', "render": function (author) {
+                    if (author.indexOf(admin_tag) !== -1) {
+                        return author.replace(admin_tag,'') + '<span class="badge mx-1 badge-primary">' + admin_tag + '</span>'
+                    } else if (author.indexOf(empty_user_tag) !== -1) {
+                        return author.replace(empty_user_tag, '') + '<span class="badge mx-1 badge-primary">' + empty_user_tag + '</span>'
+                    }
+                    return author; 
+                }
+            },
             { data:"Tag", width : '100px' },
             {
                 data: "AddTime", width: '100px', "render": function (time) {

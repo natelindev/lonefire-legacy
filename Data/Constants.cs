@@ -9,8 +9,8 @@
         public const string ApproveOperationName = "Approve";
         public const string RejectOperationName = "Reject";
 
-        public const string AdminTag = "「管理员」";
-        public const string EmptyUserTag = "「异次元用户」";
+        public const string AdminTag = "管理员";
+        public const string EmptyUserTag = "异次元用户";
         public const string ReservedTag = "「LONEFIRE」";
 
         public const string AdminName = "admin";
