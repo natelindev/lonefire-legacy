@@ -15,6 +15,8 @@ window.addEventListener('DOMContentLoaded',
                     data.forEach(function (article) {
                         var tags = '';
                         var tag_html = '';
+                        article.content = article.content.replace(/"/g, '&quot;')
+                        article.title = article.title.replace(/"/g, '&quot;')
                         if (article.tag) {
                             tags = article.tag.split(',');
                             tags.forEach(function (tag) {
@@ -23,7 +25,7 @@ window.addEventListener('DOMContentLoaded',
                         }
                         $('.grid').colcade('append', $.parseHTML('<div class="grid-item">' +
                             '                            <div class="card card-article my-3 mx-auto mx-md-3 border-0 animated--shadow-translate">' +
-                            '                                <img class="card-img-top darken-20 text-economica" src="' + img_upload_path + article.title + '/' + article.headerImg + '" alt="' + article.title + ' Header Image">' +
+                            '                                <img class="card-img-top darken-20 text-economica" src="' + img_upload_path + article.title  + '/' + article.headerImg + '" alt="' + article.title + ' Header Image">' +
                             '                                <div class="card-img-overlay">' +
                             tag_html +
                             '                                </div>' +
@@ -91,7 +93,7 @@ window.addEventListener('DOMContentLoaded',
                             }
                             $('.grid').colcade('append', $.parseHTML('<div class="grid-item">' +
                                 '                            <div class="card card-article my-3 mx-auto mx-md-3 border-0 animated--shadow-translate">' +
-                                '                                <img class="card-img-top darken-20 text-economica" src="' + img_upload_path + article.title + '/' + article.headerImg + '" alt="' + article.title + ' Header Image">' +
+                                '                                <img class="card-img-top darken-20 text-economica" src="' + img_upload_path + article.title.replace('\\"','"') + '/' + article.headerImg + '" alt="' + article.title + ' Header Image">' +
                                 '                                <div class="card-img-overlay">' +
                                 tag_html +
                                 '                                </div>' +
@@ -125,6 +127,10 @@ window.addEventListener('DOMContentLoaded',
                     }
                     $("#load-more").show();
                     hideLoadMoreSpinner();
+                },
+                error: function (data) {
+                    --current_page;
+                    toast('加载更多文章失败', 'danger');
                 }
             });
             

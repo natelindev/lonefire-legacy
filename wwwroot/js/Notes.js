@@ -25,7 +25,8 @@ window.addEventListener('DOMContentLoaded',
                                 if (note.status === 1) {
                                     lock_icon = '<i class="material-icons text-primary mr-auto mb-n1">lock</i>'
                             }
-                            var title = note.title ? note.title : '';
+                            var title = note.title ? note.title.replace(/"/g, '&quot;') : '';
+                            note.content = note.content.replace(/"/g, '&quot;');
                             $('.grid').colcade('append', $.parseHTML(
                                 
                                 '<div class="grid-item">' +
@@ -55,6 +56,10 @@ window.addEventListener('DOMContentLoaded',
                     }
                     $("#load-more").show();
                     hideLoadMoreSpinner();
+                },
+                error: function (data) {
+                    --current_page;
+                    toast('加载更多动态失败', 'danger');
                 }
             });
 

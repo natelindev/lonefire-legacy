@@ -21,7 +21,8 @@ window.addEventListener('DOMContentLoaded',
                 success: function (data) {
                     if (data && data.length) {
                         data.forEach(function (image) {
-                            
+                            image.path = image.path.replace(/"/g, '&quot;');
+                            image.name = image.name.replace(/"/g, '&quot;');
                             $('.grid').colcade('append', $.parseHTML(
                                 '<div class="grid-item">' +
                                 '                        <div class="card card-album my-3 border-0 mx-2 animated--shadow-translate px-0">' +
@@ -51,6 +52,10 @@ window.addEventListener('DOMContentLoaded',
                     }
                     $("#load-more").show();
                     hideLoadMoreSpinner();
+                },
+                error: function (data) {
+                    --current_page;
+                    toast('加载更多图片失败', 'danger');
                 }
             });
 
