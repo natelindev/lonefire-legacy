@@ -66,6 +66,8 @@ window.addEventListener('DOMContentLoaded',
         
         var current_page = 1;
         $("#load-more").on('click', function (event) {
+            $("#load-more").hide();
+            document.getElementById('loadmore_spinner').style.display = 'block';
             event.stopPropagation();
             event.stopImmediatePropagation();
             ++current_page;
@@ -115,15 +117,14 @@ window.addEventListener('DOMContentLoaded',
                                 '                                </div>' +
                                 '                            </div>' +
                                 '                        </div>'));
-
-
                         });
                     } else {
                         $("#load-more").text('没有更多文章了');
                         $("#load-more").removeClass('btn-outline-primary');
                         $("#load-more").addClass('btn-outline-danger');
-
                     }
+                    $("#load-more").show();
+                    hideLoadMoreSpinner();
                 }
             });
             
