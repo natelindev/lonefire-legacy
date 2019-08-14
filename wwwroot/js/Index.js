@@ -15,8 +15,8 @@ window.addEventListener('DOMContentLoaded',
                     data.forEach(function (article) {
                         var tags = '';
                         var tag_html = '';
-                        article.content = article.content.replace(/"/g, '&quot;')
-                        article.title = article.title.replace(/"/g, '&quot;')
+
+                        article.title = article.title.replace(/"/g, '&quot;');
                         if (article.tag) {
                             tags = article.tag.split(',');
                             tags.forEach(function (tag) {

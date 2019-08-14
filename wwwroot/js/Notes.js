@@ -25,8 +25,7 @@ window.addEventListener('DOMContentLoaded',
                                 if (note.status === 1) {
                                     lock_icon = '<i class="material-icons text-primary mr-auto mb-n1">lock</i>'
                             }
-                            var title = note.title ? note.title.replace(/"/g, '&quot;') : '';
-                            note.content = note.content.replace(/"/g, '&quot;');
+                            var title = note.title ? note.title : '';
                             $('.grid').colcade('append', $.parseHTML(
                                 
                                 '<div class="grid-item">' +
