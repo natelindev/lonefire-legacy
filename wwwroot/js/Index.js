@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded',
                         if (article.tag) {
                             tags = article.tag.split(',');
                             tags.forEach(function (tag) {
-                                tag_html += '<a class="btn btn-outline-light px-1 py-1 mt-n2 mb-3 position-relative z-2" href="/Tag/List?name=' + tag + '">' + tag + '</a>'
+                                tag_html += '<a class="btn btn-outline-light px-1 py-1 mt-n2 mb-3 position-relative mx-1 z-2" href="/Tag/List?name=' + tag + '">' + tag + '</a>'
                             });
                         }
                         $('.grid').colcade('append', $.parseHTML('<div class="grid-item">' +
