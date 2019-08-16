@@ -13,7 +13,7 @@ namespace lonefire.Models
         public string Name { get; set; }
 
         [Display(Name = "个人描述")]
-        [StringLength(256, ErrorMessage = " {0} 长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
+        [StringLength(512, ErrorMessage = " {0} 长度必须在 {2} 到 {1} 之间。", MinimumLength = 0)]
         public string Description { get; set; }
 
         [Display(Name = "头像")]

@@ -15,7 +15,10 @@ window.addEventListener('DOMContentLoaded',
                     data.forEach(function (article) {
                         var tags = '';
                         var tag_html = '';
-
+                        var lock_icon = ''
+                        if (article.status === 0) {
+                            lock_icon = '<i class="material-icons text-primary mr-auto mb-n1">lock</i>'
+                        }
                         article.title = article.title.replace(/"/g, '&quot;');
                         if (article.tag) {
                             tags = article.tag.split(',');
@@ -42,7 +45,7 @@ window.addEventListener('DOMContentLoaded',
                             '                                            ' + moment(article.addTime).format("YYYY-MM-DD") +
                             '                                        </div>' +
                             '                                        <a class="btn border-draw-within mx-2 z-2" href="/Article/View/' + article.articleID + '">阅读更多</a>' +
-                            '                                        <div class="mt-auto mb-2">' +
+                            '                                        <div class="mt-auto mb-2">' + lock_icon +
                             '                                            <i class="material-icons img-h-32">remove_red_eye</i>' +
                             '                                            ' + article.viewCount +
                             '                                        </div>' +

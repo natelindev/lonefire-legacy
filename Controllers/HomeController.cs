@@ -62,9 +62,19 @@ namespace lonefire.Controllers
             PaginatedList<Article> articles = new PaginatedList<Article>();
             try
             {
-                IQueryable<Article> articleIQ = _context.Article
-                .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
-                .OrderByDescending(a => a.AddTime);
+                IQueryable<Article> articleIQ = null;
+                if (User.IsInRole(Constants.AdministratorsRole))
+                {
+                    articleIQ = _context.Article
+                   .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status != ArticleStatus.Rejected)
+                   .OrderByDescending(a => a.AddTime);
+                }
+                else
+                {
+                   articleIQ = _context.Article
+                   .Where(a => !a.Title.Contains(Constants.ReservedTag) && a.Status == ArticleStatus.Approved)
+                   .OrderByDescending(a => a.AddTime);
+                }
 
                 articles = await PaginatedList<Article>.CreateAsync(articleIQ.AsNoTracking(), page, Constants.IndexPageCap);
             }
