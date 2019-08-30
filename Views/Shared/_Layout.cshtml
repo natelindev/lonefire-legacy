@@ -30,8 +30,6 @@
 }
 <body id="page-top" data-spy="scroll" data-target="#toc">
 
-    <partial name="_CookieConsentPartial" />
-
     <partial name="_Toast" />
     <style type="text/css">
         #page-top {
@@ -117,9 +115,10 @@
     <script src="~/lib/colorful-background-css-generator/dist/colorful-background-css-generator.min.js"></script>
     <script async defer src="~/lib/github-buttons/dist/buttons.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+
     @RenderSection("Scripts", required: false)
 
+    <partial name="_CookieConsentPartial" />
 </body>
 
 </html>
