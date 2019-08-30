@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using SimpleMvcSitemap;
+using SimpleMvcSitemap.Images;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -55,6 +57,94 @@ namespace lonefire.Controllers
             ViewData["Friends"] = await _context.Friend.OrderBy(f => f.FriendID).ToListAsync();
             ViewData["Tags"] = await _context.Tag.OrderByDescending(t => t.TagCount).Take(6).ToListAsync();
             return View();
+        }
+
+        [Route("/sitemap.xml")]
+        public ActionResult SitemapXml()
+        {
+            // Add static
+            List<SitemapNode> nodes = new List<SitemapNode>
+            {
+                new SitemapNode(Url.Action("Index", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Weekly,
+                    Priority = 1M
+                },
+                new SitemapNode(Url.Action("Portfolio", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("Papers", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("Notes", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Daily,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("Images", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Weekly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("Privacy", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Yearly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("Timeline", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Weekly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("MessageBoard", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Weekly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("Friends", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("About", "Home"))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    Priority = 0.8M
+                },
+                new SitemapNode(Url.Action("Index", "Tag"))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    Priority = 0.8M
+                },
+            };
+
+            // Add Articles
+            var articles = _context.Article.Where(a => a.Status == ArticleStatus.Approved).ToList();
+            foreach(var article in articles)
+            {
+                nodes.Add(new SitemapNode(Url.Action("View", "Article", new { id = article.ArticleID }))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    Priority = 0.64M
+                });
+            }
+
+            // Add Tags
+            var tags = _context.Tag.ToList();
+            foreach (var tag in tags)
+            {
+                nodes.Add(new SitemapNode(Url.Action("List", "Tag", new { id = tag.TagID }))
+                {
+                    ChangeFrequency = ChangeFrequency.Monthly,
+                    Priority = 0.64M
+                });
+            }
+
+            return new SitemapProvider().CreateSitemap(new SitemapModel(nodes));
         }
 
         public async Task<PaginatedList<Article>> AjaxIndex(int page = 1)
