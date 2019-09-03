@@ -13,102 +13,103 @@
 @inject IHttpContextAccessor httpContextAccessor
 
 <div class="container-lf">
-        <nav class="sidebar sidebar-right sidebar-toc navbar-nav sidebar-lf pb-2 rounded bg-silver shadow-lg z-1 toggled" id="toc" data-toggle="toc">
-            <button class="animated--toggler sidebar-toggler border-0 z-1">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </nav>
-        <div class="col-md-9 bg-w-op-9 rounded px-0 mx-auto">
-            <div class="card card-main mx-auto border-0 my-5 bg-w-op-9 rounded shadow-lg">
-                <div class="card-body">
-                    <div class="d-flex flex-wrap">
-                        <h1 class="mx-auto my-3 text-gray-800">@Model.Title</h1>
-                    </div>
-                    <div class="d-flex flex-wrap">
-                        <div class="col-11 col-md-10 mx-auto bg-silver my-2 rounded">
-                            <div class="d-flex flex-wrap">
-                                <div class="mx-auto ml-sm-4 mr-sm-auto my-2">日期:@Html.DisplayFor(m => m.AddTime)</div>
-                                <div class="mx-auto mr-sm-4 ml-sm-auto my-2">
-                                    作者:@Model.Author.Replace(Constants.AdminTag, "").Replace(Constants.EmptyUserTag, "")
-                                    @if (Model.Author.Contains(Constants.AdminTag))
-                                    {
-                                        <span class="badge mx-1 badge-primary">@Constants.AdminTag</span>
-                                    }
-                                    @if (Model.Author.Contains(Constants.EmptyUserTag))
-                                    {
-                                        <span class="badge mx-1 badge-primary">@Constants.EmptyUserTag</span>
-                                    }
-                                </div>
-                            </div>
-                            <div class="d-flex flex-wrap">
-                                <div class="mx-auto ml-sm-auto mr-sm-4 my-2">
-                                    标签:
-                                    @if (!string.IsNullOrEmpty(Model.Tag))
-                                    {
-                                        @foreach (var t in Model.Tag.Split(',').ToList<string>())
-                                        {
-                                            <a class="btn btn-outline-primary px-1 py-1" asp-controller="Tag" asp-action="List" asp-route-name="@t">@t</a>
-                                        }
-                                    }
-                                </div>
+    <nav class="sidebar sidebar-right sidebar-toc navbar-nav sidebar-lf pb-2 rounded bg-silver shadow-lg z-1 toggled" id="toc" data-toggle="toc">
+        <button class="animated--toggler sidebar-toggler border-0 z-1">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </nav>
+    <div class="col-md-9 bg-w-op-9 rounded px-0 mx-auto">
+        <div class="card card-main mx-auto border-0 my-5 bg-w-op-9 rounded shadow-lg">
+            <div class="card-body">
+                <div class="d-flex flex-wrap">
+                    <h1 class="mx-auto my-3 text-gray-800">@Model.Title</h1>
+                </div>
+                <div class="d-flex flex-wrap">
+                    <div class="col-11 col-md-10 mx-auto bg-silver my-2 rounded">
+                        <div class="d-flex flex-wrap">
+                            <div class="mx-auto ml-sm-4 mr-sm-auto my-2">日期:@Html.DisplayFor(m => m.AddTime)</div>
+                            <div class="mx-auto mr-sm-4 ml-sm-auto my-2">
+                                作者:@Model.Author.Replace(Constants.AdminTag, "").Replace(Constants.EmptyUserTag, "")
+                                @if (Model.Author.Contains(Constants.AdminTag))
+                                {
+                                    <span class="badge mx-1 badge-primary">@Constants.AdminTag</span>
+                                }
+                                @if (Model.Author.Contains(Constants.EmptyUserTag))
+                                {
+                                    <span class="badge mx-1 badge-primary">@Constants.EmptyUserTag</span>
+                                }
                             </div>
                         </div>
-
-                    </div>
-                    <div class="row">
-                        <article class="col-md-10 mx-auto my-4 text-opensans animated--link-container">
-                            @Html.Raw(Model.Content)
-                        </article>
-                    </div>
-                    <div class="row mb-4">
-                        @if (prev != null)
-                        {
-                            <a class="btn col-8 col-md-4 mx-auto btn-outline-success mb-2" asp-action="View" asp-route-id='@prev.ArticleID'>上一篇:@prev.Title</a>
-                        }
-                        @if (next != null)
-                        {
-                            <a class="btn col-8 col-md-4 mx-auto btn-outline-success mb-2" asp-action="View" asp-route-id='@next.ArticleID'>下一篇:@next.Title</a>
-                        }
-                    </div>
-                    <div class="row mx-1 mx-md-4">
-                        <div class="share-component"
-                             data-disabled="google,twitter,facebook,linkedin,diandian,tencent"
-                             data-description="一键分享到微博，QQ空间，豆瓣"
-                             data-wechat-qrcode-title="">
-                        </div>
-
-                        <button class="btn btn-outline-danger btn-circle mt-1" id="like" articleID="@Model.ArticleID" count="@Model.LikeCount"><i class="fas fa-heart"></i></button>
-                        <label id="like-label" class="control-label text-danger">@Model.LikeCount</label>
-                        <div class="ml-auto mr-2 my-auto">
-                            <div class="mt-auto mb-2">
-                                <i class="material-icons img-h-32">remove_red_eye</i>
-                                @Model.ViewCount
+                        <div class="d-flex flex-wrap">
+                            <div class="mx-auto ml-sm-auto mr-sm-4 my-2">
+                                标签:
+                                @if (!string.IsNullOrEmpty(Model.Tag))
+                                {
+                                    @foreach (var t in Model.Tag.Split(',').ToList<string>())
+                                    {
+                                        <a class="btn btn-outline-primary px-1 py-1" asp-controller="Tag" asp-action="List" asp-route-name="@t">@t</a>
+                                    }
+                                }
                             </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <article class="col-md-10 mx-auto my-4 text-opensans animated--link-container">
+                        @Html.Raw(Model.Content)
+                    </article>
+                </div>
+                <div class="row mb-4">
+                    @if (prev != null)
+                    {
+                        <a class="btn col-8 col-md-4 mx-auto btn-outline-success mb-2" asp-action="View" asp-route-id='@prev.ArticleID'>上一篇:@prev.Title</a>
+                    }
+                    @if (next != null)
+                    {
+                        <a class="btn col-8 col-md-4 mx-auto btn-outline-success mb-2" asp-action="View" asp-route-id='@next.ArticleID'>下一篇:@next.Title</a>
+                    }
+                </div>
+                <div class="row mx-1 mx-md-4">
+                    <div class="share-component"
+                         data-disabled="google,twitter,facebook,linkedin,diandian,tencent"
+                         data-description="一键分享到微博，QQ空间，豆瓣"
+                         data-wechat-qrcode-title="">
+                    </div>
+
+                    <button class="btn btn-outline-danger btn-circle mt-1" id="like" articleID="@Model.ArticleID" count="@Model.LikeCount"><i class="fas fa-heart"></i></button>
+                    <label id="like-label" class="control-label text-danger">@Model.LikeCount</label>
+                    <div class="ml-auto mr-2 my-auto">
+                        <div class="mt-auto mb-2">
+                            <i class="material-icons img-h-32">remove_red_eye</i>
+                            @Model.ViewCount
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    
+    </div>
+
     <div class="col-md-9 mx-auto my-5 px-0">
         <div class="card border-0 shadow-lg">
             <div class="card-header border-0"><partial name="_CardHeader" model='"相关文章"' /></div>
             <div class="card-body">
 
                 <div class="d-flex flex-wrap justify-content-around">
-                    @foreach(var item in related){
-                    <div class="card card-related my-3 border-0 mx-2 animated--shadow-translate px-0">
-                        <img class="card-img-top rounded darken-20 text-economica h-100" src="@Configuration["img_upload_path"]@item.Title/@item.HeaderImg" alt="Header Image">
-                        <div class="card-img-overlay">
-                            <h4 data-toc-skip class="mx-auto text-economica">@item.Title</h4>
-                            <h6 data-toc-skip class="mx-auto text-economica">@Html.DisplayFor(m => m.AddTime)</h6>
+                    @foreach (var item in related)
+                    {
+                        <div class="card card-related my-3 border-0 mx-2 animated--shadow-translate px-0">
+                            <img class="card-img-top rounded darken-20 text-economica h-100" src="@Configuration["img_upload_path"]@item.Title/@item.HeaderImg" alt="Header Image">
+                            <div class="card-img-overlay">
+                                <h4 data-toc-skip class="mx-auto text-economica">@item.Title</h4>
+                                <h6 data-toc-skip class="mx-auto text-economica">@Html.DisplayFor(m => m.AddTime)</h6>
+                            </div>
+                            <div class="card-body d-flex h-100 px-0">
+                                <a class="full-div-link z-1" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID"></a>
+                            </div>
                         </div>
-                        <div class="card-body d-flex h-100 px-0">
-                            <a class="full-div-link z-1" asp-controller="Article" asp-action="View" asp-route-id="@item.ArticleID"></a>
-                        </div>
-                    </div>
                     }
                 </div>
             </div>
@@ -154,10 +155,9 @@
         <link href="~/lib/share.js/dist/css/share.min.css" rel="stylesheet" type="text/css">
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css" integrity="sha256-0EDwznjUTDEicOuZhOL03fpflUqzhkByvhwol8YGkp4=" crossorigin="anonymous">
     </environment>
-    <link rel="stylesheet"
-          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/xcode.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.15.10/styles/xcode.min.css" integrity="sha384-A5hRvMw6OKLM5lyoky95yQd/0LHokPearEiobyZtsJbcYOecAdbnw06GckUPGV4m" crossorigin="anonymous">
     <link href="~/lib/bootstrap-toc/dist/bootstrap-toc.min.css" rel="stylesheet" type="text/css">
 }
 
@@ -166,9 +166,9 @@
         <script src="~/lib/share.js/dist/js/social-share.min.js"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js" integrity="sha256-fGPu+icKh985TLPhO2v68U7i0CW0dE4kiR06RN4O6jo=" crossorigin="anonymous"></script>
     </environment>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@9.15.10/lib/highlight.min.js" integrity="sha384-tokgLspG4c0cZs83Xm1V/LMQ99fPuS6ENZRROPlUPx+JrBo/vY67X7qdymQrvuCl" crossorigin="anonymous"></script>
     <script src="~/lib/bootstrap-toc/dist/bootstrap-toc.min.js"></script>
     <script src="~/js/Article/View.js" asp-append-version="true"></script>
 }
