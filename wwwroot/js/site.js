@@ -41,13 +41,15 @@
 
 })(jQuery); // End of use strict
 
+window.addEventListener('DOMContentLoaded',function () {
+    $('.grid').colcade({
+        columns: '.grid-col',
+        items: '.grid-item'
+    })
+});
+
 $(document).ready(function() {
 
-    $('.grid').colcade({
-      columns: '.grid-col',
-      items: '.grid-item'
-    })
-    
     //smooth hover class modifcation
     $('.border-draw, .border-draw-within').hoverIntent(function() {
         $(this).removeClass('active');
