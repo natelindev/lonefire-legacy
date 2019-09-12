@@ -346,12 +346,14 @@ namespace lonefire.Controllers
             {
                 IQueryable<Image> ImageIQ = _context.Image
                 .OrderByDescending(i => i.AddTime);
-                
+                ImageIQ = ImageIQ.Where(i => 
+                    (_context.Article.Where(a => a.Title == i.Path).FirstOrDefault() ?? new Article { Status = ArticleStatus.Rejected })
+                    .Status == ArticleStatus.Approved);
                 images = await PaginatedList<Image>.CreateAsync(ImageIQ.AsNoTracking(), page, Constants.ImagePageCap);
             }
             catch (Exception)
             {
-                _toaster.ToastError("读取动态列表失败");
+                _toaster.ToastError("读取图片列表失败");
             }
 
             return View(images);
