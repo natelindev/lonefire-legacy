@@ -344,11 +344,12 @@ namespace lonefire.Controllers
             PaginatedList<Image> images = new PaginatedList<Image>();
             try
             {
-                IQueryable<Image> ImageIQ = _context.Image
-                .OrderByDescending(i => i.AddTime);
-                ImageIQ = ImageIQ.Where(i => 
-                    (_context.Article.Where(a => a.Title == i.Path).FirstOrDefault() ?? new Article { Status = ArticleStatus.Rejected })
-                    .Status == ArticleStatus.Approved);
+                IQueryable<Image> ImageIQ = from t1 in _context.Image
+                                            join t2 in _context.Article on t1.Path equals t2.Title
+                                            where t2.Status == ArticleStatus.Approved
+                                            orderby t1.AddTime descending
+                                            select t1;
+
                 images = await PaginatedList<Image>.CreateAsync(ImageIQ.AsNoTracking(), page, Constants.ImagePageCap);
             }
             catch (Exception)
@@ -364,8 +365,11 @@ namespace lonefire.Controllers
             PaginatedList<Image> images = new PaginatedList<Image>();
             try
             {
-                IQueryable<Image> ImageIQ = _context.Image
-                .OrderByDescending(i => i.AddTime);
+                IQueryable<Image> ImageIQ = from t1 in _context.Image
+                                            join t2 in _context.Article on t1.Path equals t2.Title
+                                            where t2.Status == ArticleStatus.Approved
+                                            orderby t1.AddTime descending
+                                            select t1;
 
                 images = await PaginatedList<Image>.CreateAsync(ImageIQ.AsNoTracking(), page, Constants.ImagePageCap);
             }
