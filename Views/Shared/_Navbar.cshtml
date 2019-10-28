@@ -26,7 +26,6 @@
                 <div class="dropdown-menu bg-tp" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item @PageManager.IsActive(ViewContext,"Home","Friends")" asp-controller="Home" asp-action="Friends"><h5 data-toc-skip class="dropdown-text">友链</h5></a>
                     <a class="dropdown-item @PageManager.IsActive(ViewContext,"Home","MessageBoard")" asp-controller="Home" asp-action="MessageBoard"><h5 data-toc-skip class="dropdown-text">留言板</h5></a>
-                    <a class="dropdown-item @PageManager.IsActive(ViewContext,"Home","Images")" asp-controller="Home" asp-action="Images"><h5 data-toc-skip class="dropdown-text">相册</h5></a>
                     <a class="dropdown-item @PageManager.IsActive(ViewContext,"Home","Timeline")" asp-controller="Home" asp-action="Timeline"><h5 data-toc-skip class="dropdown-text">时间线</h5></a>
                     <a class="dropdown-item @PageManager.IsActive(PageManager.UseSideBar(ViewContext))" asp-controller="Article" asp-action="Index"><h5 data-toc-skip class="dropdown-text">管理</h5></a>
                 </div>

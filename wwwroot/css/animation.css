@@ -751,7 +751,7 @@
     .animated--shadow-translate:hover {
         -webkit-transform: scale(1.00, 1.00);
         transform: scale(1.00, 1.00);
-        transform: translateY(-0.5rem);
+        transform: translateY(-0.3rem);
     }
 
         .animated--shadow-translate:hover::after {

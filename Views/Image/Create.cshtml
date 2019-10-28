@@ -1,0 +1,35 @@
+﻿@model Image
+
+@{
+    ViewData["Title"] = "上传图片";
+}
+
+@inject IConfiguration Configuration
+
+<div class="container-lf">
+    <div class="card mx-auto card-w-60 border-0 my-5 shadow-lg">
+        <div class="card-header border-0"><partial name="_DefaultCardHeader" /></div>
+        <div class="card-body">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="form-group col-md-5 mx-auto">
+                        <input name="Path" class="form-control" placeholder="路径" />
+                    </div>
+                    <div class="form-group col-md-5 mx-auto">
+                        <div class="custom-file">
+                            <input name="uploads" id="uploads" type="file" accept=".jpg, .gif, .png, .bmp, .jpeg .svg" class="custom-file-input" multiple>
+                            <label class="custom-file-label text-no-wrap" for="contentImgs" data-browse="选择文件">图片</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <a class="btn btn-secondary col-md-2 mx-auto my-3 animated--shadow-deep" asp-action="Index">返回</a>
+                    <button class="btn btn-lf col-md-2 mx-auto mt-3 animated--shadow-deep" type="submit">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+}

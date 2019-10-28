@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
 namespace lonefire.Controllers
 {
     [Authorize]
@@ -118,14 +117,14 @@ namespace lonefire.Controllers
                 {
                     await _context.SaveChangesAsync();
                     _toaster.ToastSuccess("图片上传成功");
-                    return RedirectToAction(nameof(HomeController.Images), "Home");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception)
                 {
                     _toaster.ToastError("图片上传失败");
                 }
             }
-            return RedirectToAction(nameof(HomeController.Images), "Home");
+            return RedirectToAction(nameof(Index));
         }
 
         //Backend Internal Use

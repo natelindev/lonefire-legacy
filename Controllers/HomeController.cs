@@ -338,28 +338,6 @@ namespace lonefire.Controllers
             return View(article);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Images(int page = 1)
-        {
-            PaginatedList<Image> images = new PaginatedList<Image>();
-            try
-            {
-                IQueryable<Image> ImageIQ = from t1 in _context.Image
-                                            join t2 in _context.Article on t1.Path equals t2.Title
-                                            where t2.Status == ArticleStatus.Approved
-                                            orderby t1.AddTime descending
-                                            select t1;
-
-                images = await PaginatedList<Image>.CreateAsync(ImageIQ.AsNoTracking(), page, Constants.ImagePageCap);
-            }
-            catch (Exception)
-            {
-                _toaster.ToastError("读取图片列表失败");
-            }
-
-            return View(images);
-        }
-
         public async Task<PaginatedList<Image>> AjaxImages(int page = 1)
         {
             PaginatedList<Image> images = new PaginatedList<Image>();
